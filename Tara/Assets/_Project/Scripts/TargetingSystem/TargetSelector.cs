@@ -7,7 +7,7 @@ namespace Tara
 	[RequireComponent(typeof(TargetList))]
 	public class TargetSelector : MonoBehaviour, IAIInput
 	{
-		private Action OnTargetsInRangeChanged;
+		private Action OnTargetsInRangeChanged = default;
 		[Header("Ranges")]
 		[Tooltip("0 = Stopping, 1 = Shooting, 2 = Targeting")]
 		[SerializeField] [Range(1f, 100f)] private float[] rangeRadius = new float[3];
