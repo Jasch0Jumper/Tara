@@ -5,8 +5,7 @@ namespace Tara
 	public class RangeCollider : MonoBehaviour
 	{
 		public RangeType RangeType;
-		public TargetFilter TargetRangeFilterer;
-
+		
 		public delegate void RangeChange(RangeType rangeType, Target target);
 		public event RangeChange OnRangeEnter;
 		public event RangeChange OnRangeExit;

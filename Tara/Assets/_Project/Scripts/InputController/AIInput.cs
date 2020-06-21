@@ -12,7 +12,6 @@ namespace Tara
 		private PathFinder pathFinder;
 		private IAIInput aIInput;
 
-		private bool active = false;
 		private bool isShooting;
 
 		private Vector2 input;
@@ -22,11 +21,6 @@ namespace Tara
 		{
 			aIInput = GetComponent<IAIInput>();
 			pathFinder = GetComponent<PathFinder>();
-		}
-
-		private void Start()
-		{
-			active = true;
 		}
 
 		private void Update()

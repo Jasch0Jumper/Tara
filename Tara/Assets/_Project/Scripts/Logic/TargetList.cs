@@ -77,7 +77,7 @@ namespace Tara
 
 		#endregion List Managment
 
-		#region Filter Methods
+		#region public helper Methods
 
 		public List<Target> GetTargetsWithPriorityLevel(int priorityLevel)
 		{
@@ -91,7 +91,7 @@ namespace Tara
 
 			return validTargets;
 		}
-
+		
 		public bool IsHighPriority(Target target) => target.PriorityLevel > priorityThreshold;
 
 		public Target GetRandomTargetFromList(List<Target> potentialTargets)

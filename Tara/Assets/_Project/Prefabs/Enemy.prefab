@@ -19,8 +19,7 @@ GameObject:
   - component: {fileID: 1515414712254080236}
   - component: {fileID: 7629511740153474001}
   - component: {fileID: 3678436036636231904}
-  - component: {fileID: -9186265225813419799}
-  - component: {fileID: 2699884855133271056}
+  - component: {fileID: 9003279102301512250}
   - component: {fileID: 6868338840143288970}
   m_Layer: 0
   m_Name: Enemy
@@ -256,38 +255,7 @@ MonoBehaviour:
   priorityThreshold: 1
   minPriorityLevel: 0
   showAllTargets: 0
---- !u!114 &-9186265225813419799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176466202649979805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00fa7fb4634defc4e91b49945c863231, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnTargetsInRangeChanged:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2699884855133271056}
-        m_MethodName: SelectNewTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  rangeRadius:
-  - 10
-  - 30
-  - 50
-  CurrentPriorityLevel: 0
---- !u!114 &2699884855133271056
+--- !u!114 &9003279102301512250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,7 +267,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bff09fc44fc0f844b8913b03033ade7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rangeRadius:
+  - 10
+  - 30
+  - 50
   showCurrentTargetOnDeselect: 0
+  drawRanges: 0
 --- !u!114 &6868338840143288970
 MonoBehaviour:
   m_ObjectHideFlags: 0
