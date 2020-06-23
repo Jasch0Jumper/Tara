@@ -8,14 +8,11 @@ namespace Tara.AttackSystem
 	[RequireComponent(typeof(TargetList))]
 	public class TargetSelector : MonoBehaviour, IAIInput
 	{
-		private Action OnTargetsInRangeChanged = default;
-		[Header("Ranges")]
-		[Tooltip("0 = Stopping, 1 = Shooting, 2 = Targeting")]
+		[Header("Ranges")] [Tooltip("0 = Stopping, 1 = Shooting, 2 = Targeting")]
 		[SerializeField] [Range(1f, 100f)] private float[] rangeRadius = new float[3];
 		[Header("Gizmos")]
 		[SerializeField] private bool showCurrentTargetOnDeselect = default;
 		[SerializeField] private bool drawRanges = default;
-
 
 		private List<Target> targetsInStoppingRange = new List<Target>();
 		private List<Target> targetsInShootingRange = new List<Target>();
@@ -24,40 +21,31 @@ namespace Tara.AttackSystem
 		private TargetList targetList;
 		private RangeCollider[] rangeColliders = new RangeCollider[3];
 
-		private TargetList targetFilter;
 		private Target currentTarget;
 
-		#region Setup and Callback
-
+		#region Unity Event Methods
 		private void Awake()
 		{
-			targetFilter = GetComponent<TargetList>();
-			targetList = GetComponent<TargetList>();
+			CacheComponents();
 			GenerateCollidersForRanges();
 		}
 
 		private void OnEnable()
 		{
-			foreach (var rangeCollider in rangeColliders)
-			{
-				rangeCollider.OnRangeEnter += TargetEnteredRange;
-				rangeCollider.OnRangeExit += TargetExitedRange;
-			}
-
-			targetList.OnTargetRemovedFromList += RemoveTargetFromAllLists;
+			SubscribeToEvents();
 		}
 
 		private void OnDisable()
 		{
-			foreach (var rangeCollider in rangeColliders)
-			{
-				rangeCollider.OnRangeEnter -= TargetEnteredRange;
-				rangeCollider.OnRangeExit -= TargetExitedRange;
-			}
-
-			targetList.OnTargetRemovedFromList -= RemoveTargetFromAllLists;
+			UnsubscribeFromEvents();
 		}
+		#endregion
 
+		#region Methods called by Unity Event Methods
+		private void CacheComponents()
+		{
+			targetList = GetComponent<TargetList>();
+		}
 		private void GenerateCollidersForRanges()
 		{
 			GameObject[] ranges = new GameObject[3];
@@ -75,36 +63,55 @@ namespace Tara.AttackSystem
 			}
 		}
 
+		private void SubscribeToEvents()
+		{
+			foreach (var rangeCollider in rangeColliders)
+			{
+				rangeCollider.OnRangeEnter += TargetEnteredRange;
+				rangeCollider.OnRangeExit += TargetExitedRange;
+			}
+
+			targetList.OnTargetRemovedFromList += RemoveTargetFromAllLists;
+		}
+		private void UnsubscribeFromEvents()
+		{
+			foreach (var rangeCollider in rangeColliders)
+			{
+				rangeCollider.OnRangeEnter -= TargetEnteredRange;
+				rangeCollider.OnRangeExit -= TargetExitedRange;
+			}
+
+			targetList.OnTargetRemovedFromList -= RemoveTargetFromAllLists;
+		}
 		#endregion
 
 		#region IAIInput implementation
-
 		public Vector3 GetTargetPosition()
 		{
 			if (currentTarget == null) { return transform.position; }
 			return currentTarget.transform.position;
 		}
 
-		public bool UseFastSpeed() => IsInTargetingRange(currentTarget) && targetFilter.IsHighPriority(currentTarget);
+		public bool UseFastSpeed() => IsInTargetingRange(currentTarget) && targetList.IsHighPriority(currentTarget);
 		public bool UseSlowSpeed() => IsInTargetingRange(currentTarget) == false;
 
 		public bool CanShoot() => IsInShootingRange(currentTarget);
 
 		public bool HasArrived() => IsInStoppingRange(currentTarget);
-
 		#endregion 
 
 		#region Target Selection
-
-		public void SelectNewTarget()
+		private void OnTargetsChanged()
+		{
+			SelectNewTarget();
+		}
+		private void SelectNewTarget()
 		{
 			currentTarget = GetClosestTarget();
 		}
-
 		#endregion
 
 		#region Target List Managment
-
 		private void TargetEnteredRange(RangeType rangeType, Target target)
 		{
 			switch (rangeType)
@@ -117,7 +124,7 @@ namespace Tara.AttackSystem
 					break;
 				case RangeType.TargetingRange:
 					targetsInTargetingRange.Add(target);
-					OnTargetsInRangeChanged?.Invoke();
+					OnTargetsChanged();
 					break;
 			}
 		}
@@ -133,7 +140,7 @@ namespace Tara.AttackSystem
 					break;
 				case RangeType.TargetingRange:
 					targetsInTargetingRange.Remove(target);
-					OnTargetsInRangeChanged?.Invoke();
+					OnTargetsChanged();
 					break;
 			}
 		}
@@ -144,40 +151,35 @@ namespace Tara.AttackSystem
 			targetsInShootingRange.Remove(target);
 			targetsInTargetingRange.Remove(target);
 
-			OnTargetsInRangeChanged?.Invoke();
+			OnTargetsChanged();
 		}
-
-
 		#endregion
 
 		#region helper Methods
-
 		private bool IsInStoppingRange(Target target) => targetsInStoppingRange.Contains(target);
 		private bool IsInShootingRange(Target target) => targetsInShootingRange.Contains(target);
 		private bool IsInTargetingRange(Target target) => targetsInTargetingRange.Contains(target);
-
-		private bool IsHighPriority(Target target) => targetList.IsHighPriority(target);
-
-		private int GetHighestPriorityLevelInList(List<Target> targets)
+		
+		private int GetHighestPriorityLevel(List<Target> targets)
 		{
-			int currentHighesPriorityLevel = 0;
+			int highestPriorityLevel = 0;
 
 			for (int i = 0; i < targets.Count; i++)
 			{
 				Target target = targets[i];
-				if (target.PriorityLevel > currentHighesPriorityLevel)
+				if (target.PriorityLevel > highestPriorityLevel)
 				{
-					currentHighesPriorityLevel = target.PriorityLevel;
+					highestPriorityLevel = target.PriorityLevel;
 				}
 			}
 
-			return currentHighesPriorityLevel;
+			return highestPriorityLevel;
 		}
 
 		private Target GetClosestTarget()
 		{
 			Target target = null;
-			List<Target> validTargets = targetList.GetTargetsWithPriorityLevel(GetHighestPriorityLevelInList(targetsInTargetingRange));
+			List<Target> validTargets = targetList.GetTargets(GetHighestPriorityLevel(targetsInTargetingRange));
 
 			if (validTargets.Count >= 1)
 			{
@@ -200,7 +202,6 @@ namespace Tara.AttackSystem
 		#endregion
 
 		#region Gizmos
-
 		private void OnDrawGizmosSelected()
 		{
 			DrawTargetLine();
@@ -229,8 +230,6 @@ namespace Tara.AttackSystem
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(transform.position, rangeRadius[2]);
 		}
-
 		#endregion
-
 	}
 }

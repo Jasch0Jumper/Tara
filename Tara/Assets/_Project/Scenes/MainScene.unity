@@ -863,6 +863,11 @@ PrefabInstance:
       propertyPath: showCurrentTargetOnDeselect
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9003279102301512250, guid: 182c111cdb31ba84cbfc0619acd47b3e,
+        type: 3}
+      propertyPath: showCurrentTargetOnDeselect
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 182c111cdb31ba84cbfc0619acd47b3e, type: 3}
