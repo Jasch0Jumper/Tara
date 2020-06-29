@@ -8,19 +8,17 @@ namespace Tara.AttackSystem
 		[Header("Gizmos")]
 		[SerializeField] private bool showAllTargetsOnDeselect = default;
 
-		private bool initialized;
+		private bool _initialized;
 
 		public List<Target> Targets { get; } = new List<Target>();
 
 		public delegate void TargetListUpdate(Target target);
-
 		public static event TargetListUpdate OnTargetAdded;
-
 		public static event TargetListUpdate OnTargetRemoved;
 
 		private void Awake()
 		{
-			initialized = true;
+			_initialized = true;
 		}
 
 		// Add OnEnable & OnDisable
@@ -56,7 +54,7 @@ namespace Tara.AttackSystem
 
 		private void DrawAllTargets()
 		{
-			if (initialized == false) { return; }
+			if (_initialized == false) { return; }
 
 			Gizmos.color = Color.red;
 

@@ -5,20 +5,20 @@ namespace Tara
 	[ExecuteInEditMode]
 	public class FollowPlayer : MonoBehaviour
 	{
-		private Transform player;
+		private Transform _player;
 
 		private void Start()
 		{
-			player = GameObject.FindWithTag("Player").transform;
-			if (player == null)
+			_player = GameObject.FindWithTag("Player").transform;
+			if (_player == null)
 			{ Debug.LogError("Player not found"); }
 		}
 
 		private void Update()
 		{
-			if (player != null)
+			if (_player != null)
 			{
-				transform.position = player.position + new Vector3(0f, 0f, -10f);
+				transform.position = _player.position + new Vector3(0f, 0f, -10f);
 			}
 		}
 	}

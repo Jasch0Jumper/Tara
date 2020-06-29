@@ -8,7 +8,7 @@ namespace Tara
 	[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
 	public class Obstacle : MonoBehaviour, ICanCollideWithProjectiles
 	{
-		private List<WayPoint> blockedWayPoints = new List<WayPoint>();
+		private List<WayPoint> _blockedWayPoints = new List<WayPoint>();
 
 		private void OnTriggerStay2D(Collider2D collision)
 		{
@@ -17,7 +17,7 @@ namespace Tara
 			if (wayPoint != null)
 			{
 				wayPoint.Active = false;
-				blockedWayPoints.Add(wayPoint);
+				_blockedWayPoints.Add(wayPoint);
 			}
 		}
 
@@ -25,16 +25,16 @@ namespace Tara
 		{
 			WayPoint wayPoint = collision.GetComponent<WayPoint>();
 
-			if (blockedWayPoints.Contains(wayPoint))
+			if (_blockedWayPoints.Contains(wayPoint))
 			{
 				wayPoint.Active = true;
-				blockedWayPoints.Remove(wayPoint);
+				_blockedWayPoints.Remove(wayPoint);
 			}
 		}
 
 		private void OnDisable()
 		{
-			foreach (var wayPoint in blockedWayPoints)
+			foreach (var wayPoint in _blockedWayPoints)
 			{
 				wayPoint.Active = true;
 			}

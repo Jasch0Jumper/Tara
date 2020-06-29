@@ -8,58 +8,58 @@ namespace Tara.InputSystem
 	{
 		[SerializeField] [Range(1f, 5f)] private float fastSpeedMultiplier = 1f;
 		[SerializeField] [Range(0.1f, 1f)] private float slowSpeedMultiplier = 1f;
-		private float speedMultiplier = 1f;
+		private float _speedMultiplier = 1f;
 
-		private PathFinder pathFinder;
-		private IAIInput aIInput;
+		private PathFinder _pathFinder;
+		private IAIInput _aIInput;
 
-		private bool isShooting;
+		private bool _isShooting;
 
-		private Vector2 input;
-		private Vector2 targetRotationPosition;
+		private Vector2 _input;
+		private Vector2 _targetRotationPosition;
 
 		private void Awake()
 		{
-			aIInput = GetComponent<IAIInput>();
-			pathFinder = GetComponent<PathFinder>();
+			_aIInput = GetComponent<IAIInput>();
+			_pathFinder = GetComponent<PathFinder>();
 		}
 
 		private void Update()
 		{
-			if (aIInput.UseFastSpeed()) { speedMultiplier = fastSpeedMultiplier; }
-			else if (aIInput.UseSlowSpeed()) { speedMultiplier = slowSpeedMultiplier; }
-			else { speedMultiplier = 1f; }
+			if (_aIInput.UseFastSpeed()) { _speedMultiplier = fastSpeedMultiplier; }
+			else if (_aIInput.UseSlowSpeed()) { _speedMultiplier = slowSpeedMultiplier; }
+			else { _speedMultiplier = 1f; }
 
-			targetRotationPosition = aIInput.GetTargetPosition();
+			_targetRotationPosition = _aIInput.GetTargetPosition();
 
 			//pathFinder.PathFindTo(aIInput.GetTargetPosition());
 
-			Vector2 targetInput = aIInput.GetTargetPosition() - transform.position;
+			Vector2 targetInput = _aIInput.GetTargetPosition() - transform.position;
 
-			if (aIInput.HasArrived())
-			{ input = Vector2.zero; }
+			if (_aIInput.HasArrived())
+			{ _input = Vector2.zero; }
 			else
-			{ input = Vector2.ClampMagnitude(targetInput, 1f); }
+			{ _input = Vector2.ClampMagnitude(targetInput, 1f); }
 
-			if (aIInput.CanShoot()) { isShooting = true; }
-			else { isShooting = false; }
+			if (_aIInput.CanShoot()) { _isShooting = true; }
+			else { _isShooting = false; }
 		}
 
 		#region Interface implementations
 
 		public Vector2 GetInput()
 		{
-			return input;
+			return _input;
 		}
 
 		public Vector2 GetTargetRotationPosition()
 		{
-			return targetRotationPosition;
+			return _targetRotationPosition;
 		}
 
 		public float GetSpeedMultiplier()
 		{
-			return speedMultiplier;
+			return _speedMultiplier;
 		}
 
 		public bool LookAtMouse()
@@ -69,7 +69,7 @@ namespace Tara.InputSystem
 
 		public bool IsShooting()
 		{
-			return isShooting;
+			return _isShooting;
 		}
 
 		#endregion 

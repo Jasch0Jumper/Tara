@@ -19,11 +19,11 @@ namespace Tara.PathfindingSystem
 		[SerializeField] private bool showAcurateSizeOfWayPoints = false;
 		[SerializeField] private bool showWayPointZoneOnDeselect = true;
 
-		private List<GameObject> wayPoints = new List<GameObject>();
+		private List<GameObject> _wayPoints = new List<GameObject>();
 
 		private void Awake()
 		{
-			if (wayPoints.Count == 0) { GenerateWayPoints(); }
+			if (_wayPoints.Count == 0) { GenerateWayPoints(); }
 		}
 
 		#region Generate/Remove WayPoints
@@ -43,7 +43,7 @@ namespace Tara.PathfindingSystem
 			for (int i = 0; i < columns; i++)
 			{
 				GameObject newWayPoint = Instantiate(wayPoint, new Vector3((-levelWidth / 2) + spaceBetweenPoints * i, levelHeight / 2, 0f), Quaternion.identity, tempRowParent.transform);
-				wayPoints.Add(newWayPoint);
+				_wayPoints.Add(newWayPoint);
 			}
 
 			for (int i = 0; i < rows; i++)
@@ -54,7 +54,7 @@ namespace Tara.PathfindingSystem
 
 				for (int j = 0; j < newRowParent.transform.childCount; j++)
 				{
-					wayPoints.Add(newRowParent.transform.GetChild(j).gameObject);
+					_wayPoints.Add(newRowParent.transform.GetChild(j).gameObject);
 				}
 
 				tempRowParents.Add(newRowParent);
@@ -65,12 +65,12 @@ namespace Tara.PathfindingSystem
 				tempParent.transform.DetachChildren();
 				DestroyImmediate(tempParent);
 			}
-			foreach (var waypoint in wayPoints)
+			foreach (var waypoint in _wayPoints)
 			{
 				waypoint.transform.parent = transform;
 
 				WayPoint controller = waypoint.GetComponent<WayPoint>();
-				controller.hitboxRadius = spaceBetweenPoints / 2;
+				controller.HitboxRadius = spaceBetweenPoints / 2;
 				controller.Active = true;
 			}
 
@@ -91,9 +91,9 @@ namespace Tara.PathfindingSystem
 
 		public WayPoint GetClosestWayPoint(Vector3 position)
 		{
-			var closestWayPoint = wayPoints[0];
+			var closestWayPoint = _wayPoints[0];
 
-			foreach (var waypoint in wayPoints)
+			foreach (var waypoint in _wayPoints)
 			{
 				if (Vector3.Distance(position, waypoint.transform.position) < Vector3.Distance(position, closestWayPoint.transform.position))
 				{
@@ -108,15 +108,15 @@ namespace Tara.PathfindingSystem
 		{
 			WayPoint[] neighbors = new WayPoint[6];
 
-			neighbors[0] = GetClosestWayPoint(wayPoint.position + new Vector3(-(spaceBetweenPoints / 2f), spaceBetweenPoints, 0f));
-			neighbors[1] = GetClosestWayPoint(wayPoint.position + new Vector3((spaceBetweenPoints / 2f), spaceBetweenPoints, 0f));
+			neighbors[0] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(spaceBetweenPoints / 2f), spaceBetweenPoints, 0f));
+			neighbors[1] = GetClosestWayPoint(wayPoint.Position + new Vector3((spaceBetweenPoints / 2f), spaceBetweenPoints, 0f));
 
-			neighbors[2] = GetClosestWayPoint(wayPoint.position + new Vector3((spaceBetweenPoints), 0f, 0f));
+			neighbors[2] = GetClosestWayPoint(wayPoint.Position + new Vector3((spaceBetweenPoints), 0f, 0f));
 
-			neighbors[3] = GetClosestWayPoint(wayPoint.position + new Vector3((spaceBetweenPoints / 2f), -spaceBetweenPoints, 0f));
-			neighbors[4] = GetClosestWayPoint(wayPoint.position + new Vector3(-(spaceBetweenPoints / 2f), -spaceBetweenPoints, 0f));
+			neighbors[3] = GetClosestWayPoint(wayPoint.Position + new Vector3((spaceBetweenPoints / 2f), -spaceBetweenPoints, 0f));
+			neighbors[4] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(spaceBetweenPoints / 2f), -spaceBetweenPoints, 0f));
 
-			neighbors[5] = GetClosestWayPoint(wayPoint.position + new Vector3(-(spaceBetweenPoints), 0f, 0f));
+			neighbors[5] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(spaceBetweenPoints), 0f, 0f));
 
 			return neighbors;
 		}
@@ -139,7 +139,7 @@ namespace Tara.PathfindingSystem
 
 		private void DrawWayPoints()
 		{
-			foreach (var waypoint in wayPoints)
+			foreach (var waypoint in _wayPoints)
 			{
 				float circleRaduis = 1f;
 				Color gizmoColor = Color.green;

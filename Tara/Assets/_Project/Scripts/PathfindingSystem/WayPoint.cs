@@ -5,21 +5,21 @@ namespace Tara.PathfindingSystem
 	[RequireComponent(typeof(Collider2D))]
 	public class WayPoint : MonoBehaviour
 	{
-		public float hitboxRadius;
-		private CircleCollider2D hitbox;
+		public float HitboxRadius;
+		private CircleCollider2D _hitbox;
 
 		public bool Active = true;
 
-		public Vector3 position;
+		public Vector3 Position;
 
 		private void Awake()
 		{
-			hitbox = GetComponent<CircleCollider2D>();
+			_hitbox = GetComponent<CircleCollider2D>();
 		}
 
 		private void Start()
 		{
-			hitbox.radius = hitboxRadius;
+			_hitbox.radius = HitboxRadius;
 			//transform.position = position;
 		}
 	}

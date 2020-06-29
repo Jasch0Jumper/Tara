@@ -6,7 +6,7 @@ namespace Tara
 {
 	public class Lifetime : MonoBehaviour
 	{
-		public float time = 1f;
+		public float Time = 1f;
 		[SerializeField] private UnityEvent onEndOfLifeTime = new UnityEvent();
 
 		private void Start()
@@ -16,7 +16,7 @@ namespace Tara
 
 		private IEnumerator LifeTime()
 		{
-			yield return new WaitForSeconds(time);
+			yield return new WaitForSeconds(Time);
 
 			onEndOfLifeTime?.Invoke();
 		}

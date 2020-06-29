@@ -11,17 +11,17 @@ namespace Tara
 		[Tooltip("Can be ignored if Object is looking at Mouse.")]
 		[SerializeField] private float maxRotationPerFrame = 1f;
 
-		private IRotateInput rotateInput;
+		private IRotateInput _rotateInput;
 
 		private void Awake()
 		{
-			rotateInput = GetComponent<IRotateInput>();
+			_rotateInput = GetComponent<IRotateInput>();
 		}
 
 		private void Update()
 		{
-			if (rotateInput.LookAtMouse()) { LookAtMouse(); }
-			else { LookAtTarget(rotateInput.GetTargetRotationPosition(), maxRotationPerFrame); }
+			if (_rotateInput.LookAtMouse()) { LookAtMouse(); }
+			else { LookAtTarget(_rotateInput.GetTargetRotationPosition(), maxRotationPerFrame); }
 		}
 
 		private void LookAtTarget(Vector3 targetPosition, float maxDegreesDelta)

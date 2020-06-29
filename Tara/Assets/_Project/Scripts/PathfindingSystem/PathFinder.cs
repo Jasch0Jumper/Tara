@@ -5,42 +5,42 @@ namespace Tara.PathfindingSystem
 {
 	public class PathFinder : MonoBehaviour
 	{
-		private bool pathGenerated;
+		private bool _pathGenerated;
 
-		private WayPointManager wayPointManager;
+		private WayPointManager _wayPointManager;
 		
-		private List<WayPoint> wayPoints = new List<WayPoint>();
-		private List<WayPoint> openWayPoints = new List<WayPoint>();
-		private List<WayPoint> closedWayPoints = new List<WayPoint>();
+		private List<WayPoint> _wayPoints = new List<WayPoint>();
+		private List<WayPoint> _openWayPoints = new List<WayPoint>();
+		private List<WayPoint> _closedWayPoints = new List<WayPoint>();
 
-		private Stack<Vector2> pathToTarget = new Stack<Vector2>();
+		private Stack<Vector2> _pathToTarget = new Stack<Vector2>();
 
 		[Header("Gizmos")]
 		[SerializeField] private bool drawPathOnDeselect = default;
 
 		private void Awake()
 		{
-			wayPointManager = FindObjectOfType<WayPointManager>();
+			_wayPointManager = FindObjectOfType<WayPointManager>();
 		}
 
 		public void TargetReached()
 		{
-			pathGenerated = false;
+			_pathGenerated = false;
 		}
 
 		public Vector2 PathFindTo(Vector2 target)
 		{
-			if (pathGenerated != true) { pathToTarget = GeneratePath(target, transform.position); }
+			if (_pathGenerated != true) { _pathToTarget = GeneratePath(target, transform.position); }
 
-			return pathToTarget.Pop();
+			return _pathToTarget.Pop();
 		}
 
 		private Stack<Vector2> GeneratePath(Vector2 targetPosition, Vector2 startPosition)
 		{
 			Stack<Vector2> pathPointPositions = new Stack<Vector2>();
 
-			WayPoint targetPoint = wayPointManager.GetClosestWayPoint(targetPosition);
-			WayPoint startPoint = wayPointManager.GetClosestWayPoint(startPosition);
+			WayPoint targetPoint = _wayPointManager.GetClosestWayPoint(targetPosition);
+			WayPoint startPoint = _wayPointManager.GetClosestWayPoint(startPosition);
 
 			WayPoint currentWayPoint = startPoint;
 
@@ -48,19 +48,19 @@ namespace Tara.PathfindingSystem
 
 			do
 			{
-				closedWayPoints.Add(currentWayPoint);
+				_closedWayPoints.Add(currentWayPoint);
 
 				foreach (var availablePoint in GetAvailableWayPoints(currentWayPoint))
 				{
 					int currentScore = GetPointScore(currentWayPoint, startPoint, targetPoint);
 					int availableScore = GetPointScore(availablePoint, startPoint, targetPoint);
 
-					openWayPoints.Add(availablePoint);
+					_openWayPoints.Add(availablePoint);
 
 					if (availableScore < currentScore)
 					{
 						currentWayPoint = availablePoint;
-						openWayPoints.Remove(availablePoint);
+						_openWayPoints.Remove(availablePoint);
 					}
 				}
 
@@ -68,7 +68,7 @@ namespace Tara.PathfindingSystem
 			}
 			while (i < 50);
 
-			pathGenerated = true;
+			_pathGenerated = true;
 
 			return pathPointPositions;
 		}
@@ -76,7 +76,7 @@ namespace Tara.PathfindingSystem
 		private List<WayPoint> GetAvailableWayPoints(WayPoint wayPoint)
 		{
 			List<WayPoint> availableWayPoints = new List<WayPoint>();
-			WayPoint[] neighborWayPoints = wayPointManager.GetNeighborWayPoints(wayPoint);
+			WayPoint[] neighborWayPoints = _wayPointManager.GetNeighborWayPoints(wayPoint);
 
 			for (int i = 0; i < neighborWayPoints.Length; i++)
 			{
@@ -89,10 +89,10 @@ namespace Tara.PathfindingSystem
 
 		private int GetPointScore(WayPoint wayPoint, WayPoint startPoint, WayPoint targetPoint)
 		{
-			int unit = Mathf.RoundToInt(wayPointManager.spaceBetweenPoints);
+			int unit = Mathf.RoundToInt(_wayPointManager.spaceBetweenPoints);
 
-			int movementCostFromStart = DistanceAsInt(startPoint.position, wayPoint.position) / unit;
-			int absoluteDistanceToTarget = DistanceAsInt(targetPoint.position, wayPoint.position) / unit;
+			int movementCostFromStart = DistanceAsInt(startPoint.Position, wayPoint.Position) / unit;
+			int absoluteDistanceToTarget = DistanceAsInt(targetPoint.Position, wayPoint.Position) / unit;
 
 			return movementCostFromStart + absoluteDistanceToTarget;
 		}
@@ -120,16 +120,16 @@ namespace Tara.PathfindingSystem
 
 		private void DrawPath()
 		{
-			if (pathToTarget.Count != 0)
+			if (_pathToTarget.Count != 0)
 			{
-				foreach (var waypoint in pathToTarget)
+				foreach (var waypoint in _pathToTarget)
 				{
 					Gizmos.color = Color.cyan;
 					Gizmos.DrawWireSphere(waypoint, 1f);
 				}
-				for (int i = 0; i < pathToTarget.Count; i++)
+				for (int i = 0; i < _pathToTarget.Count; i++)
 				{
-					Vector2[] points = pathToTarget.ToArray();
+					Vector2[] points = _pathToTarget.ToArray();
 
 					int index = 0;
 					if (i + 1 > points.Length) { index = -1; }

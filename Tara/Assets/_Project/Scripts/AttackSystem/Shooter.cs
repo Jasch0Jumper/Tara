@@ -8,16 +8,16 @@ namespace Tara.AttackSystem
 	[RequireComponent(typeof(Entity), typeof(IShootInput))]
 	public class Shooter : MonoBehaviour
 	{
-		private Entity entity;
-		private IShootInput shootInput;
+		private Entity _entity;
+		private IShootInput _shootInput;
 
 		//public int ID;
 		[SerializeField] private List<Gun> guns = new List<Gun>();
 
 		private void Awake()
 		{
-			entity = GetComponent<Entity>();
-			shootInput = GetComponent<IShootInput>();
+			_entity = GetComponent<Entity>();
+			_shootInput = GetComponent<IShootInput>();
 		}
 
 		private void Start()
@@ -27,14 +27,14 @@ namespace Tara.AttackSystem
 				foreach (var gun in guns)
 				{
 					//gun.ID = ID;
-					gun.shooterType = entity.Type;
+					gun.shooterType = _entity.Type;
 				}
 			}
 		}
 
 		private void Update()
 		{
-			if (shootInput.IsShooting())
+			if (_shootInput.IsShooting())
 			{
 				foreach (var gun in guns)
 				{

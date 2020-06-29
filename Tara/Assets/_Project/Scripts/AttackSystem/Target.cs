@@ -8,11 +8,11 @@ namespace Tara.AttackSystem
 		[SerializeField] private int priorityLevel = 0;
 		public int PriorityLevel { get => priorityLevel; }
 
-		private TargetManager targetManager;
+		private TargetManager _targetManager;
 
 		private void Awake()
 		{
-			targetManager = FindObjectOfType<TargetManager>();
+			_targetManager = FindObjectOfType<TargetManager>();
 		}
 
 		private void OnEnable() => Register();
@@ -21,12 +21,12 @@ namespace Tara.AttackSystem
 
 		private void Register()
 		{
-			if (targetManager != null) { targetManager.RegisterAsTargetAble(this); }
+			if (_targetManager != null) { _targetManager.RegisterAsTargetAble(this); }
 		}
 
 		private void Unregister()
 		{
-			if (targetManager != null) { targetManager.UnregisterAsTargetAble(this); }
+			if (_targetManager != null) { _targetManager.UnregisterAsTargetAble(this); }
 		}
 	}
 }

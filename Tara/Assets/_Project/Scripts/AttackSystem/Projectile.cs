@@ -7,34 +7,34 @@ namespace Tara.AttackSystem
 	[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(SpriteRenderer))]
 	public class Projectile : MonoBehaviour
 	{
-		public float speed = default;
-		public int damage = 1;
+		public float Speed = default;
+		public int Damage = 1;
 		[Space]
-		public List<EntityType> whitelistType = new List<EntityType>();
-		public EntityType shooter = default;
+		public List<EntityType> WhitelistType = new List<EntityType>();
+		public EntityType Shooter = default;
 		[Space]
-		public Color teamColor = Color.white;
+		public Color TeamColor = Color.white;
 
-		private Rigidbody2D rb;
-		private SpriteRenderer sprite;
+		private Rigidbody2D _rigidbody;
+		private SpriteRenderer _spriterenderer;
 
-		private Vector2 targetPosition;
+		private Vector2 _targetPosition;
 
 		private void Awake()
 		{
-			rb = GetComponent<Rigidbody2D>();
-			sprite = GetComponent<SpriteRenderer>();
+			_rigidbody = GetComponent<Rigidbody2D>();
+			_spriterenderer = GetComponent<SpriteRenderer>();
 		}
 
 		private void Start()
 		{
-			sprite.color = teamColor;
+			_spriterenderer.color = TeamColor;
 		}
 
 		private void Update()
 		{
-			targetPosition = transform.up * speed * Time.deltaTime;
-			rb.position += targetPosition;
+			_targetPosition = transform.up * Speed * Time.deltaTime;
+			_rigidbody.position += _targetPosition;
 		}
 
 		private void OnTriggerEnter2D(Collider2D collider)
@@ -44,7 +44,7 @@ namespace Tara.AttackSystem
 				var health = collider.GetComponent<Health>();
 				if (health != null)
 				{
-					health.Damage(damage);
+					health.Damage(Damage);
 				}
 
 				//Debug.Log($"Collision, {shooter}, {speed}");
@@ -65,12 +65,12 @@ namespace Tara.AttackSystem
 				Entity entity = collider.GetComponent<Entity>();
 				if (entity != null)
 				{
-					foreach (var element in whitelistType)
+					foreach (var element in WhitelistType)
 					{
 						if (element == entity.Type) { return false; }
 					}
 
-					if (entity.Type == shooter) { return false; }
+					if (entity.Type == Shooter) { return false; }
 				}
 
 				if (projectileCollider != null) { return true; }

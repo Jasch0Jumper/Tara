@@ -4,50 +4,35 @@ namespace Tara.InputSystem
 {
 	public class PlayerInput : MonoBehaviour, IMoveInput, IRotateInput, IShootInput
 	{
-		private float horizontal;
-		private float vertical;
-		private Vector2 input;
+		private float _horizontal;
+		private float _vertical;
+		private Vector2 _input;
 
-		private float speedMultiplier;
+		private float _speedMultiplier;
 
-		private bool isShooting;
+		private bool _isShooting;
 
 		private void Update()
 		{
-			horizontal = Input.GetAxis("Horizontal");
-			vertical = Input.GetAxis("Vertical");
+			_horizontal = Input.GetAxis("Horizontal");
+			_vertical = Input.GetAxis("Vertical");
 
-			input = new Vector2(horizontal, vertical);
+			_input = new Vector2(_horizontal, _vertical);
 
-			speedMultiplier = 1f;
+			_speedMultiplier = 1f;
 
-			if (Input.GetMouseButton(0)) { isShooting = true; }
-			else { isShooting = false; }
+			if (Input.GetMouseButton(0)) { _isShooting = true; }
+			else { _isShooting = false; }
 		}
 
-		public Vector2 GetInput()
-		{
-			return input;
-		}
+		public Vector2 GetInput() => _input;
 
-		public float GetSpeedMultiplier()
-		{
-			return speedMultiplier;
-		}
+		public float GetSpeedMultiplier() => _speedMultiplier;
 
-		public Vector2 GetTargetRotationPosition()
-		{
-			return Vector2.zero;
-		}
+		public Vector2 GetTargetRotationPosition() => Vector2.zero;
 
-		public bool LookAtMouse()
-		{
-			return true;
-		}
+		public bool LookAtMouse() => true;
 
-		public bool IsShooting()
-		{
-			return isShooting;
-		}
+		public bool IsShooting() => _isShooting;
 	}
 }

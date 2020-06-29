@@ -22,39 +22,39 @@ namespace Tara.AttackSystem
 		[SerializeField] [Range(0.05f, 5f)] private float shootingCooldown = default;
 		[SerializeField] private GameObject projectile = default;
 
-		private float cooldown;
-		private bool shooting;
+		private float _cooldown;
+		private bool _shooting;
 
-		private SpriteRenderer spriteRenderer;
+		private SpriteRenderer _spriteRenderer;
 
 		private void Awake()
 		{
-			spriteRenderer = GetComponent<SpriteRenderer>();
+			_spriteRenderer = GetComponent<SpriteRenderer>();
 		}
 
 		private void Start()
 		{
-			if (useSpriteColor) { projectileColor = spriteRenderer.color; }
+			if (useSpriteColor) { projectileColor = _spriteRenderer.color; }
 		}
 
 		private void Update()
 		{
-			cooldown += Time.deltaTime;
+			_cooldown += Time.deltaTime;
 
-			if (shooting && IsCooldownOver())
+			if (_shooting && IsCooldownOver())
 			{
 				Shoot();
 			}
 
-			shooting = false;
+			_shooting = false;
 		}
 
-		public void GiveShootInput() => shooting = true;
+		public void GiveShootInput() => _shooting = true;
 
 		private bool IsCooldownOver()
 		{
-			if (cooldown == 0f) { return true; }
-			if (cooldown >= shootingCooldown) { return true; }
+			if (_cooldown == 0f) { return true; }
+			if (_cooldown >= shootingCooldown) { return true; }
 			return false;
 		}
 
@@ -65,16 +65,16 @@ namespace Tara.AttackSystem
 			var newProjectileController = newProjectile.GetComponent<Projectile>();
 			var projectileLifeTimer = newProjectile.GetComponent<Lifetime>();
 
-			newProjectileController.shooter = shooterType;
-			newProjectileController.speed = projectileSpeed;
-			newProjectileController.damage = projectileDamage;
-			newProjectileController.teamColor = projectileColor;
+			newProjectileController.Shooter = shooterType;
+			newProjectileController.Speed = projectileSpeed;
+			newProjectileController.Damage = projectileDamage;
+			newProjectileController.TeamColor = projectileColor;
 
-			if (projectileLifeTimer != null) { projectileLifeTimer.time = projectileLifeTime; }
+			if (projectileLifeTimer != null) { projectileLifeTimer.Time = projectileLifeTime; }
 
 			transform.DetachChildren();
 
-			cooldown = 0f;
+			_cooldown = 0f;
 		}
 	}
 }

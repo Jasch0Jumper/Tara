@@ -21,7 +21,7 @@ namespace Tara.AttackSystem
 		[Header("Gizmos")]
 		[SerializeField] private bool showAllTargets = default;
 
-		private TargetManager targetManager;
+		private TargetManager _targetManager;
 
 		public delegate void ListChanged(Target target);
 		public event ListChanged OnTargetRemovedFromList;
@@ -30,7 +30,7 @@ namespace Tara.AttackSystem
 
 		private void Awake()
 		{
-			targetManager = FindObjectOfType<TargetManager>();
+			_targetManager = FindObjectOfType<TargetManager>();
 		}
 
 		private void Start()
@@ -56,7 +56,7 @@ namespace Tara.AttackSystem
 
 		private void AddExistingTargets()
 		{
-			foreach (var target in targetManager.Targets)
+			foreach (var target in _targetManager.Targets)
 			{
 				AddToTargets(target);
 			}

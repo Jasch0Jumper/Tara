@@ -7,19 +7,15 @@ namespace Tara
 	{
 		[Range(1f, 300f)] public float maxSpawnRange = 1f;
 		[Range(1f, 300f)] public float minSpawnRange = 1f;
-
 		[Space]
 		[SerializeField] [Range(1, 100)] private int maxAsteriodCount = default;
-
 		[SerializeField] [Range(1f, 100f)] private float minDistance = 1f;
-
 		[Space]
 		[SerializeField] private GameObject asteriodPrefab = default;
-
 		[Header("Gizmos")]
 		[SerializeField] private bool drawOnDeselect = default;
 
-		private List<Transform> asteriodsTransforms = new List<Transform>();
+		private List<Transform> _asteriodsTransforms = new List<Transform>();
 
 		private void Start()
 		{
@@ -35,14 +31,14 @@ namespace Tara
 		{
 			if (CausesInfinteLoop(minSpawnRange, maxSpawnRange, maxAsteriodCount, minDistance) == false)
 			{
-				if (asteriodsTransforms.Count < maxAsteriodCount)
+				if (_asteriodsTransforms.Count < maxAsteriodCount)
 				{
-					int maxSpawnCount = maxAsteriodCount - asteriodsTransforms.Count;
+					int maxSpawnCount = maxAsteriodCount - _asteriodsTransforms.Count;
 					for (int i = 0; i < maxSpawnCount; i++)
 					{
 						var newAsteriod = Instantiate(asteriodPrefab, GetCoordinate(minSpawnRange, maxSpawnRange), RandomRotation());
 
-						asteriodsTransforms.Add(newAsteriod.GetComponent<Transform>());
+						_asteriodsTransforms.Add(newAsteriod.GetComponent<Transform>());
 					}
 				}
 			}
@@ -51,7 +47,7 @@ namespace Tara
 
 		public void DestroyAsteriods()
 		{
-			foreach (var asteriod in asteriodsTransforms)
+			foreach (var asteriod in _asteriodsTransforms)
 			{
 				DestroyImmediate(asteriod.gameObject);
 			}
@@ -81,7 +77,7 @@ namespace Tara
 
 		private bool IsCoordinateValid(Vector2 coordinate)
 		{
-			foreach (var asteriod in asteriodsTransforms)
+			foreach (var asteriod in _asteriodsTransforms)
 			{
 				if (Vector2.Distance(asteriod.position, coordinate) < minDistance)
 				{ return false; }
@@ -126,10 +122,10 @@ namespace Tara
 
 		private void CleaList()
 		{
-			for (int i = asteriodsTransforms.Count - 1; i > -1; i--)
+			for (int i = _asteriodsTransforms.Count - 1; i > -1; i--)
 			{
-				if (asteriodsTransforms[i] == null)
-				{ asteriodsTransforms.RemoveAt(i); }
+				if (_asteriodsTransforms[i] == null)
+				{ _asteriodsTransforms.RemoveAt(i); }
 			}
 		}
 
