@@ -11,7 +11,7 @@ namespace Tara.PathfindingSystem
 		[SerializeField] private float levelHeight = 1f;
 
 		[SerializeField] private float levelWidth = 1f;
-		public float spaceBetweenPoints = 5f;
+		public float SpaceBetweenPoints = 5f;
 
 		[Header("Gizmos")]
 		[SerializeField] private bool showWayPointsOnDeselect = true;
@@ -30,8 +30,8 @@ namespace Tara.PathfindingSystem
 
 		private void GenerateWayPoints()
 		{
-			int columns = Mathf.RoundToInt(levelWidth / spaceBetweenPoints);
-			int rows = Mathf.RoundToInt(levelHeight / spaceBetweenPoints);
+			int columns = Mathf.RoundToInt(levelWidth / SpaceBetweenPoints);
+			int rows = Mathf.RoundToInt(levelHeight / SpaceBetweenPoints);
 
 			List<GameObject> tempRowParents = new List<GameObject>();
 
@@ -42,15 +42,15 @@ namespace Tara.PathfindingSystem
 
 			for (int i = 0; i < columns; i++)
 			{
-				GameObject newWayPoint = Instantiate(wayPoint, new Vector3((-levelWidth / 2) + spaceBetweenPoints * i, levelHeight / 2, 0f), Quaternion.identity, tempRowParent.transform);
+				GameObject newWayPoint = Instantiate(wayPoint, new Vector3((-levelWidth / 2) + SpaceBetweenPoints * i, levelHeight / 2, 0f), Quaternion.identity, tempRowParent.transform);
 				_wayPoints.Add(newWayPoint);
 			}
 
 			for (int i = 0; i < rows; i++)
 			{
-				GameObject newRowParent = Instantiate(tempRowParent, new Vector3(-levelWidth / 2, ((levelHeight / 2) - spaceBetweenPoints * i) - spaceBetweenPoints, 0f), Quaternion.identity, transform);
+				GameObject newRowParent = Instantiate(tempRowParent, new Vector3(-levelWidth / 2, ((levelHeight / 2) - SpaceBetweenPoints * i) - SpaceBetweenPoints, 0f), Quaternion.identity, transform);
 
-				if (transform.childCount % 2 == 0) { newRowParent.transform.position += new Vector3(spaceBetweenPoints / 2, 0f, 0f); }
+				if (transform.childCount % 2 == 0) { newRowParent.transform.position += new Vector3(SpaceBetweenPoints / 2, 0f, 0f); }
 
 				for (int j = 0; j < newRowParent.transform.childCount; j++)
 				{
@@ -70,7 +70,7 @@ namespace Tara.PathfindingSystem
 				waypoint.transform.parent = transform;
 
 				WayPoint controller = waypoint.GetComponent<WayPoint>();
-				controller.HitboxRadius = spaceBetweenPoints / 2;
+				controller.HitboxRadius = SpaceBetweenPoints / 2;
 				controller.Active = true;
 			}
 
@@ -108,15 +108,15 @@ namespace Tara.PathfindingSystem
 		{
 			WayPoint[] neighbors = new WayPoint[6];
 
-			neighbors[0] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(spaceBetweenPoints / 2f), spaceBetweenPoints, 0f));
-			neighbors[1] = GetClosestWayPoint(wayPoint.Position + new Vector3((spaceBetweenPoints / 2f), spaceBetweenPoints, 0f));
+			neighbors[0] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(SpaceBetweenPoints / 2f), SpaceBetweenPoints, 0f));
+			neighbors[1] = GetClosestWayPoint(wayPoint.Position + new Vector3((SpaceBetweenPoints / 2f), SpaceBetweenPoints, 0f));
 
-			neighbors[2] = GetClosestWayPoint(wayPoint.Position + new Vector3((spaceBetweenPoints), 0f, 0f));
+			neighbors[2] = GetClosestWayPoint(wayPoint.Position + new Vector3((SpaceBetweenPoints), 0f, 0f));
 
-			neighbors[3] = GetClosestWayPoint(wayPoint.Position + new Vector3((spaceBetweenPoints / 2f), -spaceBetweenPoints, 0f));
-			neighbors[4] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(spaceBetweenPoints / 2f), -spaceBetweenPoints, 0f));
+			neighbors[3] = GetClosestWayPoint(wayPoint.Position + new Vector3((SpaceBetweenPoints / 2f), -SpaceBetweenPoints, 0f));
+			neighbors[4] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(SpaceBetweenPoints / 2f), -SpaceBetweenPoints, 0f));
 
-			neighbors[5] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(spaceBetweenPoints), 0f, 0f));
+			neighbors[5] = GetClosestWayPoint(wayPoint.Position + new Vector3(-(SpaceBetweenPoints), 0f, 0f));
 
 			return neighbors;
 		}
@@ -144,7 +144,7 @@ namespace Tara.PathfindingSystem
 				float circleRaduis = 1f;
 				Color gizmoColor = Color.green;
 
-				if (showAcurateSizeOfWayPoints) { circleRaduis = spaceBetweenPoints / 2; }
+				if (showAcurateSizeOfWayPoints) { circleRaduis = SpaceBetweenPoints / 2; }
 
 				if (waypoint.GetComponent<WayPoint>().Active == false) { gizmoColor = Color.red; }
 

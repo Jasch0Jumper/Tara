@@ -89,7 +89,7 @@ namespace Tara.PathfindingSystem
 
 		private int GetPointScore(WayPoint wayPoint, WayPoint startPoint, WayPoint targetPoint)
 		{
-			int unit = Mathf.RoundToInt(_wayPointManager.spaceBetweenPoints);
+			int unit = Mathf.RoundToInt(_wayPointManager.SpaceBetweenPoints);
 
 			int movementCostFromStart = DistanceAsInt(startPoint.Position, wayPoint.Position) / unit;
 			int absoluteDistanceToTarget = DistanceAsInt(targetPoint.Position, wayPoint.Position) / unit;

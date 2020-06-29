@@ -8,9 +8,9 @@ namespace Tara.PathfindingSystem
 		public float HitboxRadius;
 		private CircleCollider2D _hitbox;
 
-		public bool Active = true;
+		public bool Active { get; set; } = true;
 
-		public Vector3 Position;
+		public Vector3 Position { get; set; }
 
 		private void Awake()
 		{
