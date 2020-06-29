@@ -1,6 +1,4 @@
 ﻿namespace Tara.AttackSystem
 {
-	public interface ICanCollideWithProjectiles
-	{
-	}
+	public interface ICanCollideWithProjectiles { }
 }

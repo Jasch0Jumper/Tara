@@ -9,13 +9,11 @@ namespace Tara.AttackSystem
 	{
 		public float speed = default;
 		public int damage = 1;
-
 		[Space]
 		public List<EntityType> whitelistType = new List<EntityType>();
-
-		public Color teamColor = Color.white;
-
 		public EntityType shooter = default;
+		[Space]
+		public Color teamColor = Color.white;
 
 		private Rigidbody2D rb;
 		private SpriteRenderer sprite;
@@ -43,9 +41,10 @@ namespace Tara.AttackSystem
 		{
 			if (ValidateCollision(collider))
 			{
-				if (collider.GetComponent<Health>() != null)
+				var health = collider.GetComponent<Health>();
+				if (health != null)
 				{
-					collider.GetComponent<Health>().Damage(damage);
+					health.Damage(damage);
 				}
 
 				//Debug.Log($"Collision, {shooter}, {speed}");
@@ -56,17 +55,27 @@ namespace Tara.AttackSystem
 
 		private bool ValidateCollision(Collider2D collider)
 		{
-			Entity entity = collider.GetComponent<Entity>();
-			if (entity != null)
+			var projectileCollider = collider.GetComponent<ICanCollideWithProjectiles>();
+			if (projectileCollider == null) 
+			{ 
+				return false; 
+			}
+			else
 			{
-				foreach (var element in whitelistType)
+				Entity entity = collider.GetComponent<Entity>();
+				if (entity != null)
 				{
-					if (element == entity.Type) { return false; }
+					foreach (var element in whitelistType)
+					{
+						if (element == entity.Type) { return false; }
+					}
+
+					if (entity.Type == shooter) { return false; }
 				}
 
-				if (entity.Type != shooter) { return true; }
-				if (collider.GetComponent<ICanCollideWithProjectiles>() == null) { return true; }
+				if (projectileCollider != null) { return true; }
 			}
+
 			return false;
 		}
 	}

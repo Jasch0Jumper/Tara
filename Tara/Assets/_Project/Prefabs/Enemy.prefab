@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shooterType: 0
-  projectileSpeed: 50
+  projectileSpeed: 100
   projectileLifeTime: 10
   projectileDamage: 10
   useSpriteColor: 0

@@ -80,27 +80,35 @@ namespace Tara.AttackSystem
 
 		#region public helper Methods
 
-		public List<Target> GetTargets(int priorityLevel = 0)
+		public List<Target> GetTargets(int priorityLevel)
 		{
-			List<Target> validTargets = new List<Target>(Targets);
+			List<Target> potentialTargets = new List<Target>(Targets);
+			List<Target> validTargets = new List<Target>();
 
-			for (int i = 0; i < validTargets.Count; i++)
+			for (int i = 0; i < potentialTargets.Count; i++)
 			{
-				if (validTargets[i].PriorityLevel < priorityLevel) { validTargets.RemoveAt(i); }
+				if (potentialTargets[i].PriorityLevel < priorityLevel) 
+				{ 
+					potentialTargets[i] = null;
+				}
+			}
+			for (int i = potentialTargets.Count - 1; i > -1; i--)
+			{
+				if (potentialTargets[i] != null)
+				{
+					validTargets.Add(potentialTargets[i]);
+				}
 			}
 
 			return validTargets;
 		}
 		
-		public bool IsHighPriority(Target target) => target.PriorityLevel > priorityThreshold;
+		public bool IsHighPriority(Target target) => target.PriorityLevel >= priorityThreshold;
 
 		public Target GetRandomTargetFrom(List<Target> targetList)
 		{
 			Target randomTarget;
-
-			if (targetList.Count == 1) { randomTarget = targetList[0]; }
-			else { randomTarget = targetList[Random.Range(0, targetList.Count - 1)]; }
-
+			randomTarget = targetList[Random.Range(0, targetList.Count - 1)];
 			return randomTarget;
 		}
 

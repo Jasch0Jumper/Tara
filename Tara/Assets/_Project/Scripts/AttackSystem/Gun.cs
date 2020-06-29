@@ -10,19 +10,16 @@ namespace Tara.AttackSystem
 
 		[Space]
 		[SerializeField] [Range(1f, 500f)] private float projectileSpeed = 50f;
-
+		[Space]
 		[SerializeField] [Range(1f, 100f)] private float projectileLifeTime = 10f;
 		[SerializeField] [Range(1, 1000)] private int projectileDamage = 10;
-
 		[Space]
 		[SerializeField] private bool useSpriteColor = default;
 
 		[Tooltip("Can be ignored if useSpriteColor is true.")]
 		[SerializeField] private Color projectileColor = Color.white;
-
 		[Space]
 		[SerializeField] [Range(0.05f, 5f)] private float shootingCooldown = default;
-
 		[SerializeField] private GameObject projectile = default;
 
 		private float cooldown;
@@ -65,8 +62,8 @@ namespace Tara.AttackSystem
 		{
 			var newProjectile = Instantiate(projectile, transform);
 
-			Projectile newProjectileController = newProjectile.GetComponent<Projectile>();
-			Lifetime projectileLifeTimer = newProjectile.GetComponent<Lifetime>();
+			var newProjectileController = newProjectile.GetComponent<Projectile>();
+			var projectileLifeTimer = newProjectile.GetComponent<Lifetime>();
 
 			newProjectileController.shooter = shooterType;
 			newProjectileController.speed = projectileSpeed;

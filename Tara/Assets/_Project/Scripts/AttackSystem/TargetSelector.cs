@@ -98,13 +98,10 @@ namespace Tara.AttackSystem
 		public bool CanShoot() => IsInShootingRange(currentTarget);
 
 		public bool HasArrived() => IsInStoppingRange(currentTarget);
-		#endregion 
+		#endregion
 
 		#region Target Selection
-		private void OnTargetsChanged()
-		{
-			SelectNewTarget();
-		}
+		private void OnTargetsChanged() => SelectNewTarget();
 		private void SelectNewTarget()
 		{
 			currentTarget = GetClosestTarget();
@@ -117,32 +114,26 @@ namespace Tara.AttackSystem
 			switch (rangeType)
 			{
 				case RangeType.StoppingRange:
-					targetsInStoppingRange.Add(target);
-					break;
+					targetsInStoppingRange.Add(target); break;
 				case RangeType.ShootingRange:
-					targetsInShootingRange.Add(target);
-					break;
+					targetsInShootingRange.Add(target); break;
 				case RangeType.TargetingRange:
-					targetsInTargetingRange.Add(target);
-					OnTargetsChanged();
-					break;
+					targetsInTargetingRange.Add(target); break;
 			}
+			OnTargetsChanged();
 		}
 		private void TargetExitedRange(RangeType rangeType, Target target)
 		{
 			switch (rangeType)
 			{
 				case RangeType.StoppingRange:
-					targetsInStoppingRange.Remove(target);
-					break;
+					targetsInStoppingRange.Remove(target); break;
 				case RangeType.ShootingRange:
-					targetsInShootingRange.Remove(target);
-					break;
+					targetsInShootingRange.Remove(target); break;
 				case RangeType.TargetingRange:
-					targetsInTargetingRange.Remove(target);
-					OnTargetsChanged();
-					break;
+					targetsInTargetingRange.Remove(target); break;
 			}
+			OnTargetsChanged();
 		}
 
 		private void RemoveTargetFromAllLists(Target target)
