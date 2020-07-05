@@ -10,7 +10,7 @@ namespace Tara.InputSystem
 		[SerializeField] [Range(0.1f, 1f)] private float slowSpeedMultiplier = 1f;
 		private float _speedMultiplier = 1f;
 
-		private PathFinder _pathFinder;
+		//private PathFinder _pathFinder; ---ERROR---
 		private IAIInput _aIInput;
 
 		private bool _isShooting;
@@ -21,7 +21,7 @@ namespace Tara.InputSystem
 		private void Awake()
 		{
 			_aIInput = GetComponent<IAIInput>();
-			_pathFinder = GetComponent<PathFinder>();
+			//_pathFinder = GetComponent<PathFinder>(); ---ERROR---
 		}
 
 		private void Update()
@@ -32,7 +32,7 @@ namespace Tara.InputSystem
 
 			_targetRotationPosition = _aIInput.GetTargetPosition();
 
-			//pathFinder.PathFindTo(aIInput.GetTargetPosition());
+			//pathFinder.PathFindTo(aIInput.GetTargetPosition()); ---ERROR---
 
 			Vector2 targetInput = _aIInput.GetTargetPosition() - transform.position;
 
