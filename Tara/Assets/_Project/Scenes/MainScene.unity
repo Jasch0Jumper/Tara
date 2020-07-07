@@ -1159,7 +1159,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 3
   height: 3
-  cellSize: 1.52
+  cellSize: 5
+  offset: {x: -190, y: -110}
+  showPreview: 1
+  showGrid: 0
 --- !u!4 &1960734407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7535300224175190996, guid: 78b6fe9c657a2ff46b286e679debc3a8,
