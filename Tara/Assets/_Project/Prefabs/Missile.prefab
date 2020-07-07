@@ -148,11 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9acd0e07457bd049b0b27b1b665af84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
-  damage: 5
-  whitelistType: 
-  shooter: 0
-  teamColor: {r: 0, g: 0, b: 0, a: 0}
+  Speed: 0
+  Damage: 1
+  WhitelistType: 
+  Shooter: 0
+  TeamColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &114947343299842768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +165,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533c2ee2fa20dbb4f92b2d7cf2fc5f4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 5
+  Time: 1
   onEndOfLifeTime:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 218189836524668891}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

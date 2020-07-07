@@ -33,5 +33,18 @@ namespace Tara.PathfindingSystem
 		{
 			GridArray[x, y].Data++;
 		}
+
+		public void ToggleWalkable(Vector3 position, bool state)
+		{
+			Vector2Int gridPosition = GetGridPosition(position);
+			GridArray[gridPosition.x, gridPosition.y].Walkable = state;
+		}
+		private Vector2Int GetGridPosition(Vector3 position)
+		{
+			int x = Mathf.FloorToInt((position.x - _originPosition.x) / _cellSize);
+			int y = Mathf.FloorToInt((position.y - _originPosition.y) / _cellSize);
+
+			return new Vector2Int(x, y);
+		}
 	}
 }

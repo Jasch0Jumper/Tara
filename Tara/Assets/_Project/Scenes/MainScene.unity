@@ -566,7 +566,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -95, y: 65, z: -10}
+  m_LocalPosition: {x: -95, y: 70, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1157,8 +1157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e3c8df265dae744bd0870d64442566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 3
-  height: 3
+  width: 76
+  height: 44
   cellSize: 5
   offset: {x: -190, y: -110}
   showPreview: 1
@@ -1223,12 +1223,12 @@ PrefabInstance:
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -47.2
+      value: -47
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.4
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
@@ -1332,7 +1332,7 @@ PrefabInstance:
     - target: {fileID: 4939375426947843447, guid: 6536342cc0823074ea2ef5b8cf8c012c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 65
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4939375426947843447, guid: 6536342cc0823074ea2ef5b8cf8c012c,
         type: 3}

@@ -7,6 +7,7 @@ namespace Tara.PathfindingSystem
 		public int Data { get; set; }
 		public Vector2Int Position { get; private set; }
 		public float Size { get; private set; }
+		public bool Walkable { get; set; } = true;
 
 		private Vector3 _originPosition;
 
@@ -20,4 +21,3 @@ namespace Tara.PathfindingSystem
 		public Vector3 GetGlobalPosition() => (new Vector3(Position.x, Position.y) * Size) + _originPosition;
 	}
 }
-
