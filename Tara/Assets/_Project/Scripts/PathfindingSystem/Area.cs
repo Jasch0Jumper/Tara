@@ -1,5 +1,5 @@
-﻿using Boo.Lang;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tara.PathfindingSystem

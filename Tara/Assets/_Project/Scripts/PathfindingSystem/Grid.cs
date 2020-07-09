@@ -10,7 +10,6 @@ namespace Tara.PathfindingSystem
 		private float _cellSize;
 		private Vector3 _originPosition;
 
-
 		public Grid(int width, int height, float cellSize, Vector3 originPosition)
 		{
 			_width = width;

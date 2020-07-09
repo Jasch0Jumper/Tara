@@ -27,7 +27,7 @@ namespace Tara.AttackSystem
 				foreach (var gun in guns)
 				{
 					//gun.ID = ID;
-					gun.shooterType = _entity.Type;
+					gun.ShooterType = _entity.Type;
 				}
 			}
 		}

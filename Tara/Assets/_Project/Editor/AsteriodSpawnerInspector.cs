@@ -12,17 +12,17 @@ public class AsteriodSpawnerInspector : Editor
 
         AsteriodManager spawner = (AsteriodManager)target;
 
-        if (spawner.minSpawnRange - 1f > spawner.maxSpawnRange)
+        if (spawner.MinSpawnRange - 1f > spawner.MaxSpawnRange)
         {
-            spawner.maxSpawnRange += spawner.minSpawnRange - 1f - spawner.maxSpawnRange;
+            spawner.MaxSpawnRange += spawner.MinSpawnRange - 1f - spawner.MaxSpawnRange;
         } 
-        else if (spawner.maxSpawnRange -1f < spawner.minSpawnRange)
+        else if (spawner.MaxSpawnRange -1f < spawner.MinSpawnRange)
         {
-            spawner.minSpawnRange -= (spawner.minSpawnRange) - spawner.maxSpawnRange;
+            spawner.MinSpawnRange -= (spawner.MinSpawnRange) - spawner.MaxSpawnRange;
         }
-        if (spawner.minSpawnRange == spawner.maxSpawnRange)
+        if (spawner.MinSpawnRange == spawner.MaxSpawnRange)
         {
-            spawner.minSpawnRange -= 1f;
+            spawner.MinSpawnRange -= 1f;
         }
 
         EditorGUILayout.Space();

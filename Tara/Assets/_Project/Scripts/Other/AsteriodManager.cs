@@ -5,8 +5,8 @@ namespace Tara
 {
 	public class AsteriodManager : MonoBehaviour
 	{
-		[Range(1f, 300f)] public float maxSpawnRange = 1f;
-		[Range(1f, 300f)] public float minSpawnRange = 1f;
+		[Range(1f, 300f)] public float MaxSpawnRange = 1f;
+		[Range(1f, 300f)] public float MinSpawnRange = 1f;
 		[Space]
 		[SerializeField] [Range(1, 100)] private int maxAsteriodCount = default;
 		[SerializeField] [Range(1f, 100f)] private float minDistance = 1f;
@@ -29,20 +29,22 @@ namespace Tara
 
 		public void SummonAsteriods()
 		{
-			if (CausesInfinteLoop(minSpawnRange, maxSpawnRange, maxAsteriodCount, minDistance) == false)
-			{
-				if (_asteriodsTransforms.Count < maxAsteriodCount)
-				{
-					int maxSpawnCount = maxAsteriodCount - _asteriodsTransforms.Count;
-					for (int i = 0; i < maxSpawnCount; i++)
-					{
-						var newAsteriod = Instantiate(asteriodPrefab, GetCoordinate(minSpawnRange, maxSpawnRange), RandomRotation());
+			if (CausesInfinteLoop(MinSpawnRange, MaxSpawnRange, maxAsteriodCount, minDistance) != false)
+			{ 
+				Debug.LogError("Not enaugh Space for alle Asteroids! Change maxCount or minDistance!", this);
+				return;
+			}
 
-						_asteriodsTransforms.Add(newAsteriod.GetComponent<Transform>());
-					}
+			if (_asteriodsTransforms.Count < maxAsteriodCount)
+			{
+				int maxSpawnCount = maxAsteriodCount - _asteriodsTransforms.Count;
+				for (int i = 0; i < maxSpawnCount; i++)
+				{
+					var newAsteriod = Instantiate(asteriodPrefab, GetCoordinate(MinSpawnRange, MaxSpawnRange), RandomRotation());
+
+					_asteriodsTransforms.Add(newAsteriod.GetComponent<Transform>());
 				}
 			}
-			else { Debug.LogError("This will cause an infinte Loop! Change maxCount or minDistance to be smaller."); }
 		}
 
 		public void DestroyAsteriods()
@@ -61,7 +63,6 @@ namespace Tara
 		}
 
 		#region private functions
-
 		private Vector2 GetCoordinate(float minRange, float maxRange)
 		{
 			Vector2 coordinate;
@@ -74,7 +75,6 @@ namespace Tara
 		}
 
 		#region Validation
-
 		private bool IsCoordinateValid(Vector2 coordinate)
 		{
 			foreach (var asteriod in _asteriodsTransforms)
@@ -96,11 +96,9 @@ namespace Tara
 
 			return false;
 		}
-
-		#endregion Validation
+		#endregion 
 
 		#region Random Rotation / Coordinates
-
 		private Vector2 RandomCoordinate(float minRange, float maxRange)
 		{
 			transform.rotation = RandomRotation();
@@ -112,13 +110,11 @@ namespace Tara
 
 			return coordinate;
 		}
-
 		private Quaternion RandomRotation()
 		{
 			return Quaternion.Euler(new Vector3(0f, 0f, Random.Range(0f, 359f)));
 		}
-
-		#endregion Random Rotation / Coordinates
+		#endregion 
 
 		private void CleaList()
 		{
@@ -129,7 +125,7 @@ namespace Tara
 			}
 		}
 
-		#endregion private functions
+		#endregion
 
 		#region Gizmos
 
@@ -146,9 +142,9 @@ namespace Tara
 		private void DrawRanges()
 		{
 			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireSphere(transform.position, maxSpawnRange);
+			Gizmos.DrawWireSphere(transform.position, MaxSpawnRange);
 			Gizmos.color = Color.white;
-			Gizmos.DrawWireSphere(transform.position, minSpawnRange);
+			Gizmos.DrawWireSphere(transform.position, MinSpawnRange);
 		}
 
 		#endregion Gizmos

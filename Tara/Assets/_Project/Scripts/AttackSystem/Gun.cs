@@ -6,7 +6,7 @@ namespace Tara.AttackSystem
 	public class Gun : MonoBehaviour
 	{
 		//public int ID;
-		public EntityType shooterType;
+		public EntityType ShooterType;
 
 		[Space]
 		[SerializeField] [Range(1f, 500f)] private float projectileSpeed = 50f;
@@ -15,7 +15,6 @@ namespace Tara.AttackSystem
 		[SerializeField] [Range(1, 1000)] private int projectileDamage = 10;
 		[Space]
 		[SerializeField] private bool useSpriteColor = default;
-
 		[Tooltip("Can be ignored if useSpriteColor is true.")]
 		[SerializeField] private Color projectileColor = Color.white;
 		[Space]
@@ -65,7 +64,7 @@ namespace Tara.AttackSystem
 			var newProjectileController = newProjectile.GetComponent<Projectile>();
 			var projectileLifeTimer = newProjectile.GetComponent<Lifetime>();
 
-			newProjectileController.Shooter = shooterType;
+			newProjectileController.Shooter = ShooterType;
 			newProjectileController.Speed = projectileSpeed;
 			newProjectileController.Damage = projectileDamage;
 			newProjectileController.TeamColor = projectileColor;

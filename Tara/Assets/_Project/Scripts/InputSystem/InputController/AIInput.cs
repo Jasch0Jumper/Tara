@@ -72,6 +72,6 @@ namespace Tara.InputSystem
 			return _isShooting;
 		}
 
-		#endregion 
+		#endregion
 	}
 }

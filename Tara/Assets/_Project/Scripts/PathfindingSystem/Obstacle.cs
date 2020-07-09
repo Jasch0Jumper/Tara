@@ -61,13 +61,12 @@ namespace Tara.PathfindingSystem
 		private void DrawBlockedPoints()
 		{
 			if (blockedAreas.Count <= 0) return;
-			if (_gridManager == null) return;
-
+			
 			Gizmos.color = Color.yellow;
 
 			foreach (var area in blockedAreas)
 			{
-				foreach (var blockedPoint in area.GetPointsInArea(_gridManager.CellSize))
+				foreach (var blockedPoint in area.GetPointsInArea(GridManager.CELLSIZE))
 				{
 					Gizmos.DrawWireSphere(blockedPoint, 1f);
 				}
