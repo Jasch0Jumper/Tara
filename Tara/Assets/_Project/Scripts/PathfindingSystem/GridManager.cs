@@ -16,14 +16,19 @@ namespace Tara.PathfindingSystem
 		[SerializeField] private bool showGrid = default;
 		[SerializeField] private bool showUnwalkable = default;
 
+		public delegate void ObstacleEvent();
+		public static event ObstacleEvent OnObstacleSpawn;
+
 		private Grid _grid;
 #pragma warning disable IDE1006 // Naming Styles
 		private Vector3 _offsetVector => offset;
 #pragma warning restore IDE1006 // Naming Styles
 
-		private void Awake()
+		private void Start()
 		{
 			GenerateGrid();
+
+			OnObstacleSpawn?.Invoke();
 		}
 
 		[ContextMenu("Generate Grid")]

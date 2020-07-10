@@ -46,32 +46,14 @@ namespace Tara.InputSystem
 		}
 
 		#region Interface implementations
+		public Vector2 Input => _input;
+		public Vector2 TargetRotationPosition => _targetRotationPosition;
 
-		public Vector2 GetInput()
-		{
-			return _input;
-		}
+		public float SpeedMultiplier => _speedMultiplier;
 
-		public Vector2 GetTargetRotationPosition()
-		{
-			return _targetRotationPosition;
-		}
+		public bool LookAtMouse() => false;
 
-		public float GetSpeedMultiplier()
-		{
-			return _speedMultiplier;
-		}
-
-		public bool LookAtMouse()
-		{
-			return false;
-		}
-
-		public bool IsShooting()
-		{
-			return _isShooting;
-		}
-
+		public bool IsShooting => _isShooting;
 		#endregion
 	}
 }

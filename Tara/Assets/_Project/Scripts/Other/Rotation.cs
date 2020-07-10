@@ -21,7 +21,7 @@ namespace Tara
 		private void Update()
 		{
 			if (_rotateInput.LookAtMouse()) { LookAtMouse(); }
-			else { LookAtTarget(_rotateInput.GetTargetRotationPosition(), maxRotationPerFrame); }
+			else { LookAtTarget(_rotateInput.TargetRotationPosition, maxRotationPerFrame); }
 		}
 
 		private void LookAtTarget(Vector3 targetPosition, float maxDegreesDelta)

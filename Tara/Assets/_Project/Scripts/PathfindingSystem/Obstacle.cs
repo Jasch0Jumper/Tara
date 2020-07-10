@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Tara.PathfindingSystem 
 {
+	[ExecuteInEditMode]
 	public class Obstacle : MonoBehaviour
 	{
 		[SerializeField] private List<Area> blockedAreas = new List<Area>();
@@ -16,11 +17,32 @@ namespace Tara.PathfindingSystem
 		private void Awake()
 		{
 			_gridManager = FindObjectOfType<GridManager>();
+			MoveAreas();
 		}
-		private void Start()
+
+		private void OnEnable()
 		{
-			BlockPath();
+			GridManager.OnObstacleSpawn += BlockPath;
 		}
+		private void OnDisable()
+		{
+			GridManager.OnObstacleSpawn -= BlockPath;
+		}
+
+		private void Update()
+		{
+			MoveAreas();
+		}
+
+		private void MoveAreas()
+		{
+			foreach (var area in blockedAreas)
+			{
+				area.MoveCenter(transform.position);
+			}
+		}
+
+		public void AddArea(Area area) => blockedAreas.Add(area);
 
 		[ContextMenu("BlockPath")]
 		private void BlockPath()
@@ -52,8 +74,9 @@ namespace Tara.PathfindingSystem
 			{
 				Vector3 xOne = new Vector3(1f, 0f, 0f);
 				Vector3 yOne = new Vector3(0f, 1f, 0f);
-				Gizmos.DrawLine(area.Vector3Center - xOne, area.Vector3Center + xOne);
-				Gizmos.DrawLine(area.Vector3Center - yOne, area.Vector3Center + yOne);
+				
+				Gizmos.DrawLine(area.Center - xOne, area.Center + xOne);
+				Gizmos.DrawLine(area.Center - yOne, area.Center + yOne);
 
 				Gizmos.DrawWireCube(area.Center, new Vector3(area.Width, area.Height, 1f));
 			}

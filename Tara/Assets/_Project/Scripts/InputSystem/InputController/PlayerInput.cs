@@ -14,25 +14,25 @@ namespace Tara.InputSystem
 
 		private void Update()
 		{
-			_horizontal = Input.GetAxis("Horizontal");
-			_vertical = Input.GetAxis("Vertical");
+			_horizontal = UnityEngine.Input.GetAxis("Horizontal");
+			_vertical = UnityEngine.Input.GetAxis("Vertical");
 
 			_input = new Vector2(_horizontal, _vertical);
 
 			_speedMultiplier = 1f;
 
-			if (Input.GetMouseButton(0)) { _isShooting = true; }
+			if (UnityEngine.Input.GetMouseButton(0)) { _isShooting = true; }
 			else { _isShooting = false; }
 		}
 
-		public Vector2 GetInput() => _input;
+		public Vector2 Input => _input;
 
-		public float GetSpeedMultiplier() => _speedMultiplier;
+		public float SpeedMultiplier => _speedMultiplier;
 
-		public Vector2 GetTargetRotationPosition() => Vector2.zero;
+		public Vector2 TargetRotationPosition => Vector2.zero;
 
 		public bool LookAtMouse() => true;
 
-		public bool IsShooting() => _isShooting;
+		public bool IsShooting => _isShooting;
 	}
 }

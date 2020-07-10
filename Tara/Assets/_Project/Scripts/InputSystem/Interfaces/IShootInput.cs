@@ -2,6 +2,6 @@
 {
 	public interface IShootInput
 	{
-		bool IsShooting();
+		bool IsShooting { get; }
 	}
 }

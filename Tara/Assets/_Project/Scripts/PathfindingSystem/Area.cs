@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Tara.PathfindingSystem
 {
 	[Serializable]
-	public struct Area 
+	public class Area
 	{
 		public Vector2 CornerA => new Vector2(Center.x - (Width / 2), Center.y - (Height / 2));
 		public Vector2 CornerB => new Vector2(Center.x + (Width / 2), Center.y + (Height / 2));
@@ -13,17 +13,12 @@ namespace Tara.PathfindingSystem
 		public float Width;
 		public float Height;
 
-		public Vector2 Center;
-		public Vector3 Vector3Center => new Vector3(Center.x, Center.y, 0f);
+		public Vector3 Offset;
 
+		private Vector3 _center;
+		public Vector3 Center { get => _center + Offset; }
 
-		public Area(Vector2 center, Vector2 size)
-		{
-			Width = size.x;
-			Height = size.y;
-
-			Center = center;
-		}
+		public void MoveCenter(Vector3 position) => _center = position;
 
 		public List<Vector3> GetPointsInArea(float spaceBetweenPoints)
 		{

@@ -19,7 +19,7 @@ namespace Tara
 
 		private void FixedUpdate()
 		{
-			Move(_inputController.GetInput(), _inputController.GetSpeedMultiplier());
+			Move(_inputController.Input, _inputController.SpeedMultiplier);
 		}
 
 		private void Move(Vector3 input, float speedMultiplier)

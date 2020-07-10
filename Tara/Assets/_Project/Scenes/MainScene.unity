@@ -1044,9 +1044,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockedAreas:
-  - Width: 2.75
-    Height: 42.01
-    Center: {x: -87.5, y: 37.54}
+  - Width: 3.31
+    Height: 42.6
+    Offset: {x: 0, y: 0, z: 0}
   showBlockedArea: 0
   showblockedPoints: 0
   showCornersOfAreas: 0

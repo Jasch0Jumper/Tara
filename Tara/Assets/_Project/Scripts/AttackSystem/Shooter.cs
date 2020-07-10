@@ -34,7 +34,7 @@ namespace Tara.AttackSystem
 
 		private void Update()
 		{
-			if (_shootInput.IsShooting())
+			if (_shootInput.IsShooting)
 			{
 				foreach (var gun in guns)
 				{

@@ -4,7 +4,7 @@ namespace Tara.InputSystem
 {
 	public interface IRotateInput
 	{
-		Vector2 GetTargetRotationPosition();
+		Vector2 TargetRotationPosition { get; }
 
 		bool LookAtMouse();
 	}
