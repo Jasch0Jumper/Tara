@@ -6,103 +6,89 @@ namespace Tara.PathfindingSystem
 	[ExecuteInEditMode]
 	public class Obstacle : MonoBehaviour
 	{
-		[SerializeField] private List<Area> blockedAreas = new List<Area>();
+		[SerializeField] private BlockPointChain blockedArea;
 		[Header("Gizmos")]
-		[SerializeField] private bool showBlockedArea = default;
-		[SerializeField] private bool showblockedPoints = default;
-		[SerializeField] private bool showCornersOfAreas = default;
+		[SerializeField] private bool showPoints = default;
+		[SerializeField] private bool showAllPoints = default;
 
-		private GridManager _gridManager;
+		public delegate void ObstacleEvent(BlockPointChain blockedAreas);
+		public event ObstacleEvent OnSpawn;
+		public event ObstacleEvent OnMove;
+		public event ObstacleEvent OnDespawn;
 
-		private void Awake()
+		private Vector3 _lastPosition;
+		private Vector3 _deltaPosition;
+
+		private void Start()
 		{
-			_gridManager = FindObjectOfType<GridManager>();
-			MoveAreas();
+			MovePoints(transform.position);
+			_lastPosition = transform.position;
 		}
-
 		private void OnEnable()
 		{
-			GridManager.OnObstacleSpawn += BlockPath;
+			OnSpawn?.Invoke(blockedArea);
 		}
 		private void OnDisable()
 		{
-			GridManager.OnObstacleSpawn -= BlockPath;
+			OnDespawn?.Invoke(blockedArea);
 		}
-
 		private void Update()
 		{
-			MoveAreas();
+			MovePoints(_deltaPosition);
 		}
 
-		private void MoveAreas()
+		private void MovePoints(Vector3 deltaPosition)
 		{
-			foreach (var area in blockedAreas)
+			
+			if (HasMovedOneGridStep())
 			{
-				area.MoveCenter(transform.position);
+				blockedArea.Move(Coordinate.Convert(transform.position));
+
+				OnMove?.Invoke(blockedArea);
 			}
 		}
 
-		public void AddArea(Area area) => blockedAreas.Add(area);
-
-		[ContextMenu("BlockPath")]
-		private void BlockPath()
+		private bool HasMovedOneGridStep()
 		{
-			_gridManager.BlockGridArea(blockedAreas);
+			_deltaPosition.x = Mathf.Abs(_lastPosition.x - transform.position.x);
+			_deltaPosition.y = Mathf.Abs(_lastPosition.y - transform.position.y);
+
+			if (_deltaPosition.x >= GridManager.CELLSIZE / 2 || _deltaPosition.y >= GridManager.CELLSIZE / 2)
+			{
+				_lastPosition = transform.position;
+				return true;
+			}
+
+			return false;
 		}
 
 		#region Gizmos
 		private void OnDrawGizmos()
 		{
-			if (showBlockedArea) { DrawBlockedArea(); }
-			if (showblockedPoints) { DrawBlockedPoints(); }
-			if (showCornersOfAreas) { DrawCornersOfBlockedAreas(); }
+			if (showPoints) { DrawPoints(); }
 		}
 		private void OnDrawGizmosSelected()
 		{
-			DrawBlockedArea();
-			DrawBlockedPoints();
-			DrawCornersOfBlockedAreas();
+			DrawPoints();
+			if (showAllPoints) { DrawAllPoints(); }
 		}
 
-		private void DrawBlockedArea()
-		{
-			if (blockedAreas.Count <= 0) return;
-
-			Gizmos.color = Color.red;
-			
-			foreach (var area in blockedAreas)
-			{
-				Vector3 xOne = new Vector3(1f, 0f, 0f);
-				Vector3 yOne = new Vector3(0f, 1f, 0f);
-				
-				Gizmos.DrawLine(area.Center - xOne, area.Center + xOne);
-				Gizmos.DrawLine(area.Center - yOne, area.Center + yOne);
-
-				Gizmos.DrawWireCube(area.Center, new Vector3(area.Width, area.Height, 1f));
-			}
-		}
-		private void DrawBlockedPoints()
-		{
-			if (blockedAreas.Count <= 0) return;
-			
-			Gizmos.color = Color.yellow;
-
-			foreach (var area in blockedAreas)
-			{
-				foreach (var blockedPoint in area.GetPointsInArea(GridManager.CELLSIZE))
-				{
-					Gizmos.DrawWireSphere(blockedPoint, 1f);
-				}
-			}
-		}
-		private void DrawCornersOfBlockedAreas()
+		private void DrawPoints()
 		{
 			Gizmos.color = Color.cyan;
-			
-			foreach (var area in blockedAreas)
+
+			foreach (var point in blockedArea.Points)
 			{
-				Gizmos.DrawWireSphere(area.CornerA, 0.5f);
-				Gizmos.DrawWireSphere(area.CornerB, 0.5f);
+				Gizmos.DrawWireSphere(point.Vector3, 1f);
+				;
+			}
+		}
+		private void DrawAllPoints()
+		{
+			Gizmos.color = Color.yellow;
+			foreach (var point in blockedArea.GetPointsInArea(GridManager.CELLSIZE))
+			{
+				Gizmos.DrawWireSphere(point.Vector3, 2.5f);
 			}
 		}
 		#endregion

@@ -1043,13 +1043,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933a537b4db235245a4dd9a507f925a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockedAreas:
-  - Width: 3.31
-    Height: 42.6
-    Offset: {x: 0, y: 0, z: 0}
-  showBlockedArea: 0
-  showblockedPoints: 0
-  showCornersOfAreas: 0
+  blockedArea:
+    points:
+    - x: -34.98
+      y: 51.69
+      z: 0
+  showPoints: 0
+  showAllPoints: 1
 --- !u!1001 &1791250098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   height: 44
   offset: {x: -190, y: -110}
   showPreview: 1
-  showGrid: 0
+  showGrid: 1
   showUnwalkable: 1
 --- !u!4 &1960734407 stripped
 Transform:
