@@ -27,6 +27,11 @@ namespace Tara.PathfindingSystem
 			GenerateGrid();
 		}
 
+		private void OnEnable()
+		{
+			
+		}
+
 		[ContextMenu("Generate Grid")]
 		private void GenerateGrid() => _mainGrid = new Grid(width, height, CELLSIZE, transform.position + _offsetVector);
 		[ContextMenu("Remove Grid")]
@@ -34,13 +39,13 @@ namespace Tara.PathfindingSystem
 
 		public void BlockGridArea(List<BlockPointChain> blockedAreas)
 		{
-			//foreach (var area in blockedAreas)
-			//{
-			//	foreach (var blockedPoint in area.GetPointsInArea(CELLSIZE))
-			//	{
-			//		_mainGrid.ToggleWalkable(blockedPoint, false);
-			//	}
-			//}
+			foreach (var area in blockedAreas)
+			{
+				foreach (var blockedPoint in area.GetPointsInArea(CELLSIZE))
+				{
+					_mainGrid.ToggleWalkable(blockedPoint, false);
+				}
+			}
 		}
 
 		#region Gizmos

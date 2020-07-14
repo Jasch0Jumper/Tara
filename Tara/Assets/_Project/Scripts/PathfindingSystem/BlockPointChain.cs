@@ -7,29 +7,29 @@ namespace Tara.PathfindingSystem
 	[Serializable]
 	public class BlockPointChain
 	{
-		[SerializeField] private List<Coordinate> points = new List<Coordinate>();
-		public List<Coordinate> Points => points;
+		[SerializeField] private List<Vector3> points = new List<Vector3>();
+		private Vector3 center = default;
 
-		public void Move(Coordinate position)
+		public void MovePoints(Vector3 position)
 		{
-			foreach (var point in points)
-			{
-				point.SetTo(position);
-			}
+			if (points.Count < 1) { return; }
+
+			center = position;
 		}
 
-		public List<Coordinate> GetPointsInArea(float spaceBetweenPoints)
+		public List<Vector3> GetPointsInArea(float spaceBetweenPoints)
 		{
-			var allPoints = new List<Coordinate>(points)
-			{
-				Coordinate.Zero
-			};
+			var allPoints = GetPoints();
+			
+			if (points.Count < 1) { return allPoints; }
+
+			allPoints.Add(GetPointAt(0));
 
 			if (spaceBetweenPoints < 1f) { return allPoints; }
 
 			for (int i = 0; i < allPoints.Count - 1; i++)
 			{
-				if (Coordinate.Distance(allPoints[i], allPoints[i + 1]) > spaceBetweenPoints)
+				if (Vector3.Distance(allPoints[i], allPoints[i + 1]) > spaceBetweenPoints)
 				{
 					InsertPoint(allPoints, i, spaceBetweenPoints);
 				}
@@ -38,12 +38,25 @@ namespace Tara.PathfindingSystem
 			return allPoints;
 		}
 
-		private void InsertPoint(List<Coordinate> list, int index, float spacing)
+		public Vector3 GetPointAt(int index) => points[index] + center;
+		public List<Vector3> GetPoints()
 		{
-			Coordinate pointA = list[index];
-			Coordinate pointB = list[index + 1];
+			List<Vector3> allPoints = new List<Vector3>();
 
-			Coordinate newPoint = Coordinate.MoveTowards(pointA, pointB, spacing);
+			for (int i = 0; i < points.Count; i++)
+			{
+				allPoints.Add(GetPointAt(i));
+			}
+
+			return allPoints;
+		}
+
+		private void InsertPoint(List<Vector3> list, int index, float spacing)
+		{
+			Vector3 pointA = list[index];
+			Vector3 pointB = list[index + 1];
+
+			Vector3 newPoint = Vector3.MoveTowards(pointA, pointB, spacing);
 			
 			list.Insert(index + 1, newPoint);
 		}

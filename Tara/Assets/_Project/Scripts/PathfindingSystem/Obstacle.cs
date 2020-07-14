@@ -10,18 +10,23 @@ namespace Tara.PathfindingSystem
 		[Header("Gizmos")]
 		[SerializeField] private bool showPoints = default;
 		[SerializeField] private bool showAllPoints = default;
+		[SerializeField] private bool showBlockPointsPath = default;
 
-		public delegate void ObstacleEvent(BlockPointChain blockedAreas);
+		public delegate void ObstacleEvent(BlockPointChain blockedArea);
 		public event ObstacleEvent OnSpawn;
 		public event ObstacleEvent OnMove;
 		public event ObstacleEvent OnDespawn;
 
 		private Vector3 _lastPosition;
-		private Vector3 _deltaPosition;
+#pragma warning disable IDE1006 // Naming Styles
+		private Vector3 _deltaPosition => _lastPosition - transform.position;
+		private Vector3 debugDeltaPosition;
+#pragma warning restore IDE1006 // Naming Styles
+		private Vector3 _absoluteDeltaPosition;
 
 		private void Start()
 		{
-			MovePoints(transform.position);
+			MovePoints();
 			_lastPosition = transform.position;
 		}
 		private void OnEnable()
@@ -34,28 +39,31 @@ namespace Tara.PathfindingSystem
 		}
 		private void Update()
 		{
-			MovePoints(_deltaPosition);
+			debugDeltaPosition = _deltaPosition;
+
+			_absoluteDeltaPosition += new Vector3(Mathf.Abs(_deltaPosition.x), Mathf.Abs(_deltaPosition.y));
+
+			MovePoints();
 		}
 
-		private void MovePoints(Vector3 deltaPosition)
+		private void MovePoints()
 		{
+			blockedArea.MovePoints(transform.position);
 			
 			if (HasMovedOneGridStep())
 			{
-				blockedArea.Move(Coordinate.Convert(transform.position));
-
+				Debug.Log("OnMove()", this);
 				OnMove?.Invoke(blockedArea);
 			}
 		}
 
 		private bool HasMovedOneGridStep()
 		{
-			_deltaPosition.x = Mathf.Abs(_lastPosition.x - transform.position.x);
-			_deltaPosition.y = Mathf.Abs(_lastPosition.y - transform.position.y);
-
-			if (_deltaPosition.x >= GridManager.CELLSIZE / 2 || _deltaPosition.y >= GridManager.CELLSIZE / 2)
+			if (_absoluteDeltaPosition.x >= GridManager.CELLSIZE || _absoluteDeltaPosition.y >= GridManager.CELLSIZE)
 			{
 				_lastPosition = transform.position;
+				_absoluteDeltaPosition = Vector3.zero;
+
 				return true;
 			}
 
@@ -66,6 +74,7 @@ namespace Tara.PathfindingSystem
 		private void OnDrawGizmos()
 		{
 			if (showPoints) { DrawPoints(); }
+			if (showBlockPointsPath) { DrawBlockPointPath(); }
 		}
 		private void OnDrawGizmosSelected()
 		{
@@ -77,18 +86,29 @@ namespace Tara.PathfindingSystem
 		{
 			Gizmos.color = Color.cyan;
 
-			foreach (var point in blockedArea.Points)
+			foreach (var point in blockedArea.GetPoints())
 			{
-				Gizmos.DrawWireSphere(point.Vector3, 1f);
-				;
+				Gizmos.DrawWireSphere(point, 1f);
 			}
 		}
 		private void DrawAllPoints()
 		{
-			Gizmos.color = Color.yellow;
+			Gizmos.color = new Color(1f, 0.921568632f, 0.0156862754f, 0.25f);	//yellow with 50% alpha
+
 			foreach (var point in blockedArea.GetPointsInArea(GridManager.CELLSIZE))
 			{
-				Gizmos.DrawWireSphere(point.Vector3, 2.5f);
+				Gizmos.DrawWireSphere(point, 2.5f);
+			}
+		}
+		private void DrawBlockPointPath()
+		{
+			Gizmos.color = Color.red;
+
+			List<Vector3> blockedPoints = blockedArea.GetPointsInArea(GridManager.CELLSIZE);
+
+			for (int i = 0; i < blockedPoints.Count - 1; i++)
+			{
+				Gizmos.DrawLine(blockedPoints[i], blockedPoints[i + 1]);
 			}
 		}
 		#endregion

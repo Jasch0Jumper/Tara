@@ -159,20 +159,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 3
-  OnActivate:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -2921766639895301157}
-        m_MethodName: BlockPath
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &6360550632848650559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,10 +211,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933a537b4db235245a4dd9a507f925a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockedAreas:
-  - Width: 17.1
-    Height: 17.3
-    Center: {x: 0, y: 0}
-  showBlockedArea: 0
-  showblockedPoints: 0
-  showCornersOfAreas: 0
+  blockedArea:
+    points:
+    - {x: -7.84, y: -0.01, z: 0}
+    - {x: -6.53, y: 5.69, z: 0}
+    - {x: 3.33, y: 5.84, z: 0}
+    - {x: 6.6, y: -5.18, z: 0}
+    - {x: -1.05, y: -7.1, z: 0}
+    center: {x: 0, y: 0, z: 0}
+  showPoints: 1
+  showAllPoints: 1
+  showBlockPointsPath: 1

@@ -293,7 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxSpawnRange: 107.2
   MinSpawnRange: 1
-  maxAsteriodCount: 10
+  maxAsteriodCount: 1
   minDistance: 25
   asteriodPrefab: {fileID: 2868293245887568446, guid: 54eaca628aeb0fe41922a9c10833e652,
     type: 3}
@@ -1045,11 +1045,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockedArea:
     points:
-    - x: -34.98
-      y: 51.69
-      z: 0
-  showPoints: 0
+    - {x: 0, y: 20, z: 0}
+    - {x: 0, y: -20, z: 0}
+  showPoints: 1
   showAllPoints: 1
+  showBlockPointsPath: 1
 --- !u!1001 &1791250098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   height: 44
   offset: {x: -190, y: -110}
   showPreview: 1
-  showGrid: 1
+  showGrid: 0
   showUnwalkable: 1
 --- !u!4 &1960734407 stripped
 Transform:
