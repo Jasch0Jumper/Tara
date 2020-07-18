@@ -1185,6 +1185,7 @@ MonoBehaviour:
   width: 76
   height: 44
   offset: {x: -190, y: -110}
+  gridRefreshTime: 1
   showPreview: 1
   showGrid: 0
   showUnwalkable: 1

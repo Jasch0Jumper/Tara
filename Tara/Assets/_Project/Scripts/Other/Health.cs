@@ -8,7 +8,7 @@ namespace Tara
 	public class Health : MonoBehaviour, ICanCollideWithProjectiles
 	{
 		[SerializeField] private int maxHealth = 1;
-		public int Value { get; private set; }
+		public int Value { get; private set; } 
 
 		[SerializeField] private UnityEvent onNoHealthLeft = new UnityEvent();
 

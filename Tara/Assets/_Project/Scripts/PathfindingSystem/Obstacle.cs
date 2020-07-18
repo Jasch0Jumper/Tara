@@ -6,7 +6,9 @@ namespace Tara.PathfindingSystem
 	[ExecuteInEditMode]
 	public class Obstacle : MonoBehaviour
 	{
-		[SerializeField] private BlockPointChain blockedArea;
+		public static List<Obstacle> Obstacles = new List<Obstacle>();
+
+		[SerializeField] private BlockPointChain blockedArea = default;
 		[Header("Gizmos")]
 		[SerializeField] private bool showPoints = default;
 		[SerializeField] private bool showAllPoints = default;
@@ -14,16 +16,10 @@ namespace Tara.PathfindingSystem
 
 		public delegate void ObstacleEvent(BlockPointChain blockedArea);
 		public event ObstacleEvent OnSpawn;
-		public event ObstacleEvent OnMove;
 		public event ObstacleEvent OnDespawn;
 
 		private Vector3 _lastPosition;
-#pragma warning disable IDE1006 // Naming Styles
-		private Vector3 _deltaPosition => _lastPosition - transform.position;
-		private Vector3 debugDeltaPosition;
-#pragma warning restore IDE1006 // Naming Styles
-		private Vector3 _absoluteDeltaPosition;
-
+		
 		private void Start()
 		{
 			MovePoints();
@@ -31,44 +27,22 @@ namespace Tara.PathfindingSystem
 		}
 		private void OnEnable()
 		{
+			Obstacles.Add(this);
+
 			OnSpawn?.Invoke(blockedArea);
 		}
 		private void OnDisable()
 		{
 			OnDespawn?.Invoke(blockedArea);
+
+			Obstacles.Remove(this);
 		}
 		private void Update()
 		{
-			debugDeltaPosition = _deltaPosition;
-
-			_absoluteDeltaPosition += new Vector3(Mathf.Abs(_deltaPosition.x), Mathf.Abs(_deltaPosition.y));
-
 			MovePoints();
 		}
 
-		private void MovePoints()
-		{
-			blockedArea.MovePoints(transform.position);
-			
-			if (HasMovedOneGridStep())
-			{
-				Debug.Log("OnMove()", this);
-				OnMove?.Invoke(blockedArea);
-			}
-		}
-
-		private bool HasMovedOneGridStep()
-		{
-			if (_absoluteDeltaPosition.x >= GridManager.CELLSIZE || _absoluteDeltaPosition.y >= GridManager.CELLSIZE)
-			{
-				_lastPosition = transform.position;
-				_absoluteDeltaPosition = Vector3.zero;
-
-				return true;
-			}
-
-			return false;
-		}
+		private void MovePoints() => blockedArea.MovePoints(transform.position);
 
 		#region Gizmos
 		private void OnDrawGizmos()
