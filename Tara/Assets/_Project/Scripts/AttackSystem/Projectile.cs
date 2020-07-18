@@ -9,12 +9,14 @@ namespace Tara.AttackSystem
 	{
 		public float Speed = default;
 		public int Damage = 1;
+		public float Lifetime = 10f;
 		[Space]
 		public List<EntityType> WhitelistType = new List<EntityType>();
 		public EntityType Shooter = default;
 		[Space]
 		public Color TeamColor = Color.white;
 
+		private Timer _timer;
 		private Rigidbody2D _rigidbody;
 		private SpriteRenderer _spriterenderer;
 
@@ -24,6 +26,10 @@ namespace Tara.AttackSystem
 		{
 			_rigidbody = GetComponent<Rigidbody2D>();
 			_spriterenderer = GetComponent<SpriteRenderer>();
+			_timer = new Timer(Lifetime);
+			
+			_timer.OnTimerEnd += EndOfLifeTime;
+
 		}
 
 		private void Start()
@@ -35,6 +41,8 @@ namespace Tara.AttackSystem
 		{
 			_targetPosition = transform.up * Speed * Time.deltaTime;
 			_rigidbody.position += _targetPosition;
+
+			_timer.Tick(Time.deltaTime);
 		}
 
 		private void OnTriggerEnter2D(Collider2D collider)
@@ -78,5 +86,7 @@ namespace Tara.AttackSystem
 
 			return false;
 		}
+
+		private void EndOfLifeTime() => Destroy(gameObject);
 	}
 }

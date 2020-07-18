@@ -11,14 +11,8 @@ namespace Tara
 		private float _duration;
 		private bool _loop;
 
-		public Timer(float duration, bool loop)
-		{
-			RemainingSeconds = duration;
-			_duration = duration;
-
-			_loop = loop;
-		}
-		public Timer(float duration) => new Timer(duration, false);
+		public Timer(float duration, bool loop) => Initialize(duration, loop);
+		public Timer(float duration) => Initialize(duration, false);
 
 		public void Tick(float deltaTime)
 		{
@@ -30,6 +24,13 @@ namespace Tara
 		}
 		public void Reset() => RemainingSeconds = _duration;
 
+		private void Initialize(float duration, bool loop)
+		{
+			RemainingSeconds = duration;
+			_duration = duration;
+
+			_loop = loop;
+		}
 		private void CheckTimerEnd()
 		{
 			if (RemainingSeconds > 0f) { return; }

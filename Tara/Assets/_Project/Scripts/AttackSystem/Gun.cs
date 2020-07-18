@@ -62,14 +62,12 @@ namespace Tara.AttackSystem
 			var newProjectile = Instantiate(projectile, transform);
 
 			var newProjectileController = newProjectile.GetComponent<Projectile>();
-			var projectileLifeTimer = newProjectile.GetComponent<Lifetime>();
 
 			newProjectileController.Shooter = ShooterType;
 			newProjectileController.Speed = projectileSpeed;
 			newProjectileController.Damage = projectileDamage;
+			newProjectileController.Lifetime = projectileLifeTime;
 			newProjectileController.TeamColor = projectileColor;
-
-			if (projectileLifeTimer != null) { projectileLifeTimer.Time = projectileLifeTime; }
 
 			transform.DetachChildren();
 
