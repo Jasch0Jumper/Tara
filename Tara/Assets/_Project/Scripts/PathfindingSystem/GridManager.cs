@@ -16,9 +16,10 @@ namespace Tara.PathfindingSystem
 		[SerializeField] private bool showGrid = default;
 		[SerializeField] private bool showUnwalkable = default;
 
+		public static List<BlockPointChain> ObstacleAreas = new List<BlockPointChain>();
+
 		private Grid _grid;
 		private Timer _timer;
-		private List<BlockPointChain> _obstacleAreas = new List<BlockPointChain>();
 
 #pragma warning disable IDE1006 // Naming Styles
 		private Vector3 _offsetVector => offset;
@@ -31,22 +32,6 @@ namespace Tara.PathfindingSystem
 			_timer = new Timer(gridRefreshTime, true);
 			_timer.OnTimerEnd += RefreshGrid;
 		}
-		private void OnEnable()
-		{
-			foreach (var obstacle in Obstacle.Obstacles)
-			{
-				obstacle.OnSpawn += BlockGridArea;
-				obstacle.OnDespawn += UnBlockGridArea;
-			}
-		}
-		private void OnDisable()
-		{
-			foreach (var obstacle in Obstacle.Obstacles)
-			{
-				obstacle.OnSpawn -= BlockGridArea;
-				obstacle.OnDespawn -= UnBlockGridArea;
-			}
-		}
 		private void Update()
 		{
 			_timer.Tick(Time.deltaTime);
@@ -57,18 +42,6 @@ namespace Tara.PathfindingSystem
 		[ContextMenu("Remove Grid")]
 		private void RemoveGrid() => _grid = null;
 
-		private void BlockGridArea(BlockPointChain blockedArea)
-		{
-			_obstacleAreas.Add(blockedArea);
-			ToggleWalkableArea(blockedArea, false);
-		}
-
-		private void UnBlockGridArea(BlockPointChain blockedArea)
-		{
-			_obstacleAreas.Remove(blockedArea);
-			ToggleWalkableArea(blockedArea, true);
-		}
-
 		private void RefreshGrid()
 		{
 			foreach (var cell in _grid.GridArray)
@@ -76,21 +49,17 @@ namespace Tara.PathfindingSystem
 				cell.Walkable = true;
 			}
 
-			ToggleWalkableArea(_obstacleAreas, false);
+			ToggleWalkableArea(ObstacleAreas, false);
 		}
 
-		private void ToggleWalkableArea(BlockPointChain area, bool state)
-		{
-			foreach (var point in area.GetPointsInArea(CELLSIZE))
-			{
-				_grid.ToggleWalkable(point, state);
-			}
-		}
 		private void ToggleWalkableArea(List<BlockPointChain> areas, bool state)
 		{
 			foreach (var area in areas)
 			{
-				ToggleWalkableArea(area, state);
+				foreach (var point in area.GetPointsInArea(CELLSIZE))
+				{
+					_grid.ToggleWalkable(point, state);
+				}
 			}
 		}
 

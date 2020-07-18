@@ -6,36 +6,23 @@ namespace Tara.PathfindingSystem
 	[ExecuteInEditMode]
 	public class Obstacle : MonoBehaviour
 	{
-		public static List<Obstacle> Obstacles = new List<Obstacle>();
-
 		[SerializeField] private BlockPointChain blockedArea = default;
 		[Header("Gizmos")]
 		[SerializeField] private bool showPoints = default;
 		[SerializeField] private bool showAllPoints = default;
 		[SerializeField] private bool showBlockPointsPath = default;
 
-		public delegate void ObstacleEvent(BlockPointChain blockedArea);
-		public event ObstacleEvent OnSpawn;
-		public event ObstacleEvent OnDespawn;
-
-		private Vector3 _lastPosition;
-		
 		private void Start()
 		{
 			MovePoints();
-			_lastPosition = transform.position;
 		}
 		private void OnEnable()
 		{
-			Obstacles.Add(this);
-
-			OnSpawn?.Invoke(blockedArea);
+			GridManager.ObstacleAreas.Add(blockedArea);
 		}
 		private void OnDisable()
 		{
-			OnDespawn?.Invoke(blockedArea);
-
-			Obstacles.Remove(this);
+			GridManager.ObstacleAreas.Remove(blockedArea);
 		}
 		private void Update()
 		{
