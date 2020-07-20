@@ -18,7 +18,7 @@ namespace Tara.PathfindingSystem
 
 		public static List<BlockPointChain> ObstacleAreas = new List<BlockPointChain>();
 
-		private Grid _grid;
+		private Grid<PathNode> _grid;
 		private Timer _timer;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -38,13 +38,14 @@ namespace Tara.PathfindingSystem
 		}
 
 		[ContextMenu("Generate Grid")]
-		private void GenerateGrid() => _grid = new Grid(width, height, CELLSIZE, transform.position + _offsetVector);
+		private void GenerateGrid() => _grid = new Grid<PathNode>(width, height, CELLSIZE, transform.position + _offsetVector, () => new PathNode(true));
+
 		[ContextMenu("Remove Grid")]
 		private void RemoveGrid() => _grid = null;
 
 		private void RefreshGrid()
 		{
-			foreach (var cell in _grid.GridArray)
+			foreach (var cell in _grid.Cells)
 			{
 				cell.Walkable = true;
 			}
@@ -58,7 +59,7 @@ namespace Tara.PathfindingSystem
 			{
 				foreach (var point in area.GetPointsInArea(CELLSIZE))
 				{
-					_grid.ToggleWalkable(point, state);
+					_grid.GetCell(point).Walkable = state;
 				}
 			}
 		}
@@ -102,26 +103,28 @@ namespace Tara.PathfindingSystem
 		}
 		private void DrawGrid()
 		{
-			if (_grid == null) return;
-			
-			foreach (var cell in _grid.GridArray)
+			if (_grid == null) { return; }
+
+			Gizmos.color = Color.white;
+
+			_grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
 			{
-				Gizmos.color = Color.white;
-				Gizmos.DrawWireCube(cell.GetGlobalPosition() + new Vector3(cell.Size, cell.Size) / 2, new Vector3(cell.Size, cell.Size, 1f));
-			}
+				Gizmos.DrawWireCube(cellGloablPosition + new Vector3(_grid.CellSize, _grid.CellSize) / 2, new Vector3(_grid.CellSize, _grid.CellSize, 1f));
+			});
 		}
 		private void DrawUnwalkable()
 		{
-			if (_grid == null) return;
+			if (_grid == null) { return; }
 
-			foreach (var cell in _grid.GridArray)
+			Gizmos.color = Color.red;
+
+			_grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
 			{
 				if (cell.Walkable == false)
 				{
-					Gizmos.color = Color.red;
-					Gizmos.DrawWireCube(cell.GetGlobalPosition() + new Vector3(cell.Size, cell.Size) / 2, new Vector3(cell.Size, cell.Size, 1f));
+					Gizmos.DrawWireCube(cellGloablPosition + new Vector3(_grid.CellSize, _grid.CellSize) / 2, new Vector3(_grid.CellSize, _grid.CellSize, 1f));
 				}
-			}
+			});
 		}
 		#endregion
 	}

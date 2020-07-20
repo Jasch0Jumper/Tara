@@ -1,43 +1,74 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Tara.PathfindingSystem
 {
-	public class Grid
+	public class Grid<TGridObject>
 	{
-		public GridCell[,] GridArray { get; private set; }
+		public TGridObject[,] Cells { get; private set; }
+		public float CellSize { get; private set; }
+
 		private int _width;
 		private int _height;
-		private float _cellSize;
 		private Vector3 _originPosition;
 
-		public Grid(int width, int height, float cellSize, Vector3 originPosition)
+		public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<TGridObject> objectInitialization)
 		{
 			_width = width;
 			_height = height;
-			_cellSize = cellSize;
+			CellSize = cellSize;
 			_originPosition = originPosition;
 
-			GridArray = new GridCell[_width, _height];
+			Cells = new TGridObject[_width, _height];
+			ForeachCell(objectInitialization);
+		}
 
-			for (int x = 0; x < GridArray.GetLength(0); x++)
+		public Vector3 GetGlobalPosition(int x, int y) => (new Vector3(x, y) * CellSize) + _originPosition;
+		
+		public TGridObject GetCell(int x, int y) => Cells[x, y];
+		public TGridObject GetCell(Vector3 position)
+		{
+			Vector2Int gridPosition = GetGridPosition(position);
+			int x = gridPosition.x;
+			int y = gridPosition.y;
+			return Cells[x, y];
+		}
+
+		public void ForeachCell(Action<TGridObject> action)
+		{
+			for (int x = 0; x < Cells.GetLength(0); x++)
 			{
-				for (int y = 0; y < GridArray.GetLength(1); y++)
+				for (int y = 0; y < Cells.GetLength(1); y++)
 				{
-					GridArray[x, y] = new GridCell(new Vector2Int(x, y), _cellSize, _originPosition);
+					action(Cells[x, y]);
+				}
+			}
+		}
+		public void ForeachCell(Action<TGridObject, Vector3> action)
+		{
+			for (int x = 0; x < Cells.GetLength(0); x++)
+			{
+				for (int y = 0; y < Cells.GetLength(1); y++)
+				{
+					action(Cells[x, y], GetGlobalPosition(x, y));
+				}
+			}
+		}
+		public void ForeachCell(Func<TGridObject> func)
+		{
+			for (int x = 0; x < Cells.GetLength(0); x++)
+			{
+				for (int y = 0; y < Cells.GetLength(1); y++)
+				{
+					Cells[x, y] = func();
 				}
 			}
 		}
 
-		public void ToggleWalkable(Vector3 position, bool state)
-		{
-			Vector2Int gridPosition = GetGridPosition(position);
-			GridArray[gridPosition.x, gridPosition.y].Walkable = state;
-		}
-
 		private Vector2Int GetGridPosition(Vector3 position)
 		{
-			int x = Mathf.FloorToInt((position.x - _originPosition.x) / _cellSize);
-			int y = Mathf.FloorToInt((position.y - _originPosition.y) / _cellSize);
+			int x = Mathf.FloorToInt((position.x - _originPosition.x) / CellSize);
+			int y = Mathf.FloorToInt((position.y - _originPosition.y) / CellSize);
 
 			return new Vector2Int(x, y);
 		}
