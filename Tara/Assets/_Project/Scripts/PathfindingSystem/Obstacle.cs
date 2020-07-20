@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Tara.PathfindingSystem 
 {
 	[ExecuteInEditMode]
-	public class Obstacle : MonoBehaviour
+	public class Obstacle : MonoBehaviour, Tara.AttackSystem.ICanCollideWithProjectiles
 	{
 		[SerializeField] private BlockPointChain blockedArea = default;
 		[Header("Gizmos")]

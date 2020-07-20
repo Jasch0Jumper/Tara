@@ -25,12 +25,14 @@ namespace Tara.PathfindingSystem
 
 		public Vector3 GetGlobalPosition(int x, int y) => (new Vector3(x, y) * CellSize) + _originPosition;
 		
-		public TGridObject GetCell(int x, int y) => Cells[x, y];
+		public TGridObject GetCell(int x, int y) => Cells[Validate(x, Cells.GetLength(0), 0), Validate(y, Cells.GetLength(1), 0)];
 		public TGridObject GetCell(Vector3 position)
 		{
 			Vector2Int gridPosition = GetGridPosition(position);
-			int x = gridPosition.x;
-			int y = gridPosition.y;
+
+			int x = Validate(gridPosition.x, Cells.GetLength(0), 0);
+			int y = Validate(gridPosition.y, Cells.GetLength(1), 0);
+
 			return Cells[x, y];
 		}
 
@@ -71,6 +73,13 @@ namespace Tara.PathfindingSystem
 			int y = Mathf.FloorToInt((position.y - _originPosition.y) / CellSize);
 
 			return new Vector2Int(x, y);
+		}
+
+		private int Validate(int value, int max, int min)
+		{
+			if (value >= max) { return max - 1; }
+			if (value < min) { return min; }
+			return value;
 		}
 	}
 }

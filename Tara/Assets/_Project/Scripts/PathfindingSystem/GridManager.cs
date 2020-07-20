@@ -17,8 +17,8 @@ namespace Tara.PathfindingSystem
 		[SerializeField] private bool showUnwalkable = default;
 
 		public static List<BlockPointChain> ObstacleAreas = new List<BlockPointChain>();
+		public static Grid<PathNode> Grid;
 
-		private Grid<PathNode> _grid;
 		private Timer _timer;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -38,14 +38,14 @@ namespace Tara.PathfindingSystem
 		}
 
 		[ContextMenu("Generate Grid")]
-		private void GenerateGrid() => _grid = new Grid<PathNode>(width, height, CELLSIZE, transform.position + _offsetVector, () => new PathNode(true));
+		private void GenerateGrid() => Grid = new Grid<PathNode>(width, height, CELLSIZE, transform.position + _offsetVector, () => new PathNode(true));
 
 		[ContextMenu("Remove Grid")]
-		private void RemoveGrid() => _grid = null;
+		private void RemoveGrid() => Grid = null;
 
 		private void RefreshGrid()
 		{
-			foreach (var cell in _grid.Cells)
+			foreach (var cell in Grid.Cells)
 			{
 				cell.Walkable = true;
 			}
@@ -59,7 +59,7 @@ namespace Tara.PathfindingSystem
 			{
 				foreach (var point in area.GetPointsInArea(CELLSIZE))
 				{
-					_grid.GetCell(point).Walkable = state;
+					Grid.GetCell(point).Walkable = state;
 				}
 			}
 		}
@@ -103,26 +103,26 @@ namespace Tara.PathfindingSystem
 		}
 		private void DrawGrid()
 		{
-			if (_grid == null) { return; }
+			if (Grid == null) { return; }
 
 			Gizmos.color = Color.white;
 
-			_grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
+			Grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
 			{
-				Gizmos.DrawWireCube(cellGloablPosition + new Vector3(_grid.CellSize, _grid.CellSize) / 2, new Vector3(_grid.CellSize, _grid.CellSize, 1f));
+				Gizmos.DrawWireCube(cellGloablPosition + new Vector3(Grid.CellSize, Grid.CellSize) / 2, new Vector3(Grid.CellSize, Grid.CellSize, 1f));
 			});
 		}
 		private void DrawUnwalkable()
 		{
-			if (_grid == null) { return; }
+			if (Grid == null) { return; }
 
 			Gizmos.color = Color.red;
 
-			_grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
+			Grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
 			{
 				if (cell.Walkable == false)
 				{
-					Gizmos.DrawWireCube(cellGloablPosition + new Vector3(_grid.CellSize, _grid.CellSize) / 2, new Vector3(_grid.CellSize, _grid.CellSize, 1f));
+					Gizmos.DrawWireCube(cellGloablPosition + new Vector3(Grid.CellSize, Grid.CellSize) / 2, new Vector3(Grid.CellSize, Grid.CellSize, 1f));
 				}
 			});
 		}

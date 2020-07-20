@@ -64,27 +64,21 @@ namespace Tara.AttackSystem
 		private bool ValidateCollision(Collider2D collider)
 		{
 			var projectileCollider = collider.GetComponent<ICanCollideWithProjectiles>();
-			if (projectileCollider == null) 
-			{ 
-				return false; 
-			}
-			else
-			{
-				Entity entity = collider.GetComponent<Entity>();
-				if (entity != null)
-				{
-					foreach (var element in WhitelistType)
-					{
-						if (element == entity.Type) { return false; }
-					}
+			
+			if (projectileCollider == null) { return false; }
 
-					if (entity.Type == Shooter) { return false; }
+			Entity entity = collider.GetComponent<Entity>();
+			if (entity != null)
+			{
+				foreach (var element in WhitelistType)
+				{
+					if (element == entity.Type) { return false; }
 				}
 
-				if (projectileCollider != null) { return true; }
+				if (entity.Type == Shooter) { return false; }
 			}
 
-			return false;
+			return true;
 		}
 
 		private void EndOfLifeTime() => Destroy(gameObject);
