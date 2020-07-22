@@ -6,7 +6,7 @@ namespace Tara.PathfindingSystem
 {
 	public class GridManager : MonoBehaviour
 	{
-		public const float CELLSIZE = 5f;
+		public const float CELLSIZE = 10f;
 		[Header("CELLSIZE = 5f")]
 		[SerializeField] [Range(0, 200)] private int width = default;
 		[SerializeField] [Range(0, 200)] private int height = default;

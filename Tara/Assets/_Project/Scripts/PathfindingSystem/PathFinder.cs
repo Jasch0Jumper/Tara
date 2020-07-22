@@ -43,39 +43,33 @@ namespace Tara.PathfindingSystem
 
 				if (closedList.Contains(_destinationNode))
 				{
-					Debug.Log(closedList.Count + " items in list");
+					//Debug.Log(closedList.Count + " items in list");
 					break;
 				}
 
-				List<PathNode> adjacentNodes = GetWalkableAdjacentNodes(currentNode);
-
-				foreach (var node in adjacentNodes)
+				foreach (var neighbourNode in GetWalkableAdjacentNodes(currentNode))
 				{
-					if (closedList.Contains(node))
+					if (closedList.Contains(neighbourNode)) { continue; }
+
+					if (openList.Contains(neighbourNode) == false)
 					{
-						continue;
-					}
+						neighbourNode.ParentNode = currentNode;
 
-					if (openList.Contains(node) == false)
-					{
-						node.ParentNode = currentNode;
+						SetGScore(neighbourNode);
+						SetHScore(neighbourNode);
 
-						SetGScore(node);
-						SetHScore(node);
-
-
-						openList.Add(node);
+						openList.Add(neighbourNode);
 					}
 					else
 					{
-						int fScoreBefore = node.fScore;
+						int fScoreBefore = neighbourNode.fScore;
 
-						SetGScore(node);
-						SetHScore(node);
+						SetGScore(neighbourNode);
+						SetHScore(neighbourNode);
 
-						if (node.fScore < fScoreBefore)
+						if (neighbourNode.fScore < fScoreBefore)
 						{
-							node.ParentNode = currentNode;
+							neighbourNode.ParentNode = currentNode;
 						}
 					}
 				}
@@ -122,15 +116,6 @@ namespace Tara.PathfindingSystem
 				}
 			}
 
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + 0, nodePosition.y + 1));
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + 1, nodePosition.y + 1));
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + 1, nodePosition.y + 0));
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + 1, nodePosition.y + -1));
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + 0, nodePosition.y + -1));
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + -1, nodePosition.y + -1));
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + -1, nodePosition.y + 0));
-			//adjacentNodes.Add(_grid.GetCell(nodePosition.x + -1, nodePosition.y + 1));
-			
 			adjacentNodes.Remove(node);
 
 			return adjacentNodes;
@@ -138,28 +123,33 @@ namespace Tara.PathfindingSystem
 
 		private void SetGScore(PathNode node)
 		{
-			int parentGScore = node.ParentNode.gScore;
-			
+			int parentGScore = 0;
+
+			if (node.ParentNode != null) { parentGScore = node.ParentNode.gScore; }
+
 			if (node.Diagonal) { node.gScore = parentGScore + _diagonalGCost; }
 			else { node.gScore = parentGScore + _normalGCost; }
 		}
-		private void SetHScore(PathNode node)
+		private void SetHScore(PathNode node) => node.hScore = GetDistanceCost(node, _destinationNode) * 10;
+		
+		private int GetDistanceCost(PathNode nodeA, PathNode nodeB)
 		{
-			Vector2Int currentNodePosition = _grid.GetGridPosition(node.Position);
-			Vector2Int endNodePosition = _grid.GetGridPosition(_destinationNode.Position);
-			node.hScore = Mathf.Abs((endNodePosition.x - currentNodePosition.x) + (endNodePosition.y - currentNodePosition.y));
+			Vector2Int nodeAPosition = _grid.GetGridPosition(nodeA.Position);
+			Vector2Int nodeBPosition = _grid.GetGridPosition(nodeB.Position);
+			return Mathf.Abs((nodeBPosition.x - nodeAPosition.x) + (nodeBPosition.y - nodeAPosition.y));
 		}
 
 		private Stack<PathNode> ConvertToFinishedPathStack(List<PathNode> pathNodes)
 		{
 			Stack<PathNode> finishedPath = new Stack<PathNode>();
-			
 			pathNodes.Reverse();
 			finishedPath.Push(pathNodes[0]);
 
-			for (int i = 0; pathNodes[i] != _startNode; i++)
+			PathNode currentNode = pathNodes[0];
+			while (currentNode.ParentNode != null)
 			{
-				finishedPath.Push(pathNodes[i].ParentNode);
+				finishedPath.Push(currentNode.ParentNode);
+				currentNode = currentNode.ParentNode;
 			}
 
 			return finishedPath;

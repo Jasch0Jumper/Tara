@@ -8,52 +8,69 @@ namespace Tara.InputSystem
 	{
 		[SerializeField] [Range(1f, 5f)] private float fastSpeedMultiplier = 1f;
 		[SerializeField] [Range(0.1f, 1f)] private float slowSpeedMultiplier = 1f;
-		private float _speedMultiplier = 1f;
-
-		//private PathFinder _pathFinder; ---ERROR---
+		
+		private PathFinderBehavior _pathFinder;
 		private IAIInput _aIInput;
-
-		private bool _isShooting;
-
+		
 		private Vector2 _input;
 		private Vector2 _targetRotationPosition;
 
 		private void Awake()
 		{
 			_aIInput = GetComponent<IAIInput>();
-			//_pathFinder = GetComponent<PathFinder>(); ---ERROR---
+			_pathFinder = GetComponent<PathFinderBehavior>();
 		}
 
 		private void Update()
 		{
-			if (_aIInput.UseFastSpeed()) { _speedMultiplier = fastSpeedMultiplier; }
-			else if (_aIInput.UseSlowSpeed()) { _speedMultiplier = slowSpeedMultiplier; }
-			else { _speedMultiplier = 1f; }
+			if (_aIInput.UseFastSpeed()) { SpeedMultiplier = fastSpeedMultiplier; }
+			else if (_aIInput.UseSlowSpeed()) { SpeedMultiplier = slowSpeedMultiplier; }
+			else { SpeedMultiplier = 1f; }
 
-			_targetRotationPosition = _aIInput.GetTargetPosition();
+			Vector3 aiTargetPosition = _aIInput.GetTargetPosition();
+			Vector3 pathFindingTargetPosition = _pathFinder.PathFindTo(aiTargetPosition);
 
-			//pathFinder.PathFindTo(aIInput.GetTargetPosition()); ---ERROR---
+			Vector2 targetInput;
 
-			Vector2 targetInput = _aIInput.GetTargetPosition() - transform.position;
+			if (IsInLineOfSight(aiTargetPosition))
+			{
+				_targetRotationPosition = aiTargetPosition;
+				targetInput = aiTargetPosition - transform.position;
+			}
+			else
+			{
+				_targetRotationPosition = pathFindingTargetPosition;
+				targetInput = pathFindingTargetPosition;
+			}
 
 			if (_aIInput.HasArrived())
 			{ _input = Vector2.zero; }
 			else
 			{ _input = Vector2.ClampMagnitude(targetInput, 1f); }
 
-			if (_aIInput.CanShoot()) { _isShooting = true; }
-			else { _isShooting = false; }
+			if (_aIInput.CanShoot()) { IsShooting = true; }
+			else { IsShooting = false; }
+		}
+
+		private bool IsInLineOfSight(Vector3 target)
+		{
+			RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, target);
+			if (raycastHit2D.transform.position == target)
+			{
+				Debug.Log("True", this); return true;
+			}
+			Debug.Log("False", this); return false;
 		}
 
 		#region Interface implementations
 		public Vector2 Input => _input;
 		public Vector2 TargetRotationPosition => _targetRotationPosition;
 
-		public float SpeedMultiplier => _speedMultiplier;
+		public float SpeedMultiplier { get; private set; } = 1f;
 
 		public bool LookAtMouse() => false;
 
-		public bool IsShooting => _isShooting;
+		public bool IsShooting { get; private set; }
 		#endregion
 	}
 }

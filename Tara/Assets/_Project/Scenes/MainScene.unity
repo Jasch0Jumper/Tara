@@ -1207,8 +1207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e3c8df265dae744bd0870d64442566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 76
-  height: 44
+  width: 38
+  height: 22
   offset: {x: -190, y: -110}
   gridRefreshTime: 0.1
   showPreview: 1
@@ -1274,21 +1274,26 @@ PrefabInstance:
     - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: pos1.x
-      value: -10
+      value: -47
       objectReference: {fileID: 0}
     - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: pos1.y
-      value: -5
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: pos2.y
-      value: 5
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: pos2.x
+      value: -95
+      objectReference: {fileID: 0}
+    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
+        type: 3}
+      propertyPath: tollerance
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
