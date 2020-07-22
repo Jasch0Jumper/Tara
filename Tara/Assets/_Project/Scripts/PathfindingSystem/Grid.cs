@@ -5,7 +5,7 @@ namespace Tara.PathfindingSystem
 {
 	public class Grid<TGridObject>
 	{
-		public TGridObject[,] Cells { get; private set; }
+		private TGridObject[,] _cells; //{ get; private set; }
 		public float CellSize { get; private set; }
 
 		private int _width;
@@ -19,60 +19,69 @@ namespace Tara.PathfindingSystem
 			CellSize = cellSize;
 			_originPosition = originPosition;
 
-			Cells = new TGridObject[_width, _height];
+			_cells = new TGridObject[_width, _height];
 			ForeachCell(objectInitialization);
 		}
 
 		public Vector3 GetGlobalPosition(int x, int y) => (new Vector3(x, y) * CellSize) + _originPosition;
-		
-		public TGridObject GetCell(int x, int y) => Cells[Validate(x, Cells.GetLength(0), 0), Validate(y, Cells.GetLength(1), 0)];
-		public TGridObject GetCell(Vector3 position)
-		{
-			Vector2Int gridPosition = GetGridPosition(position);
-
-			int x = Validate(gridPosition.x, Cells.GetLength(0), 0);
-			int y = Validate(gridPosition.y, Cells.GetLength(1), 0);
-
-			return Cells[x, y];
-		}
-
-		public void ForeachCell(Action<TGridObject> action)
-		{
-			for (int x = 0; x < Cells.GetLength(0); x++)
-			{
-				for (int y = 0; y < Cells.GetLength(1); y++)
-				{
-					action(Cells[x, y]);
-				}
-			}
-		}
-		public void ForeachCell(Action<TGridObject, Vector3> action)
-		{
-			for (int x = 0; x < Cells.GetLength(0); x++)
-			{
-				for (int y = 0; y < Cells.GetLength(1); y++)
-				{
-					action(Cells[x, y], GetGlobalPosition(x, y));
-				}
-			}
-		}
-		public void ForeachCell(Func<TGridObject> func)
-		{
-			for (int x = 0; x < Cells.GetLength(0); x++)
-			{
-				for (int y = 0; y < Cells.GetLength(1); y++)
-				{
-					Cells[x, y] = func();
-				}
-			}
-		}
-
-		private Vector2Int GetGridPosition(Vector3 position)
+		public Vector2Int GetGridPosition(Vector3 position)
 		{
 			int x = Mathf.FloorToInt((position.x - _originPosition.x) / CellSize);
 			int y = Mathf.FloorToInt((position.y - _originPosition.y) / CellSize);
 
 			return new Vector2Int(x, y);
+		}
+
+		public TGridObject GetCell(int x, int y) => _cells[Validate(x, _cells.GetLength(0), 0), Validate(y, _cells.GetLength(1), 0)];
+		public TGridObject GetCell(Vector3 position)
+		{
+			Vector2Int gridPosition = GetGridPosition(position);
+
+			int x = Validate(gridPosition.x, _cells.GetLength(0), 0);
+			int y = Validate(gridPosition.y, _cells.GetLength(1), 0);
+
+			return _cells[x, y];
+		}
+
+		public void ForeachCell(Action<TGridObject> action)
+		{
+			for (int x = 0; x < _cells.GetLength(0); x++)
+			{
+				for (int y = 0; y < _cells.GetLength(1); y++)
+				{
+					action(_cells[x, y]);
+				}
+			}
+		}
+		public void ForeachCell(Action<TGridObject, Vector3> action)
+		{
+			for (int x = 0; x < _cells.GetLength(0); x++)
+			{
+				for (int y = 0; y < _cells.GetLength(1); y++)
+				{
+					action(_cells[x, y], GetGlobalPosition(x, y));
+				}
+			}
+		}
+		public void ForeachCell(Action<TGridObject, Vector2Int> action)
+		{
+			for (int x = 0; x < _cells.GetLength(0); x++)
+			{
+				for (int y = 0; y < _cells.GetLength(1); y++)
+				{
+					action(_cells[x, y], new Vector2Int(x, y));
+				}
+			}
+		}
+		public void ForeachCell(Func<TGridObject> func)
+		{
+			for (int x = 0; x < _cells.GetLength(0); x++)
+			{
+				for (int y = 0; y < _cells.GetLength(1); y++)
+				{
+					_cells[x, y] = func();
+				}
+			}
 		}
 
 		private int Validate(int value, int max, int min)

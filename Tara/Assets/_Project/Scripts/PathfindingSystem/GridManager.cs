@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Tara.PathfindingSystem
@@ -10,14 +11,14 @@ namespace Tara.PathfindingSystem
 		[SerializeField] [Range(0, 200)] private int width = default;
 		[SerializeField] [Range(0, 200)] private int height = default;
 		[SerializeField] private Vector2 offset = default;
-		[SerializeField] [Range(1f, 10f)] private float gridRefreshTime = default;
+		[SerializeField] [Range(0.1f, 10f)] private float gridRefreshTime = default;
 		[Header("Gizmos")]
 		[SerializeField] private bool showPreview = default;
 		[SerializeField] private bool showGrid = default;
 		[SerializeField] private bool showUnwalkable = default;
 
-		public static List<BlockPointChain> ObstacleAreas = new List<BlockPointChain>();
-		public static Grid<PathNode> Grid;
+		public static List<BlockPointChain> ObstacleAreas { get; private set; } = new List<BlockPointChain>();
+		public static Grid<PathNode> Grid { get; private set; }
 
 		private Timer _timer;
 
@@ -38,17 +39,24 @@ namespace Tara.PathfindingSystem
 		}
 
 		[ContextMenu("Generate Grid")]
-		private void GenerateGrid() => Grid = new Grid<PathNode>(width, height, CELLSIZE, transform.position + _offsetVector, () => new PathNode(true));
+		private void GenerateGrid()
+		{
+			Grid = new Grid<PathNode>(width, height, CELLSIZE, transform.position + _offsetVector, () => new PathNode());
+			Grid.ForeachCell(delegate (PathNode node, Vector2Int gridPosition)
+			{
+				node.SetPosition(Grid.GetGlobalPosition(gridPosition.x, gridPosition.y));
+			});
+		}
 
 		[ContextMenu("Remove Grid")]
 		private void RemoveGrid() => Grid = null;
 
 		private void RefreshGrid()
 		{
-			foreach (var cell in Grid.Cells)
+			Grid.ForeachCell(delegate (PathNode node)
 			{
-				cell.Walkable = true;
-			}
+				node.Walkable = true;
+			});
 
 			ToggleWalkableArea(ObstacleAreas, false);
 		}
