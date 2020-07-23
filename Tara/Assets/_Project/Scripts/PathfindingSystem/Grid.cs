@@ -5,7 +5,7 @@ namespace Tara.PathfindingSystem
 {
 	public class Grid<TGridObject>
 	{
-		private TGridObject[,] _cells; //{ get; private set; }
+		private TGridObject[,] _cells;
 		public float CellSize { get; private set; }
 
 		private int _width;
@@ -14,9 +14,9 @@ namespace Tara.PathfindingSystem
 
 		public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<TGridObject> objectInitialization)
 		{
+			CellSize = cellSize;
 			_width = width;
 			_height = height;
-			CellSize = cellSize;
 			_originPosition = originPosition;
 
 			_cells = new TGridObject[_width, _height];
@@ -32,13 +32,13 @@ namespace Tara.PathfindingSystem
 			return new Vector2Int(x, y);
 		}
 
-		public TGridObject GetCell(int x, int y) => _cells[Validate(x, _cells.GetLength(0), 0), Validate(y, _cells.GetLength(1), 0)];
+		public TGridObject GetCell(int x, int y) => _cells[Validate(x, _cells.GetLength(0)), Validate(y, _cells.GetLength(1))];
 		public TGridObject GetCell(Vector3 position)
 		{
 			Vector2Int gridPosition = GetGridPosition(position);
 
-			int x = Validate(gridPosition.x, _cells.GetLength(0), 0);
-			int y = Validate(gridPosition.y, _cells.GetLength(1), 0);
+			int x = Validate(gridPosition.x, _cells.GetLength(0));
+			int y = Validate(gridPosition.y, _cells.GetLength(1));
 
 			return _cells[x, y];
 		}
@@ -84,10 +84,10 @@ namespace Tara.PathfindingSystem
 			}
 		}
 
-		private int Validate(int value, int max, int min)
+		private int Validate(int value, int max)
 		{
 			if (value >= max) { return max - 1; }
-			if (value < min) { return min; }
+			if (value < 0) { return 0; }
 			return value;
 		}
 	}

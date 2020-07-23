@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Tara
 {
-	public class AsteriodManager : MonoBehaviour
+	public class AsteroidManager : MonoBehaviour
 	{
 		[Range(1f, 300f)] public float MaxSpawnRange = 1f;
 		[Range(1f, 300f)] public float MinSpawnRange = 1f;
@@ -12,8 +12,6 @@ namespace Tara
 		[SerializeField] [Range(1f, 100f)] private float minDistance = 1f;
 		[Space]
 		[SerializeField] private GameObject asteriodPrefab = default;
-		[Header("Gizmos")]
-		[SerializeField] private bool drawOnDeselect = default;
 
 		private List<Transform> _asteriodsTransforms = new List<Transform>();
 
@@ -128,6 +126,9 @@ namespace Tara
 		#endregion
 
 		#region Gizmos
+#if UNITY_EDITOR
+		[Header("Gizmos")]
+		[SerializeField] private bool drawOnDeselect = default;
 
 		private void OnDrawGizmos()
 		{
@@ -147,6 +148,7 @@ namespace Tara
 			Gizmos.DrawWireSphere(transform.position, MinSpawnRange);
 		}
 
+#endif
 		#endregion Gizmos
 	}
 }

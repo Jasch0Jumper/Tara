@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 6360550632848650559}
   - component: {fileID: 4902593307975941364}
   - component: {fileID: -2921766639895301157}
-  m_Layer: 0
-  m_Name: Asteriod01
+  m_Layer: 9
+  m_Name: Asteroid01
   m_TagString: Asteriod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,7 +218,6 @@ MonoBehaviour:
     - {x: 3.33, y: 5.84, z: 0}
     - {x: 6.6, y: -5.18, z: 0}
     - {x: -1.05, y: -7.1, z: 0}
-    center: {x: 0, y: 0, z: 0}
   showPoints: 1
   showAllPoints: 1
   showBlockPointsPath: 1

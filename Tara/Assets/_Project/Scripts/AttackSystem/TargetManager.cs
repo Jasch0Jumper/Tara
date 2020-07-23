@@ -5,8 +5,6 @@ namespace Tara.AttackSystem
 {
 	public class TargetManager : MonoBehaviour
 	{
-		[Header("Gizmos")]
-		[SerializeField] private bool showAllTargetsOnDeselect = default;
 
 		private bool _initialized;
 
@@ -41,6 +39,10 @@ namespace Tara.AttackSystem
 		}
 
 		#region Gizmos
+#if UNITY_EDITOR
+
+		[Header("Gizmos")]
+		[SerializeField] private bool showAllTargetsOnDeselect = default;
 
 		private void OnDrawGizmos()
 		{
@@ -64,7 +66,7 @@ namespace Tara.AttackSystem
 				Gizmos.DrawWireSphere(target.transform.position, 1f);
 			}
 		}
-
+#endif
 		#endregion Gizmos
 	}
 }

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Tara.PathfindingSystem
 {
 	public class PathFinderBehavior : MonoBehaviour
 	{
-		[SerializeField] [Range(1f, 20f)] float tollerance = default;
+		[SerializeField] [Range(1f, 20f)] private float tollerance = default;
+		[SerializeField] private LayerMask targets = default;
 
 		private Grid<PathNode> _grid;
 		private PathFinder _pathFinder;
@@ -23,12 +23,17 @@ namespace Tara.PathfindingSystem
 
 		public Vector3 PathFindTo(Vector3 position)
 		{
-			if (_pathNodes.Count < 1 || Vector3.Distance(_currentLongTermDestination, position) > tollerance)
+			if (IsInLineOfSight(position)) { return position; }
+
+			if (_pathNodes.Count < 1 || Vector3.Distance(transform.position, _currentLongTermDestination) > tollerance)
 			{
 				_pathNodes = _pathFinder.GetPath(_grid.GetCell(transform.position), _grid.GetCell(position));
-				_currentLongTermDestination = position;
+
+				PathNode[] nodes = _pathNodes.ToArray();
+
+				_currentLongTermDestination = nodes[nodes.Length - 1].Position;
 				
-				_currentDestination = _pathNodes.Pop().Position;	
+				_currentDestination = _pathNodes.Pop().Position;
 			}
 
 			if (Vector3.Distance(transform.position, _currentDestination) < tollerance)
@@ -37,6 +42,16 @@ namespace Tara.PathfindingSystem
 			}
 
 			return _currentDestination;
+		}
+
+		private bool IsInLineOfSight(Vector3 target)
+		{
+			RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, target, 500f, targets);
+			if (Vector3.Distance(raycastHit2D.transform.position, target) < tollerance)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		//[SerializeField] private Vector3 pos1 = default;
@@ -52,6 +67,7 @@ namespace Tara.PathfindingSystem
 		//}
 
 		#region Gizmos
+#if UNITY_EDITOR
 		private void OnDrawGizmosSelected()
 		{
 			//Gizmos.DrawWireSphere(pos1, 2.5f);
@@ -61,6 +77,9 @@ namespace Tara.PathfindingSystem
 			{ return; }
 
 			DrawLines();
+
+			Gizmos.color = Color.cyan;
+			Gizmos.DrawWireSphere(_currentLongTermDestination, 2.5f);
 		}
 
 		private void DrawLines()
@@ -77,6 +96,7 @@ namespace Tara.PathfindingSystem
 				Gizmos.DrawLine(nodes[i].Position, nodes[indexPlusOne].Position);
 			}
 		}
+#endif
 		#endregion
 	}
 }

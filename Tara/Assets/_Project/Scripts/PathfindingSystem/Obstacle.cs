@@ -7,11 +7,7 @@ namespace Tara.PathfindingSystem
 	public class Obstacle : MonoBehaviour, Tara.AttackSystem.ICanCollideWithProjectiles
 	{
 		[SerializeField] private BlockPointChain blockedArea = default;
-		[Header("Gizmos")]
-		[SerializeField] private bool showPoints = default;
-		[SerializeField] private bool showAllPoints = default;
-		[SerializeField] private bool showBlockPointsPath = default;
-
+		
 		private void Start()
 		{
 			MovePoints();
@@ -32,6 +28,13 @@ namespace Tara.PathfindingSystem
 		private void MovePoints() => blockedArea.MovePoints(transform.position);
 
 		#region Gizmos
+#if UNITY_EDITOR
+
+		[Header("Gizmos")]
+		[SerializeField] private bool showPoints = default;
+		[SerializeField] private bool showAllPoints = default;
+		[SerializeField] private bool showBlockPointsPath = default;
+		
 		private void OnDrawGizmos()
 		{
 			if (showPoints) { DrawPoints(); }
@@ -72,6 +75,7 @@ namespace Tara.PathfindingSystem
 				Gizmos.DrawLine(blockedPoints[i], blockedPoints[i + 1]);
 			}
 		}
+#endif
 		#endregion
 	}
 }

@@ -20,7 +20,7 @@ namespace Tara
 
 		private void Update()
 		{
-			if (_rotateInput.LookAtMouse()) { LookAtMouse(); }
+			if (_rotateInput.LookAtMouse) { LookAtMouse(); }
 			else { LookAtTarget(_rotateInput.TargetRotationPosition, maxRotationPerFrame); }
 		}
 

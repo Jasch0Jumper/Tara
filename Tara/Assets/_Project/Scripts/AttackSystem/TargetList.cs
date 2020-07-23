@@ -18,8 +18,6 @@ namespace Tara.AttackSystem
 		[Tooltip("The minimum priority Level a Target has to have to not be ignored")]
 		[SerializeField] private int minPriorityLevel = 0;
 
-		[Header("Gizmos")]
-		[SerializeField] private bool showAllTargets = default;
 
 		private TargetManager _targetManager;
 
@@ -115,6 +113,10 @@ namespace Tara.AttackSystem
 		#endregion
 
 		#region Gizmos
+#if UNITY_EDITOR
+
+		[Header("Gizmos")]
+		[SerializeField] private bool showAllTargets = default;
 
 		private void OnDrawGizmos()
 		{
@@ -131,7 +133,7 @@ namespace Tara.AttackSystem
 				Gizmos.DrawWireSphere(target.transform.position, 2.5f);
 			}
 		}
-
+#endif
 		#endregion
 	}
 }

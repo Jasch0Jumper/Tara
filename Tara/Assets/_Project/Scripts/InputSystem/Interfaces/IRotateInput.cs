@@ -6,6 +6,6 @@ namespace Tara.InputSystem
 	{
 		Vector2 TargetRotationPosition { get; }
 
-		bool LookAtMouse();
+		bool LookAtMouse { get; }
 	}
 }

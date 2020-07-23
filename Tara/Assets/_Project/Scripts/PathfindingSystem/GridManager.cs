@@ -12,10 +12,6 @@ namespace Tara.PathfindingSystem
 		[SerializeField] [Range(0, 200)] private int height = default;
 		[SerializeField] private Vector2 offset = default;
 		[SerializeField] [Range(0.1f, 10f)] private float gridRefreshTime = default;
-		[Header("Gizmos")]
-		[SerializeField] private bool showPreview = default;
-		[SerializeField] private bool showGrid = default;
-		[SerializeField] private bool showUnwalkable = default;
 
 		public static List<BlockPointChain> ObstacleAreas { get; private set; } = new List<BlockPointChain>();
 		public static Grid<PathNode> Grid { get; private set; }
@@ -73,6 +69,12 @@ namespace Tara.PathfindingSystem
 		}
 
 		#region Gizmos
+#if UNITY_EDITOR
+		[Header("Gizmos")]
+		[SerializeField] private bool showPreview = default;
+		[SerializeField] private bool showGrid = default;
+		[SerializeField] private bool showUnwalkable = default;
+
 		private void OnDrawGizmos()
 		{
 			if (showGrid) { DrawGrid(); }
@@ -134,6 +136,7 @@ namespace Tara.PathfindingSystem
 				}
 			});
 		}
+#endif
 		#endregion
 	}
 }

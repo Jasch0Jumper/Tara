@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60e0e930cb01814f897a225303efef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooterType: 0
+  ShooterType: 0
   projectileSpeed: 100
   projectileLifeTime: 10
   projectileDamage: 10
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60e0e930cb01814f897a225303efef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooterType: 0
+  ShooterType: 0
   projectileSpeed: 100
   projectileLifeTime: 10
   projectileDamage: 10
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 783691335857423550}
   - component: {fileID: 5545192743401157275}
   - component: {fileID: 5519740859448957528}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60e0e930cb01814f897a225303efef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooterType: 0
+  ShooterType: 0
   projectileSpeed: 100
   projectileLifeTime: 10
   projectileDamage: 10

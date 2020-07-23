@@ -9,9 +9,6 @@ namespace Tara.AttackSystem
 	{
 		[Header("Ranges")] [Tooltip("0 = Stopping, 1 = Shooting, 2 = Targeting")]
 		[SerializeField] [Range(1f, 100f)] private float[] rangeRadius = new float[3];
-		[Header("Gizmos")]
-		[SerializeField] private bool showCurrentTargetOnDeselect = default;
-		[SerializeField] private bool drawRanges = default;
 
 		private List<Target> _targetsInStoppingRange = new List<Target>();
 		private List<Target> _targetsInShootingRange = new List<Target>();
@@ -192,6 +189,12 @@ namespace Tara.AttackSystem
 		#endregion
 
 		#region Gizmos
+#if UNITY_EDITOR
+
+		[Header("Gizmos")]
+		[SerializeField] private bool showCurrentTargetOnDeselect = default;
+		[SerializeField] private bool drawRanges = default;
+		
 		private void OnDrawGizmosSelected()
 		{
 			DrawTargetLine();
@@ -220,6 +223,8 @@ namespace Tara.AttackSystem
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(transform.position, rangeRadius[2]);
 		}
+
+#endif
 		#endregion
 	}
 }

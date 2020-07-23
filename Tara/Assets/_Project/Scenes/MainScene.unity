@@ -1294,7 +1294,12 @@ PrefabInstance:
     - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: tollerance
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
+        type: 3}
+      propertyPath: obstacles.m_Bits
+      value: 768
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}

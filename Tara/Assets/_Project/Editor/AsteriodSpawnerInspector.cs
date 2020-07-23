@@ -3,14 +3,14 @@ using UnityEditor;
 
 namespace Tara
 {
-[CustomEditor(typeof(AsteriodManager))]
+[CustomEditor(typeof(AsteroidManager))]
 public class AsteriodSpawnerInspector : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
-        AsteriodManager spawner = (AsteriodManager)target;
+        AsteroidManager spawner = (AsteroidManager)target;
 
         if (spawner.MinSpawnRange - 1f > spawner.MaxSpawnRange)
         {

@@ -31,7 +31,7 @@ namespace Tara.InputSystem
 
 		public Vector2 TargetRotationPosition => Vector2.zero;
 
-		public bool LookAtMouse() => true;
+		public bool LookAtMouse => true;
 
 		public bool IsShooting => _isShooting;
 	}

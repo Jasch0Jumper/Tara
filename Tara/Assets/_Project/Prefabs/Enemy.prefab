@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 3678436036636231904}
   - component: {fileID: 9003279102301512250}
   - component: {fileID: 670035330446176890}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -285,9 +285,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72925da82d76684fb7b79a4a66118be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tollerance: 0
-  pos1: {x: 0, y: 0, z: 0}
-  pos2: {x: 0, y: 0, z: 0}
+  tollerance: 2
+  targets:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!1 &1176466202669828385
 GameObject:
   m_ObjectHideFlags: 0

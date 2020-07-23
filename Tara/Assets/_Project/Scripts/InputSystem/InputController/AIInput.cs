@@ -15,6 +15,9 @@ namespace Tara.InputSystem
 		private Vector2 _input;
 		private Vector2 _targetRotationPosition;
 
+		private Vector3 _aiTargetPosition;
+		private Vector3 _pathFindingTargetPosition;
+
 		private void Awake()
 		{
 			_aIInput = GetComponent<IAIInput>();
@@ -27,21 +30,13 @@ namespace Tara.InputSystem
 			else if (_aIInput.UseSlowSpeed()) { SpeedMultiplier = slowSpeedMultiplier; }
 			else { SpeedMultiplier = 1f; }
 
-			Vector3 aiTargetPosition = _aIInput.GetTargetPosition();
-			Vector3 pathFindingTargetPosition = _pathFinder.PathFindTo(aiTargetPosition);
+			_aiTargetPosition = _aIInput.GetTargetPosition();
+			_pathFindingTargetPosition = _pathFinder.PathFindTo(_aiTargetPosition);
 
 			Vector2 targetInput;
 
-			if (IsInLineOfSight(aiTargetPosition))
-			{
-				_targetRotationPosition = aiTargetPosition;
-				targetInput = aiTargetPosition - transform.position;
-			}
-			else
-			{
-				_targetRotationPosition = pathFindingTargetPosition;
-				targetInput = pathFindingTargetPosition;
-			}
+			_targetRotationPosition = _pathFindingTargetPosition;
+			targetInput = _pathFindingTargetPosition - transform.position;
 
 			if (_aIInput.HasArrived())
 			{ _input = Vector2.zero; }
@@ -52,25 +47,41 @@ namespace Tara.InputSystem
 			else { IsShooting = false; }
 		}
 
-		private bool IsInLineOfSight(Vector3 target)
-		{
-			RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, target);
-			if (raycastHit2D.transform.position == target)
-			{
-				Debug.Log("True", this); return true;
-			}
-			Debug.Log("False", this); return false;
-		}
-
 		#region Interface implementations
 		public Vector2 Input => _input;
 		public Vector2 TargetRotationPosition => _targetRotationPosition;
 
 		public float SpeedMultiplier { get; private set; } = 1f;
 
-		public bool LookAtMouse() => false;
+		public bool LookAtMouse => false;
 
 		public bool IsShooting { get; private set; }
+		#endregion
+
+		#region Gizmos
+#if UNITY_EDITOR
+
+		//put [SerializeField] for Gizmos here
+
+		private void OnDrawGizmos()
+		{
+			DrawPoints();
+		}
+		//private void OnDrawGizmosSelected()
+		//{
+
+		//}
+
+		private void DrawPoints()
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireSphere(_aiTargetPosition, 2.5f);
+
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(_pathFindingTargetPosition, 2.5f);
+		}
+
+#endif
 		#endregion
 	}
 }
