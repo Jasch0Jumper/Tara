@@ -5,8 +5,8 @@ namespace Tara.PathfindingSystem
 {
 	public class PathFinder
 	{
-		private int _normalGCost = 10;
-		private int _diagonalGCost = 14;
+		private int _normalWalkCost = 10;
+		private int _diagonalWalkCost = 14;
 
 		private Grid<PathNode> _grid;
 
@@ -17,8 +17,8 @@ namespace Tara.PathfindingSystem
 		public PathFinder(Grid<PathNode> grid, int normalWalkCost, int diagonalWalkCost)
 		{
 			_grid = grid;
-			_normalGCost = normalWalkCost;
-			_diagonalGCost = diagonalWalkCost;
+			_normalWalkCost = normalWalkCost;
+			_diagonalWalkCost = diagonalWalkCost;
 		}
 
 		public Stack<PathNode> GetPath(PathNode startNode, PathNode destinationNode)
@@ -29,8 +29,7 @@ namespace Tara.PathfindingSystem
 			_startNode = startNode;
 			_destinationNode = destinationNode;
 
-			_startNode.ParentNode = null;
-			_startNode.gScore = 0;
+			_startNode.ResetNode();
 
 			openList.Add(_startNode);
 
@@ -47,15 +46,17 @@ namespace Tara.PathfindingSystem
 					break;
 				}
 
-				foreach (var neighbourNode in GetWalkableAdjacentNodes(currentNode))
+				List<PathNode> neighbourNodes = GetWalkableNeighbourNodes(currentNode);
+				SetGScoresAroundNode(currentNode, neighbourNodes);
+
+				foreach (var neighbourNode in neighbourNodes)
 				{
 					if (closedList.Contains(neighbourNode)) { continue; }
 
 					if (openList.Contains(neighbourNode) == false)
 					{
-						neighbourNode.ParentNode = currentNode;
+						neighbourNode.SetParent(currentNode);
 
-						SetGScore(neighbourNode);
 						SetHScore(neighbourNode);
 
 						openList.Add(neighbourNode);
@@ -64,18 +65,18 @@ namespace Tara.PathfindingSystem
 					{
 						int fScoreBefore = neighbourNode.fScore;
 
-						SetGScore(neighbourNode);
+						neighbourNode.RefreshGScore();
 						SetHScore(neighbourNode);
 
 						if (neighbourNode.fScore < fScoreBefore)
 						{
-							neighbourNode.ParentNode = currentNode;
+							neighbourNode.SetParent(currentNode);
 						}
 					}
 				}
 			}
 			while (openList.Count > 0);
-
+			
 			return ConvertToFinishedPathStack(closedList);
 		}
 
@@ -94,49 +95,45 @@ namespace Tara.PathfindingSystem
 			return nodeWithLowestScore;
 		}
 		
-		private List<PathNode> GetWalkableAdjacentNodes(PathNode node)
+		private List<PathNode> GetWalkableNeighbourNodes(PathNode centerNode)
 		{
-			List<PathNode> adjacentNodes = new List<PathNode>();
+			List<PathNode> adjacentNodes = new List<PathNode>(_grid.GetItemsInRadius(_grid.GetGridPosition(centerNode.Position), 1));
 
-			Vector2Int nodePosition = _grid.GetGridPosition(node.Position);
-
-			for (int x = -1; x < 2; x++)
+			for (int i = adjacentNodes.Count - 1; i >= 0; i--)
 			{
-				for (int y = -1; y < 2; y++)
+				PathNode node = adjacentNodes[i];
+				if (node.Walkable == false)
 				{
-					PathNode potentialNode = _grid.GetCell(nodePosition.x + x, nodePosition.y + y);
-					
-					if (potentialNode.Walkable) 
-					{
-						if (Mathf.Abs(x + y) >= 2) { potentialNode.Diagonal = true; } 
-						else { potentialNode.Diagonal = false; }
-
-						adjacentNodes.Add(potentialNode); 
-					}
+					adjacentNodes.Remove(node);
 				}
 			}
 
-			adjacentNodes.Remove(node);
-
 			return adjacentNodes;
 		}
-
-		private void SetGScore(PathNode node)
+		private void SetGScoresAroundNode(PathNode centerNode, List<PathNode> nodes)
 		{
-			int parentGScore = 0;
+			foreach (var node in nodes)
+			{
+				int deltaX = Mathf.Abs(centerNode.GridPosition.x - node.GridPosition.x);
+				int deltaY = Mathf.Abs(centerNode.GridPosition.y - node.GridPosition.y);
 
-			if (node.ParentNode != null) { parentGScore = node.ParentNode.gScore; }
+				node.SetWalkCost(_normalWalkCost);
 
-			if (node.Diagonal) { node.gScore = parentGScore + _diagonalGCost; }
-			else { node.gScore = parentGScore + _normalGCost; }
+				if (deltaX > 1 || deltaY > 1)
+				{
+					node.SetWalkCost(_diagonalWalkCost);
+				}
+			}
 		}
-		private void SetHScore(PathNode node) => node.hScore = GetDistanceCost(node, _destinationNode) * 10;
+
+		private void SetHScore(PathNode node) => node.SetHScore(GetDistanceCost(node, _destinationNode) * 10);
 		
 		private int GetDistanceCost(PathNode nodeA, PathNode nodeB)
 		{
 			Vector2Int nodeAPosition = _grid.GetGridPosition(nodeA.Position);
 			Vector2Int nodeBPosition = _grid.GetGridPosition(nodeB.Position);
-			return Mathf.Abs((nodeBPosition.x - nodeAPosition.x) + (nodeBPosition.y - nodeAPosition.y));
+
+			return Mathf.RoundToInt(Vector2Int.Distance(nodeAPosition, nodeBPosition));
 		}
 
 		private Stack<PathNode> ConvertToFinishedPathStack(List<PathNode> pathNodes)

@@ -1207,8 +1207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e3c8df265dae744bd0870d64442566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 38
-  height: 22
+  width: 76
+  height: 44
   offset: {x: -190, y: -110}
   gridRefreshTime: 0.1
   showPreview: 1

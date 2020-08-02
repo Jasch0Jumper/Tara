@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Tara.PathfindingSystem
 {
 	public class GridManager : MonoBehaviour
 	{
-		public const float CELLSIZE = 10f;
+		public const float CELLSIZE = 5f;
 		[Header("CELLSIZE = 5f")]
 		[SerializeField] [Range(0, 200)] private int width = default;
 		[SerializeField] [Range(0, 200)] private int height = default;
@@ -38,9 +37,9 @@ namespace Tara.PathfindingSystem
 		private void GenerateGrid()
 		{
 			Grid = new Grid<PathNode>(width, height, CELLSIZE, transform.position + _offsetVector, () => new PathNode());
-			Grid.ForeachCell(delegate (PathNode node, Vector2Int gridPosition)
+			Grid.ForeachItem(delegate (PathNode node, Vector2Int gridPosition)
 			{
-				node.SetPosition(Grid.GetGlobalPosition(gridPosition.x, gridPosition.y));
+				node.Initialize(Grid.GetGlobalPosition(gridPosition.x, gridPosition.y), Grid.GetGridPosition(node.Position));
 			});
 		}
 
@@ -49,7 +48,7 @@ namespace Tara.PathfindingSystem
 
 		private void RefreshGrid()
 		{
-			Grid.ForeachCell(delegate (PathNode node)
+			Grid.ForeachItem(delegate (PathNode node)
 			{
 				node.Walkable = true;
 			});
@@ -63,7 +62,7 @@ namespace Tara.PathfindingSystem
 			{
 				foreach (var point in area.GetPointsInArea(CELLSIZE))
 				{
-					Grid.GetCell(point).Walkable = state;
+					Grid.GetItem(point).Walkable = state;
 				}
 			}
 		}
@@ -117,7 +116,7 @@ namespace Tara.PathfindingSystem
 
 			Gizmos.color = Color.white;
 
-			Grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
+			Grid.ForeachItem(delegate (PathNode cell, Vector3 cellGloablPosition)
 			{
 				Gizmos.DrawWireCube(cellGloablPosition + new Vector3(Grid.CellSize, Grid.CellSize) / 2, new Vector3(Grid.CellSize, Grid.CellSize, 1f));
 			});
@@ -128,7 +127,7 @@ namespace Tara.PathfindingSystem
 
 			Gizmos.color = Color.red;
 
-			Grid.ForeachCell(delegate (PathNode cell, Vector3 cellGloablPosition)
+			Grid.ForeachItem(delegate (PathNode cell, Vector3 cellGloablPosition)
 			{
 				if (cell.Walkable == false)
 				{

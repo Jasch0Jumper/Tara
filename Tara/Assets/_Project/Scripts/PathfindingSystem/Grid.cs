@@ -1,26 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tara.PathfindingSystem
 {
-	public class Grid<TGridObject>
+	public class Grid<TGridItem>
 	{
-		private TGridObject[,] _cells;
+		private TGridItem[,] _items;
 		public float CellSize { get; private set; }
 
 		private int _width;
 		private int _height;
 		private Vector3 _originPosition;
 
-		public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<TGridObject> objectInitialization)
+		public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<TGridItem> objectInitialization)
 		{
 			CellSize = cellSize;
 			_width = width;
 			_height = height;
 			_originPosition = originPosition;
 
-			_cells = new TGridObject[_width, _height];
-			ForeachCell(objectInitialization);
+			_items = new TGridItem[_width, _height];
+			ForeachItem(objectInitialization);
 		}
 
 		public Vector3 GetGlobalPosition(int x, int y) => (new Vector3(x, y) * CellSize) + _originPosition;
@@ -32,54 +33,76 @@ namespace Tara.PathfindingSystem
 			return new Vector2Int(x, y);
 		}
 
-		public TGridObject GetCell(int x, int y) => _cells[Validate(x, _cells.GetLength(0)), Validate(y, _cells.GetLength(1))];
-		public TGridObject GetCell(Vector3 position)
+		public TGridItem GetItem(int x, int y) => _items[ValidateX(x), ValidateY(y)];
+		public TGridItem GetItem(Vector3 position)
 		{
 			Vector2Int gridPosition = GetGridPosition(position);
 
-			int x = Validate(gridPosition.x, _cells.GetLength(0));
-			int y = Validate(gridPosition.y, _cells.GetLength(1));
+			int x = ValidateX(gridPosition.x);
+			int y = ValidateY(gridPosition.y);
 
-			return _cells[x, y];
+			return _items[x, y];
 		}
 
-		public void ForeachCell(Action<TGridObject> action)
+		public List<TGridItem> GetItemsInRadius(Vector2Int center, int radius)
 		{
-			for (int x = 0; x < _cells.GetLength(0); x++)
+			List<TGridItem> adjacentNodes = new List<TGridItem>();
+
+			radius = Mathf.Abs(radius);
+
+			int start = -radius;
+			int end = radius + 1;
+
+			for (int x = start; x < end; x++)
 			{
-				for (int y = 0; y < _cells.GetLength(1); y++)
+				for (int y = start; y < end; y++)
 				{
-					action(_cells[x, y]);
+					adjacentNodes.Add(_items[ValidateX(x + center.x), ValidateY(y + center.y)]);
+				}
+			}
+
+			adjacentNodes.Remove(_items[center.x, center.y]);
+
+			return adjacentNodes;
+		}
+
+		public void ForeachItem(Action<TGridItem> action)
+		{
+			for (int x = 0; x < _items.GetLength(0); x++)
+			{
+				for (int y = 0; y < _items.GetLength(1); y++)
+				{
+					action(_items[x, y]);
 				}
 			}
 		}
-		public void ForeachCell(Action<TGridObject, Vector3> action)
+		public void ForeachItem(Action<TGridItem, Vector3> action)
 		{
-			for (int x = 0; x < _cells.GetLength(0); x++)
+			for (int x = 0; x < _items.GetLength(0); x++)
 			{
-				for (int y = 0; y < _cells.GetLength(1); y++)
+				for (int y = 0; y < _items.GetLength(1); y++)
 				{
-					action(_cells[x, y], GetGlobalPosition(x, y));
+					action(_items[x, y], GetGlobalPosition(x, y));
 				}
 			}
 		}
-		public void ForeachCell(Action<TGridObject, Vector2Int> action)
+		public void ForeachItem(Action<TGridItem, Vector2Int> action)
 		{
-			for (int x = 0; x < _cells.GetLength(0); x++)
+			for (int x = 0; x < _items.GetLength(0); x++)
 			{
-				for (int y = 0; y < _cells.GetLength(1); y++)
+				for (int y = 0; y < _items.GetLength(1); y++)
 				{
-					action(_cells[x, y], new Vector2Int(x, y));
+					action(_items[x, y], new Vector2Int(x, y));
 				}
 			}
 		}
-		public void ForeachCell(Func<TGridObject> func)
+		public void ForeachItem(Func<TGridItem> func)
 		{
-			for (int x = 0; x < _cells.GetLength(0); x++)
+			for (int x = 0; x < _items.GetLength(0); x++)
 			{
-				for (int y = 0; y < _cells.GetLength(1); y++)
+				for (int y = 0; y < _items.GetLength(1); y++)
 				{
-					_cells[x, y] = func();
+					_items[x, y] = func();
 				}
 			}
 		}
@@ -90,5 +113,7 @@ namespace Tara.PathfindingSystem
 			if (value < 0) { return 0; }
 			return value;
 		}
+		private int ValidateX(int value) => Validate(value, _items.GetLength(0));
+		private int ValidateY(int value) => Validate(value, _items.GetLength(1));
 	}
 }

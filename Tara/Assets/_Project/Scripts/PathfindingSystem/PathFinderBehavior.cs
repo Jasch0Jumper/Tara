@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Tara.PathfindingSystem
@@ -25,9 +26,9 @@ namespace Tara.PathfindingSystem
 		{
 			if (IsInLineOfSight(position)) { return position; }
 
-			if (_pathNodes.Count < 1 || Vector3.Distance(transform.position, _currentLongTermDestination) > tollerance)
+			if (_pathNodes.Count <= 1 || Vector3.Distance(transform.position, _currentLongTermDestination) > tollerance)
 			{
-				_pathNodes = _pathFinder.GetPath(_grid.GetCell(transform.position), _grid.GetCell(position));
+				_pathNodes = _pathFinder.GetPath(_grid.GetItem(transform.position), _grid.GetItem(position));
 
 				PathNode[] nodes = _pathNodes.ToArray();
 
@@ -54,29 +55,34 @@ namespace Tara.PathfindingSystem
 			return false;
 		}
 
-		//[SerializeField] private Vector3 pos1 = default;
-		//[SerializeField] private Vector3 pos2 = default;
+		[SerializeField] private Vector3 pos1 = default;
+		[SerializeField] private Vector3 pos2 = default;
 
-		//[ContextMenu("GetPath")]
-		//private void GeneratePath()
-		//{
-		//	PathNode startNode = _grid.GetCell(pos1);
-		//	PathNode destinationNode = _grid.GetCell(pos2);
+		[ContextMenu("GetPath")]
+		private void GeneratePath()
+		{
+			PathNode startNode = _grid.GetItem(pos1);
+			PathNode destinationNode = _grid.GetItem(pos2);
 
-		//	pathNodes = _pathFinder.GetPath(startNode, destinationNode);
-		//}
+			_pathNodes = _pathFinder.GetPath(startNode, destinationNode);
+		}
 
 		#region Gizmos
 #if UNITY_EDITOR
 		private void OnDrawGizmosSelected()
 		{
-			//Gizmos.DrawWireSphere(pos1, 2.5f);
-			//Gizmos.DrawWireSphere(pos2, 2.5f);
+			Gizmos.DrawWireSphere(pos1, 2.5f);
+			Gizmos.DrawWireSphere(pos2, 2.5f);
 
 			if (_pathNodes.Count <= 1)
 			{ return; }
 
 			DrawLines();
+
+			foreach (var node in _pathNodes)
+			{
+				Handles.Label(node.Position, $"F: {node.fScore}, G: {node.gScore}, H: {node.hScore}, WalkCost: {node.WalkCost}");
+			}
 
 			Gizmos.color = Color.cyan;
 			Gizmos.DrawWireSphere(_currentLongTermDestination, 2.5f);
