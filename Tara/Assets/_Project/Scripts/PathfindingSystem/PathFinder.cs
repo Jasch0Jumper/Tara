@@ -40,11 +40,7 @@ namespace Tara.PathfindingSystem
 				closedList.Add(currentNode);
 				openList.Remove(currentNode);
 
-				if (closedList.Contains(_destinationNode))
-				{
-					//Debug.Log(closedList.Count + " items in list");
-					break;
-				}
+				if (closedList.Contains(_destinationNode)) { break; }
 
 				List<PathNode> neighbourNodes = GetWalkableNeighbourNodes(currentNode);
 				SetGScoresAroundNode(currentNode, neighbourNodes);

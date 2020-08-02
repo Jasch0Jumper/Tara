@@ -61,19 +61,22 @@ namespace Tara.InputSystem
 		#region Gizmos
 #if UNITY_EDITOR
 
-		//put [SerializeField] for Gizmos here
+		[Header("Gizmos")]
+		[SerializeField] private bool showTargetPoints = default;
 
 		private void OnDrawGizmos()
 		{
-			DrawPoints();
+			if (showTargetPoints) { DrawTargetPoints(); }
 		}
-		//private void OnDrawGizmosSelected()
-		//{
-
-		//}
-
-		private void DrawPoints()
+		private void OnDrawGizmosSelected()
 		{
+			DrawTargetPoints();
+		}
+
+		private void DrawTargetPoints()
+		{
+			if (_aiTargetPosition == Vector3.zero || _pathFindingTargetPosition == Vector3.zero) { return; }
+
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireSphere(_aiTargetPosition, 2.5f);
 

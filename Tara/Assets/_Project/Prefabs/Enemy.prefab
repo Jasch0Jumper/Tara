@@ -285,10 +285,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72925da82d76684fb7b79a4a66118be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tollerance: 2
+  tollerance: 5
   targets:
     serializedVersion: 2
     m_Bits: 768
+  pos1: {x: 0, y: 0, z: 0}
+  pos2: {x: 0, y: 0, z: 0}
 --- !u!1 &1176466202669828385
 GameObject:
   m_ObjectHideFlags: 0

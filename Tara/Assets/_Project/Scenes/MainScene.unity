@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpawnRange: 107.2
-  MinSpawnRange: 42.6
+  MinSpawnRange: 1
   maxAsteriodCount: 10
   minDistance: 25
   asteriodPrefab: {fileID: 2868293245887568446, guid: 54eaca628aeb0fe41922a9c10833e652,
@@ -1290,11 +1290,6 @@ PrefabInstance:
         type: 3}
       propertyPath: pos2.x
       value: -95
-      objectReference: {fileID: 0}
-    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
-        type: 3}
-      propertyPath: tollerance
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}

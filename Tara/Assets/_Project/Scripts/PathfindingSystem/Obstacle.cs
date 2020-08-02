@@ -61,7 +61,7 @@ namespace Tara.PathfindingSystem
 
 			foreach (var point in blockedArea.GetPointsInArea(GridManager.CELLSIZE))
 			{
-				Gizmos.DrawWireSphere(point, 2.5f);
+				Gizmos.DrawWireSphere(point, GridManager.CELLSIZE / 2);
 			}
 		}
 		private void DrawBlockPointPath()

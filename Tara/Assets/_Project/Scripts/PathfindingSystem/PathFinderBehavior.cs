@@ -26,18 +26,20 @@ namespace Tara.PathfindingSystem
 		{
 			if (IsInLineOfSight(position)) { return position; }
 
-			if (_pathNodes.Count <= 1 || Vector3.Distance(transform.position, _currentLongTermDestination) > tollerance)
+			if (_pathNodes.Count <= 1)
 			{
 				_pathNodes = _pathFinder.GetPath(_grid.GetItem(transform.position), _grid.GetItem(position));
 
 				PathNode[] nodes = _pathNodes.ToArray();
 
 				_currentLongTermDestination = nodes[nodes.Length - 1].Position;
-				
+
 				_currentDestination = _pathNodes.Pop().Position;
 			}
 
-			if (Vector3.Distance(transform.position, _currentDestination) < tollerance)
+			float distanceToNextPathNode = Vector3.Distance(transform.position, _currentDestination);
+
+			if (distanceToNextPathNode < tollerance && _pathNodes.Count > 0)
 			{
 				_currentDestination = _pathNodes.Pop().Position;
 			}
@@ -55,6 +57,7 @@ namespace Tara.PathfindingSystem
 			return false;
 		}
 
+		[Header("Gizmos")]
 		[SerializeField] private Vector3 pos1 = default;
 		[SerializeField] private Vector3 pos2 = default;
 
@@ -84,6 +87,7 @@ namespace Tara.PathfindingSystem
 				Handles.Label(node.Position, $"F: {node.fScore}, G: {node.gScore}, H: {node.hScore}, WalkCost: {node.WalkCost}");
 			}
 
+			if (_currentLongTermDestination == Vector3.zero) { return; }
 			Gizmos.color = Color.cyan;
 			Gizmos.DrawWireSphere(_currentLongTermDestination, 2.5f);
 		}
