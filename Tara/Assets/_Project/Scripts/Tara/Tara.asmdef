@@ -1,0 +1,15 @@
+{
+    "name": "Tara",
+    "references": [
+        "GUID:f4556b1fd27a6fb4580c7756659c2946"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
