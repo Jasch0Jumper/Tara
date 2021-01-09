@@ -4,10 +4,12 @@ using UnityEngine.Events;
 namespace Tara
 {
 	[RequireComponent(typeof(Collider2D))]
-	public class Health : MonoBehaviour, ICanCollideWithProjectiles
+	public class Health : MonoBehaviour
 	{
 		[SerializeField] private int maxHealth = 1;
-		public int Value { get; private set; } 
+		public int Value { get; private set; }
+
+		public bool Invulnerable { get; set; } = false;
 
 		[SerializeField] private UnityEvent onNoHealthLeft = new UnityEvent();
 
@@ -26,13 +28,12 @@ namespace Tara
 
 		public void Damage(int damage)
 		{
-			Value -= damage;
+			if (Invulnerable) { return; }
+
+			Value -= Mathf.Abs(damage);
 		}
 
-		public void Heal(int heal)
-		{
-			Value += heal;
-		}
+		public void Heal(int heal) => Value += Mathf.Abs(heal);
 
 		public void DefaultDeath()
 		{

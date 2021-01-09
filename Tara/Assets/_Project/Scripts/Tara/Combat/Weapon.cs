@@ -1,26 +1,27 @@
 ﻿using UnityEngine;
+using CITools;
 
 namespace Tara.Combat
 {
-	public class Gun : MonoBehaviour
+	public class Weapon : MonoBehaviour
 	{
 		//public int ID;
 		public EntityType ShooterType;
-
 		[Space]
-		[SerializeField] [Range(1f, 500f)] private float projectileSpeed = 50f;
+		[Range(1f, 500f)] public float projectileSpeed = 50f;
 		[Space]
-		[SerializeField] [Range(1f, 100f)] private float projectileLifeTime = 10f;
-		[SerializeField] [Range(1, 1000)] private int projectileDamage = 10;
+		[Range(1f, 100f)] public float projectileLifeTime = 10f;
+		[Range(1, 1000)] public int projectileDamage = 10;
 		[Space]
 		[SerializeField] private bool useSpriteColor = default;
 		[Tooltip("Can be ignored if useSpriteColor is true.")]
 		[SerializeField] private Color projectileColor = Color.white;
 		[Space]
-		[SerializeField] [Range(0.05f, 5f)] private float shootingCooldown = default;
-		[SerializeField] private GameObject projectile = default;
+		[Range(0.05f, 5f)] public float ReloadCooldown = default;
+		public GameObject Projectile = default;
 
-		private float _cooldown;
+		private Timer _timer;
+
 		private bool _shooting;
 
 		private SpriteRenderer _spriteRenderer;
@@ -28,6 +29,9 @@ namespace Tara.Combat
 		private void Awake()
 		{
 			_spriteRenderer = GetComponent<SpriteRenderer>();
+
+			_timer = new Timer(ReloadCooldown, true);
+			_timer.OnTimerEnd += InstantiateProjectile;
 		}
 
 		private void Start()
@@ -37,28 +41,33 @@ namespace Tara.Combat
 
 		private void Update()
 		{
-			_cooldown += Time.deltaTime;
+			_timer.Tick(Time.deltaTime);
 
 			if (_shooting && IsCooldownOver())
 			{
-				Shoot();
+				InstantiateProjectile();
 			}
 
 			_shooting = false;
 		}
 
-		public void GiveShootInput() => _shooting = true;
+		public void Shoot()
+		{
+			_shooting = true; 
+			
+		}
 
 		private bool IsCooldownOver()
 		{
-			if (_cooldown == 0f) { return true; }
-			if (_cooldown >= shootingCooldown) { return true; }
-			return false;
+			//if (_cooldown == 0f) { return true; }
+			//if (_cooldown >= ReloadCooldown) { return true; }
+
+			return _timer.RemainingSeconds <= 0f;
 		}
 
-		private void Shoot()
+		private void InstantiateProjectile()
 		{
-			var newProjectile = Instantiate(projectile, transform);
+			var newProjectile = Instantiate(Projectile, transform);
 
 			var newProjectileController = newProjectile.GetComponent<Projectile>();
 
@@ -70,7 +79,7 @@ namespace Tara.Combat
 
 			transform.DetachChildren();
 
-			_cooldown = 0f;
+			//_cooldown = 0f;
 		}
 	}
 }

@@ -47,23 +47,22 @@ namespace Tara.Combat
 
 		private void OnTriggerEnter2D(Collider2D collider)
 		{
-			if (ValidateCollision(collider))
+			if (!ValidateCollision(collider)) { return; }
+
+			var health = collider.GetComponent<Health>();
+			if (health != null)
 			{
-				var health = collider.GetComponent<Health>();
-				if (health != null)
-				{
-					health.Damage(Damage);
-				}
-
-				//Debug.Log($"Collision, {shooter}, {speed}");
-
-				Destroy(gameObject);
+				health.Damage(Damage);
 			}
+
+			//Debug.Log($"Collision, {shooter}, {speed}");
+
+			Destroy(gameObject);
 		}
 
 		private bool ValidateCollision(Collider2D collider)
 		{
-			var projectileCollider = collider.GetComponent<ICanCollideWithProjectiles>();
+			var projectileCollider = collider.GetComponent<Health>();
 			
 			if (projectileCollider == null) { return false; }
 

@@ -587,6 +587,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &578372564 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8475471705314354867, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4939375426268877647}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08aee0f41e6e18a4fb9b64f2f943c2a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &637654603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1271,40 +1283,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
-        type: 3}
-      propertyPath: pos1.x
-      value: -47
-      objectReference: {fileID: 0}
-    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
-        type: 3}
-      propertyPath: pos1.y
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
-        type: 3}
-      propertyPath: pos2.y
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
-        type: 3}
-      propertyPath: pos2.x
-      value: -95
-      objectReference: {fileID: 0}
-    - target: {fileID: 670035330446176890, guid: 182c111cdb31ba84cbfc0619acd47b3e,
-        type: 3}
-      propertyPath: obstacles.m_Bits
-      value: 768
-      objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -47
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 21
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
@@ -1391,7 +1378,8 @@ PrefabInstance:
       propertyPath: showCurrentTargetOnDeselect
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1515414712254080236, guid: 182c111cdb31ba84cbfc0619acd47b3e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 182c111cdb31ba84cbfc0619acd47b3e, type: 3}
 --- !u!1001 &4939375426268877647
 PrefabInstance:
@@ -1459,6 +1447,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250639565239425909, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250639565239425909, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250639565239425909, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250639565239425909, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 578372564}
+    - target: {fileID: 7250639565239425909, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnChontrlsChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250639565239425909, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475471705314354867, guid: 6536342cc0823074ea2ef5b8cf8c012c,
+        type: 3}
+      propertyPath: DefaultMoveSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6536342cc0823074ea2ef5b8cf8c012c, type: 3}

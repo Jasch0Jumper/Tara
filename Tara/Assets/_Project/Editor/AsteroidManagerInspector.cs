@@ -5,7 +5,7 @@ using UnityEditor;
 namespace Tara
 {
     [CustomEditor(typeof(AsteroidManager))]
-    public class AsteriodSpawnerInspector : Editor
+    public class AsteroidManagerInspector : Editor
     {
         public override void OnInspectorGUI()
         {

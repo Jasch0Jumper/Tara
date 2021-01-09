@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Tara.Pathfinding
 {
 	[ExecuteInEditMode]
-	public class Obstacle : MonoBehaviour, ICanCollideWithProjectiles
+	public class Obstacle : MonoBehaviour
 	{
 		[SerializeField] private BlockPointChain blockedArea = default;
 		

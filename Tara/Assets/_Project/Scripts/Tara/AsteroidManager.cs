@@ -27,9 +27,9 @@ namespace Tara
 
 		public void SummonAsteriods()
 		{
-			if (CausesInfinteLoop(MinSpawnRange, MaxSpawnRange, maxAsteriodCount, minDistance) != false)
+			if (CausesInfinteLoop() != false)
 			{ 
-				Debug.LogError("Not enaugh Space for alle Asteroids! Change maxCount or minDistance!", this);
+				Debug.LogError($"Not enaugh Space for {maxAsteriodCount} Asteroids! Change maxCount or minDistance!", this);
 				return;
 			}
 
@@ -60,7 +60,6 @@ namespace Tara
 			SummonAsteriods();
 		}
 
-		#region private functions
 		private Vector2 GetCoordinate(float minRange, float maxRange)
 		{
 			Vector2 coordinate;
@@ -72,7 +71,6 @@ namespace Tara
 			return coordinate;
 		}
 
-		#region Validation
 		private bool IsCoordinateValid(Vector2 coordinate)
 		{
 			foreach (var asteriod in _asteriodsTransforms)
@@ -83,8 +81,12 @@ namespace Tara
 			return true;
 		}
 
-		private bool CausesInfinteLoop(float minRadius, float maxRadius, int maxCount, float minDistance)
+		private bool CausesInfinteLoop()
 		{
+			float minRadius = MinSpawnRange;
+			float maxRadius = MaxSpawnRange;
+			int maxCount = maxAsteriodCount;
+
 			float maxCircleArea = Mathf.PI * maxRadius * maxRadius;
 			float minCircleArea = Mathf.PI * minRadius * minRadius;
 			float spawnCircleArea = maxCircleArea - minCircleArea;
@@ -94,9 +96,7 @@ namespace Tara
 
 			return false;
 		}
-		#endregion 
 
-		#region Random Rotation / Coordinates
 		private Vector2 RandomCoordinate(float minRange, float maxRange)
 		{
 			transform.rotation = RandomRotation();
@@ -108,11 +108,7 @@ namespace Tara
 
 			return coordinate;
 		}
-		private Quaternion RandomRotation()
-		{
-			return Quaternion.Euler(new Vector3(0f, 0f, Random.Range(0f, 359f)));
-		}
-		#endregion 
+		private Quaternion RandomRotation() => Quaternion.Euler(new Vector3(0f, 0f, Random.Range(0f, 359f)));
 
 		private void CleaList()
 		{
@@ -122,8 +118,6 @@ namespace Tara
 				{ _asteriodsTransforms.RemoveAt(i); }
 			}
 		}
-
-		#endregion
 
 		#region Gizmos
 #if UNITY_EDITOR

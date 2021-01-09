@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 114523130946912644}
   - component: {fileID: 2774041682870777229}
   - component: {fileID: 7144127705711226529}
-  - component: {fileID: 1515414712254080236}
   - component: {fileID: 7629511740153474001}
   - component: {fileID: 3678436036636231904}
   - component: {fileID: 9003279102301512250}
@@ -209,21 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008ec788c1ec53c4d8f7e429c6829d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
---- !u!114 &1515414712254080236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176466202649979805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8516cd9419888134aa5d7a6f32cf04a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationOffset: -90
-  maxRotationPerFrame: 10
+  DefaultMoveSpeed: 1
+  DefaultRotationSpeed: 5
+  RotationOffset: 0
 --- !u!114 &7629511740153474001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,8 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583d24116a1771747a3d03b255f1a1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guns:
-  - {fileID: 4740236064767218281}
+  weapons: []
 --- !u!114 &3678436036636231904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,15 +299,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1176466202669828385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60e0e930cb01814f897a225303efef2, type: 3}
+  m_Script: {fileID: 11500000, guid: 43730f8eec140ae4fa80f9bb99407088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShooterType: 0
-  projectileSpeed: 100
+  ShooterType: 1
+  projectileSpeed: 50
   projectileLifeTime: 10
   projectileDamage: 10
   useSpriteColor: 0
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
-  shootingCooldown: 0.3
-  projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
+  ReloadCooldown: 0
+  Projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
     type: 3}

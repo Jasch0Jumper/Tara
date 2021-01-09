@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Tara.Input;
 
 namespace Tara.Combat
 {

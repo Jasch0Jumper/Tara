@@ -2,8 +2,7 @@
     "name": "Combat",
     "references": [
         "Tara",
-        "CITools",
-        "Input"
+        "CITools"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

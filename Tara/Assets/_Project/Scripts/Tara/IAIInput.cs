@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tara.Input
+namespace Tara
 {
 	public interface IAIInput
 	{

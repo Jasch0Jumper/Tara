@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4939375425763399688}
-  - component: {fileID: 2955266831812116665}
+  - component: {fileID: 5973544609618875574}
   m_Layer: 0
   m_Name: RightGun
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 4939375426947843447}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2955266831812116665
+--- !u!114 &5973544609618875574
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,17 +40,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4939375425763399689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60e0e930cb01814f897a225303efef2, type: 3}
+  m_Script: {fileID: 11500000, guid: 43730f8eec140ae4fa80f9bb99407088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShooterType: 0
-  projectileSpeed: 100
+  projectileSpeed: 50
   projectileLifeTime: 10
   projectileDamage: 10
   useSpriteColor: 0
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
-  shootingCooldown: 0.2
-  projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
+  ReloadCooldown: 0
+  Projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
     type: 3}
 --- !u!1 &4939375426835457989
 GameObject:
@@ -61,7 +61,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4939375426835457988}
-  - component: {fileID: 6598006643784023191}
+  - component: {fileID: 7608091594895418996}
   m_Layer: 0
   m_Name: FrontGun
   m_TagString: Untagged
@@ -83,7 +83,7 @@ Transform:
   m_Father: {fileID: 4939375426947843447}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6598006643784023191
+--- !u!114 &7608091594895418996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,17 +92,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4939375426835457989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60e0e930cb01814f897a225303efef2, type: 3}
+  m_Script: {fileID: 11500000, guid: 43730f8eec140ae4fa80f9bb99407088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShooterType: 0
-  projectileSpeed: 100
+  projectileSpeed: 50
   projectileLifeTime: 10
   projectileDamage: 10
   useSpriteColor: 0
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
-  shootingCooldown: 0.2
-  projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
+  ReloadCooldown: 0
+  Projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
     type: 3}
 --- !u!1 &4939375426947843449
 GameObject:
@@ -116,11 +116,10 @@ GameObject:
   - component: {fileID: 4939375426947843448}
   - component: {fileID: 4939375426947843444}
   - component: {fileID: 4939375426947843445}
+  - component: {fileID: 7250639565239425909}
   - component: {fileID: 114589031340673620}
   - component: {fileID: 114472390543961714}
   - component: {fileID: 8475471705314354867}
-  - component: {fileID: 2868889603837465291}
-  - component: {fileID: 783691335857423550}
   - component: {fileID: 5545192743401157275}
   - component: {fileID: 5519740859448957528}
   m_Layer: 8
@@ -261,6 +260,100 @@ PolygonCollider2D:
       - {x: 1.5114205, y: -2.6961327}
       - {x: 3.0306568, y: -3.6328459}
       - {x: 3.0260684, y: -4.635491}
+--- !u!114 &7250639565239425909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939375426947843449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 64dc16c7ad6c2444abbdeba2ec2763c5,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dfedc220-e04a-419a-80d9-3dfa9ff6446f
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 12fd6e8f-06bb-4236-ac32-6a5583c3b216
+    m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5545192743401157275}
+        m_MethodName: Shoot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b806d8c6-1d97-40ae-83db-c84d5e188feb
+    m_ActionName: Player/Fire[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 57ff637d-c777-45fc-9fe1-5e61b880834a
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a020a723-14b9-43b7-b0bb-1dfecc6d9ccf
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 63ec307e-c3d3-48a6-a610-09a65bb4f1f9
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 33a7b3ac-332c-4677-842c-585aaba2ed16
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f2fce5b5-c5d1-4941-8f3c-57124db71e89
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1d5971f7-98cc-4ba9-aa8c-a6b5bd94c842
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 61249858-f1f0-412d-9b44-9f55c2eef33e
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ddc9bfbe-8f40-44e7-ba6b-7bd1a514c52a
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4aabcbd0-bcc1-40f3-b585-77f6f7776997
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f9ff9515-6665-4afd-8bd0-d6341debccba
+    m_ActionName: UI/TrackedDeviceOrientation
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &114589031340673620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,33 +406,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08aee0f41e6e18a4fb9b64f2f943c2a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2868889603837465291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4939375426947843449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 008ec788c1ec53c4d8f7e429c6829d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 30
---- !u!114 &783691335857423550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4939375426947843449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8516cd9419888134aa5d7a6f32cf04a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationOffset: -45
-  maxRotationPerFrame: 1
+  DefaultMoveSpeed: 30
+  DefaultRotationSpeed: 10
+  RotationOffset: -90
 --- !u!114 &5545192743401157275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,10 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583d24116a1771747a3d03b255f1a1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guns:
-  - {fileID: 7316189467999714005}
-  - {fileID: 2955266831812116665}
-  - {fileID: 6598006643784023191}
+  weapons: []
 --- !u!114 &5519740859448957528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +444,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4939375427024044689}
-  - component: {fileID: 7316189467999714005}
+  - component: {fileID: 2005534975880076676}
   m_Layer: 0
   m_Name: LeftGun
   m_TagString: Untagged
@@ -400,7 +466,7 @@ Transform:
   m_Father: {fileID: 4939375426947843447}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7316189467999714005
+--- !u!114 &2005534975880076676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -409,15 +475,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4939375427024044690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60e0e930cb01814f897a225303efef2, type: 3}
+  m_Script: {fileID: 11500000, guid: 43730f8eec140ae4fa80f9bb99407088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShooterType: 0
-  projectileSpeed: 100
+  projectileSpeed: 50
   projectileLifeTime: 10
   projectileDamage: 10
   useSpriteColor: 0
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
-  shootingCooldown: 0.2
-  projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
+  ReloadCooldown: 0
+  Projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
     type: 3}
