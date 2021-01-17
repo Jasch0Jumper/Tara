@@ -9,7 +9,7 @@ namespace Tara
 		[SerializeField] private int maxHealth = 1;
 		public int Value { get; private set; }
 
-		public bool Invulnerable { get; set; } = false;
+		public bool Invulnerable = false;
 
 		[SerializeField] private UnityEvent onNoHealthLeft = new UnityEvent();
 

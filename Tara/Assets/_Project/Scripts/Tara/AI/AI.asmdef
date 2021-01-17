@@ -1,9 +1,8 @@
 {
-    "name": "Combat",
+    "name": "AI",
     "references": [
-        "Tara",
-        "CITools",
-        "Unity.InputSystem"
+        "GUID:c615de7a71c0d6d42b327f6e18a737e0",
+        "GUID:f4556b1fd27a6fb4580c7756659c2946"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

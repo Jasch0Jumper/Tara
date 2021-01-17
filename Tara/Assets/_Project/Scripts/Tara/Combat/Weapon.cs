@@ -13,8 +13,6 @@ namespace Tara.Combat
 		[Range(1f, 100f)] public float projectileLifeTime = 10f;
 		[Range(1, 1000)] public int projectileDamage = 10;
 		[Space]
-		[SerializeField] private bool useSpriteColor = default;
-		[Tooltip("Can be ignored if useSpriteColor is true.")]
 		[SerializeField] private Color projectileColor = Color.white;
 		[Space]
 		[Range(0.05f, 5f)] public float ReloadCooldown = default;
@@ -22,46 +20,26 @@ namespace Tara.Combat
 
 		private Timer _timer;
 
-		private bool _shooting;
-
-		private SpriteRenderer _spriteRenderer;
+		[HideInInspector] public bool Shooting;
 
 		private void Awake()
 		{
-			_spriteRenderer = GetComponent<SpriteRenderer>();
-
-			_timer = new Timer(ReloadCooldown, true);
-			_timer.OnTimerEnd += InstantiateProjectile;
-		}
-
-		private void Start()
-		{
-			if (useSpriteColor) { projectileColor = _spriteRenderer.color; }
+			_timer = new Timer(ReloadCooldown);
 		}
 
 		private void Update()
 		{
 			_timer.Tick(Time.deltaTime);
 
-			if (_shooting && IsCooldownOver())
+			if (Shooting && IsCooldownOver())
 			{
 				InstantiateProjectile();
+				_timer.Reset();
 			}
-
-			_shooting = false;
-		}
-
-		public void Shoot()
-		{
-			_shooting = true; 
-			
 		}
 
 		private bool IsCooldownOver()
 		{
-			//if (_cooldown == 0f) { return true; }
-			//if (_cooldown >= ReloadCooldown) { return true; }
-
 			return _timer.RemainingSeconds <= 0f;
 		}
 
@@ -78,8 +56,6 @@ namespace Tara.Combat
 			newProjectileController.TeamColor = projectileColor;
 
 			transform.DetachChildren();
-
-			//_cooldown = 0f;
 		}
 	}
 }

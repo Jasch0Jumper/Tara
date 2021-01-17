@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Tara.Combat
 {
@@ -27,11 +28,11 @@ namespace Tara.Combat
 			}
 		}
 
-		public void Shoot()
+		public void Shoot(InputAction.CallbackContext context)
 		{
 			foreach (var weapon in weapons)
 			{
-				weapon.Shoot();
+				weapon.Shooting = context.performed;
 			}
 		}
 	}

@@ -6,6 +6,7 @@ namespace Tara
 	public class FollowPlayer : MonoBehaviour
 	{
 		private Transform _player;
+		[SerializeField] private Vector3 offset = new Vector3(0f, 0f, -10f);
 
 		private void Start()
 		{
@@ -18,7 +19,7 @@ namespace Tara
 		{
 			if (_player != null)
 			{
-				transform.position = _player.position + new Vector3(0f, 0f, -10f);
+				transform.position = _player.position + offset;
 			}
 		}
 	}
