@@ -11,11 +11,10 @@ namespace Tara.Pathfinding
 
 		public PathNode ParentNode { get; private set; }
 
-#pragma warning disable IDE1006 // Naming Styles
-		public int fScore { get => _cachedFScore; }
-		public int gScore { get; private set; }
-		public int hScore { get; private set; }
-#pragma warning restore IDE1006 // Naming Styles
+		public int FScore { get => _cachedFScore; }
+		public int GScore { get; private set; }
+		public int HScore { get; private set; }
+
 		private int _cachedFScore;
 
 		public PathNode() { }
@@ -41,24 +40,24 @@ namespace Tara.Pathfinding
 		{
 			int parentGScore = 0;
 			
-			if (ParentNode != null) { parentGScore = ParentNode.gScore; }
+			if (ParentNode != null) { parentGScore = ParentNode.GScore; }
 
-			gScore = parentGScore + WalkCost;
+			GScore = parentGScore + WalkCost;
 
 			RefreshFScore();
 		}
-		private void RefreshFScore() => _cachedFScore = gScore + hScore;
+		private void RefreshFScore() => _cachedFScore = GScore + HScore;
 		public void SetHScore(int value)
 		{
-			hScore = value;
+			HScore = value;
 			RefreshFScore();
 		}
 
 		public void Reset()
 		{
 			ParentNode = null;
-			gScore = 0;
-			hScore = 0;
+			GScore = 0;
+			HScore = 0;
 		}
 	}
 }

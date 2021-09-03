@@ -27,7 +27,7 @@ namespace Tara
 
 		public void Move(Vector2 input, float speedMultiplier)
 		{
-			Vector2 targetPosition = transform.position + input.AsVector3() * DefaultMoveSpeed * speedMultiplier * Time.fixedDeltaTime;
+			Vector2 targetPosition = transform.position + input.AsVector3() * (DefaultMoveSpeed * speedMultiplier * Time.fixedDeltaTime);
 
 			_rigidbody.MovePosition(targetPosition);
 		}

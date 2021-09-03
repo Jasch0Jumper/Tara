@@ -8,13 +8,11 @@ namespace Tara
 		private Controls _controls;
 
 		[SerializeField] private string defaultControlScheme = "Keyboard&Mouse";
-		private string _currentControlScheme;
 
 		private new void Awake()
 		{
 			base.Awake();
 			_controls = new Controls();
-			_currentControlScheme = defaultControlScheme;
 		}
 
 		private void OnEnable() => _controls.Player.Enable();

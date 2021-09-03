@@ -39,7 +39,7 @@ namespace Tara.Combat
 
 		private void Update()
 		{
-			_targetPosition = transform.up * Speed * Time.deltaTime;
+			_targetPosition = transform.up * (Speed * Time.deltaTime);
 			_rigidbody.position += _targetPosition;
 
 			_timer.Tick(Time.deltaTime);

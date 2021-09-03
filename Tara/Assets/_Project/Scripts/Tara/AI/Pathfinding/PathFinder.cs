@@ -2,7 +2,6 @@
 using UnityEngine;
 using CITools;
 
-
 namespace Tara.Pathfinding
 {
 	public class PathFinder
@@ -61,12 +60,12 @@ namespace Tara.Pathfinding
 					}
 					else
 					{
-						int fScoreBefore = neighbourNode.fScore;
+						int fScoreBefore = neighbourNode.FScore;
 
 						neighbourNode.RefreshGScore();
 						SetHScore(neighbourNode);
 
-						if (neighbourNode.fScore < fScoreBefore)
+						if (neighbourNode.FScore < fScoreBefore)
 						{
 							neighbourNode.SetParent(currentNode);
 						}
@@ -84,7 +83,7 @@ namespace Tara.Pathfinding
 
 			foreach (PathNode node in nodes)
 			{
-				if (node.fScore < nodeWithLowestScore.fScore)
+				if (node.FScore < nodeWithLowestScore.FScore)
 				{
 					nodeWithLowestScore = node;
 				}

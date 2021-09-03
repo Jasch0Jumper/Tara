@@ -99,8 +99,7 @@ namespace Tara
 
 		private Vector2 RandomCoordinate(float minRange, float maxRange)
 		{
-			transform.rotation = RandomRotation();
-			transform.position = transform.up * Random.Range(minRange, maxRange);
+			transform.SetPositionAndRotation(transform.up * Random.Range(minRange, maxRange), RandomRotation());
 
 			Vector2 coordinate = transform.position;
 

@@ -85,7 +85,7 @@ namespace Tara.Pathfinding
 
 			foreach (var node in _pathNodes)
 			{
-				Handles.Label(node.Position, $"F: {node.fScore}, G: {node.gScore}, H: {node.hScore}, WalkCost: {node.WalkCost}");
+				Handles.Label(node.Position, $"F: {node.FScore}, G: {node.GScore}, H: {node.HScore}, WalkCost: {node.WalkCost}");
 			}
 
 			if (_currentLongTermDestination == Vector3.zero) { return; }

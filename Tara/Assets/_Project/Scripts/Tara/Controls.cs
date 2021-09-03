@@ -10,7 +10,9 @@ namespace Tara
 {
     public class @Controls : IInputActionCollection, IDisposable
     {
+#pragma warning disable IDE1006 // Naming Styles
         public InputActionAsset asset { get; }
+#pragma warning restore IDE1006 // Naming Styles
         public @Controls()
         {
             asset = InputActionAsset.FromJson(@"{
@@ -884,7 +886,9 @@ namespace Tara
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
+#pragma warning disable IDE1006 // Naming Styles
             public bool enabled => Get().enabled;
+#pragma warning restore IDE1006 // Naming Styles
             public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
             public void SetCallbacks(IPlayerActions instance)
             {
@@ -947,7 +951,9 @@ namespace Tara
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
+#pragma warning disable IDE1006 // Naming Styles
             public bool enabled => Get().enabled;
+#pragma warning restore IDE1006 // Naming Styles
             public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
             public void SetCallbacks(IUIActions instance)
             {
