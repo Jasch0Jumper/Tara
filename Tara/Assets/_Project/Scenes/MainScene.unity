@@ -390,6 +390,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
         type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
       propertyPath: blockedArea.points.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -491,6 +501,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: "StahlTr\xE4ger (5)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78b6fe9c657a2ff46b286e679debc3a8, type: 3}
@@ -739,6 +759,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: "StahlTr\xE4ger (7)"
       objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78b6fe9c657a2ff46b286e679debc3a8, type: 3}
 --- !u!1001 &655024054
@@ -828,6 +858,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: "StahlTr\xE4ger (4)"
       objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78b6fe9c657a2ff46b286e679debc3a8, type: 3}
 --- !u!1 &692099580
@@ -859,7 +899,7 @@ Transform:
   m_Children:
   - {fileID: 365432107}
   - {fileID: 1974222650}
-  - {fileID: 1950756455}
+  - {fileID: 1888986557}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -982,6 +1022,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
         type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showAllPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
       propertyPath: blockedArea.points.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1086,6 +1141,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
         type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
       propertyPath: blockedArea.points.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1140,6 +1205,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1776822388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1176466202649979805, guid: 182c111cdb31ba84cbfc0619acd47b3e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2501729126489865887}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1776822389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776822388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72925da82d76684fb7b79a4a66118be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos1: {x: -97.16, y: 67.68, z: 0}
+  pos2: {x: 0, y: 0, z: 0}
 --- !u!1001 &1791250098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1227,9 +1312,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: "StahlTr\xE4ger (6)"
       objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78b6fe9c657a2ff46b286e679debc3a8, type: 3}
---- !u!1 &1950756454
+--- !u!1 &1888986556
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1237,8 +1332,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1950756455}
-  - component: {fileID: 1950756456}
+  - component: {fileID: 1888986557}
+  - component: {fileID: 1888986558}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -1246,13 +1341,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1950756455
+--- !u!4 &1888986557
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950756454}
+  m_GameObject: {fileID: 1888986556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1260,25 +1355,26 @@ Transform:
   m_Father: {fileID: 692099581}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1950756456
+--- !u!114 &1888986558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950756454}
+  m_GameObject: {fileID: 1888986556}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14e3c8df265dae744bd0870d64442566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 76
-  height: 44
-  offset: {x: -190, y: -110}
-  gridRefreshTime: 0.1
-  showPreview: 1
+  cellSize: 5
+  width: 77
+  height: 43
+  origin: {x: -190, y: -105}
+  defaultCost: 10
+  showOutline: 0
   showGrid: 0
-  showUnwalkable: 1
+  showUnwalkable: 0
 --- !u!4 &1960734407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7535300224175190996, guid: 78b6fe9c657a2ff46b286e679debc3a8,
@@ -1344,12 +1440,12 @@ PrefabInstance:
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -67.01002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 34
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1176466202649979795, guid: 182c111cdb31ba84cbfc0619acd47b3e,
         type: 3}
@@ -1589,6 +1685,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: "StahlTr\xE4ger"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
+        type: 3}
+      propertyPath: showBlockPointsPath
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8903160302875302174, guid: 78b6fe9c657a2ff46b286e679debc3a8,
         type: 3}

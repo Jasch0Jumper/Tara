@@ -3,22 +3,27 @@ using System.Collections.Generic;
 
 namespace Tara.Pathfinding
 {
-	[ExecuteInEditMode]
 	public class Obstacle : MonoBehaviour
 	{
-		[SerializeField] private BlockPointChain blockedArea = default;
-		
+		[SerializeField] private BlockPointChain blockedArea;
+
+		private GridBehaviour _grid;
+
+		private void Awake()
+		{
+			_grid = FindObjectOfType<GridBehaviour>();
+		}
 		private void Start()
 		{
 			MovePoints();
 		}
 		private void OnEnable()
 		{
-			GridManager.ObstacleAreas.Add(blockedArea);
+			_grid.BlockCells(blockedArea);
 		}
 		private void OnDisable()
 		{
-			GridManager.ObstacleAreas.Remove(blockedArea);
+			_grid.UnBlockCells(blockedArea);
 		}
 		private void Update()
 		{
@@ -57,23 +62,27 @@ namespace Tara.Pathfinding
 		}
 		private void DrawAllPoints()
 		{
-			Gizmos.color = new Color(1f, 0.921568632f, 0.0156862754f, 0.25f);	//yellow with 50% alpha
+			Debug.LogWarning("Gizmo not implemented.", this);
 
-			foreach (var point in blockedArea.GetPointsInArea(GridManager.CELLSIZE))
-			{
-				Gizmos.DrawWireSphere(point, GridManager.CELLSIZE / 2);
-			}
+			//Gizmos.color = new Color(1f, 0.921568632f, 0.0156862754f, 0.25f);   //yellow with 50% alpha
+
+			//foreach (var point in blockedArea.GetPointsInArea(GridManager.cellSize))
+			//{
+			//	Gizmos.DrawWireSphere(point, GridManager.cellSize / 2);
+			//}
 		}
 		private void DrawBlockPointPath()
 		{
-			Gizmos.color = Color.red;
+			Debug.LogWarning("Gizmo not implemented.", this);
 
-			List<Vector3> blockedPoints = blockedArea.GetPointsInArea(GridManager.CELLSIZE);
+			//Gizmos.color = Color.red;
 
-			for (int i = 0; i < blockedPoints.Count - 1; i++)
-			{
-				Gizmos.DrawLine(blockedPoints[i], blockedPoints[i + 1]);
-			}
+			//List<Vector3> blockedPoints = blockedArea.GetPointsInArea(GridManager.cellSize);
+
+			//for (int i = 0; i < blockedPoints.Count - 1; i++)
+			//{
+			//	Gizmos.DrawLine(blockedPoints[i], blockedPoints[i + 1]);
+			//}
 		}
 #endif
 		#endregion

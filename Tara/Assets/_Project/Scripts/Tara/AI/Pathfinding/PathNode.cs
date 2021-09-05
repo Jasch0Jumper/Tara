@@ -1,63 +1,83 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Tara.Pathfinding
 {
 	public class PathNode
 	{
-		public Vector3 Position { get; private set; }
-		public Vector2Int GridPosition { get; private set; }
-		public bool Walkable { get; set; }
-		public int WalkCost { get; private set; }
+		public GridNode GridNode { get; private set; }
+		public GridNode Destination { get; private set; }
 
 		public PathNode ParentNode { get; private set; }
 
-		public int FScore { get => _cachedFScore; }
+		public int FScore { get => GScore + HScore; }
 		public int GScore { get; private set; }
+		
 		public int HScore { get; private set; }
 
-		private int _cachedFScore;
-
-		public PathNode() { }
-		public void Initialize(Vector3 globalPos, Vector2Int gridPos)
+		public PathNode(GridNode gridNode, GridNode destination)
 		{
-			Position = globalPos;
-			GridPosition = gridPos;
-			Walkable = true;
+			GridNode = gridNode;
+			Destination = destination;
+
+			GScore = gridNode.Cost;
+
+			SetHScore();
+		}
+		public PathNode(GridNode gridNode, PathNode parent)
+		{
+			GridNode = gridNode;
+			SetParent(parent);
 		}
 
 		public void SetParent(PathNode parent)
 		{
 			ParentNode = parent;
-			RefreshGScore();
-		}
-		public void SetWalkCost(int cost)
-		{
-			WalkCost = cost;
-			RefreshGScore();
+			Destination = parent.Destination;
+
+			SetGScore();
+			SetHScore();
 		}
 
-		public void RefreshGScore()
+		private void SetGScore()
 		{
-			int parentGScore = 0;
-			
-			if (ParentNode != null) { parentGScore = ParentNode.GScore; }
-
-			GScore = parentGScore + WalkCost;
-
-			RefreshFScore();
-		}
-		private void RefreshFScore() => _cachedFScore = GScore + HScore;
-		public void SetHScore(int value)
-		{
-			HScore = value;
-			RefreshFScore();
+			if (IsDiagonal(ParentNode.GridNode))
+			{
+				GScore = Mathf.RoundToInt(GridNode.Cost * 1.5f);
+			}
+			GScore += ParentNode.GScore;
 		}
 
-		public void Reset()
+		private void SetHScore()
 		{
-			ParentNode = null;
-			GScore = 0;
-			HScore = 0;
+			var deltaX = Mathf.Abs(GridNode.GridPosition.x - Destination.GridPosition.x);
+			var deltaY = Mathf.Abs(GridNode.GridPosition.y - Destination.GridPosition.y);
+
+			HScore = (deltaX + deltaY) * 100;
+		}
+		
+		private bool IsDiagonal(GridNode node)
+		{
+			var deltaX = Mathf.Abs(node.GridPosition.x - GridNode.GridPosition.x);
+			var deltaY = Mathf.Abs(node.GridPosition.y - GridNode.GridPosition.y);
+			return deltaX > 0 && deltaY > 0;
+		}
+
+		public static bool operator ==(PathNode left, PathNode right) => EqualityComparer<PathNode>.Default.Equals(left, right);
+		public static bool operator !=(PathNode left, PathNode right) => !(left == right);
+
+		public override bool Equals(object obj)
+		{
+			return obj is PathNode node &&
+				   EqualityComparer<GridNode>.Default.Equals(GridNode, node.GridNode) &&
+				   EqualityComparer<GridNode>.Default.Equals(Destination, node.Destination);
+		}
+		public override int GetHashCode()
+		{
+			int hashCode = -1102133632;
+			hashCode = hashCode * -1521134295 + GridNode.GetHashCode();
+			hashCode = hashCode * -1521134295 + Destination.GetHashCode();
+			return hashCode;
 		}
 	}
 }
