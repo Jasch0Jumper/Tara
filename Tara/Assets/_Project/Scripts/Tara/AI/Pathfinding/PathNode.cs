@@ -6,78 +6,90 @@ namespace Tara.Pathfinding
 	public class PathNode
 	{
 		public GridNode GridNode { get; private set; }
-		public GridNode Destination { get; private set; }
 
-		public PathNode ParentNode { get; private set; }
+		public PathNode Parent { get; private set; }
 
 		public int FScore { get => GScore + HScore; }
-		public int GScore { get; private set; }
+		public int GScore { get => CalculateGScore(); }
+		public int HScore { get => CalculateHScore(); }
 		
-		public int HScore { get; private set; }
+		private Vector2Int _destination;
 
 		public PathNode(GridNode gridNode, GridNode destination)
 		{
 			GridNode = gridNode;
-			Destination = destination;
-
-			GScore = gridNode.Cost;
-
-			SetHScore();
+			_destination = destination.GridPosition;
 		}
+
 		public PathNode(GridNode gridNode, PathNode parent)
 		{
 			GridNode = gridNode;
+			
 			SetParent(parent);
 		}
 
 		public void SetParent(PathNode parent)
 		{
-			ParentNode = parent;
-			Destination = parent.Destination;
-
-			SetGScore();
-			SetHScore();
+			Parent = parent;
+			_destination = parent._destination;
 		}
 
-		private void SetGScore()
+		private int CalculateGScore()
 		{
-			if (IsDiagonal(ParentNode.GridNode))
+			if (Parent is null) return 0;
+
+			if (IsDiagonal(Parent.GridNode))
 			{
-				GScore = Mathf.RoundToInt(GridNode.Cost * 1.5f);
+				return Mathf.RoundToInt(GridNode.Cost * 1.4f) + Parent.GScore;
 			}
-			GScore += ParentNode.GScore;
+			return GridNode.Cost + Parent.GScore;
 		}
-
-		private void SetHScore()
+		private int CalculateHScore()
 		{
-			var deltaX = Mathf.Abs(GridNode.GridPosition.x - Destination.GridPosition.x);
-			var deltaY = Mathf.Abs(GridNode.GridPosition.y - Destination.GridPosition.y);
+			var deltaX = Mathf.Abs(GridNode.GridPosition.x - _destination.x);
+			var deltaY = Mathf.Abs(GridNode.GridPosition.y - _destination.y);
 
-			HScore = (deltaX + deltaY) * 100;
+			var notDiagonal = Mathf.Abs(deltaX - deltaY);
+
+			int cost;
+
+			if (deltaX > deltaY)
+				cost = notDiagonal + (deltaX - notDiagonal);
+			else
+				cost = notDiagonal + (deltaY - notDiagonal);
+			
+			return cost * GridNode.Cost;
 		}
 		
 		private bool IsDiagonal(GridNode node)
 		{
-			var deltaX = Mathf.Abs(node.GridPosition.x - GridNode.GridPosition.x);
-			var deltaY = Mathf.Abs(node.GridPosition.y - GridNode.GridPosition.y);
+			var deltaX = Mathf.Abs(GridNode.GridPosition.x - node.GridPosition.x);
+			var deltaY = Mathf.Abs(GridNode.GridPosition.y - node.GridPosition.y);
+			
 			return deltaX > 0 && deltaY > 0;
 		}
-
-		public static bool operator ==(PathNode left, PathNode right) => EqualityComparer<PathNode>.Default.Equals(left, right);
-		public static bool operator !=(PathNode left, PathNode right) => !(left == right);
 
 		public override bool Equals(object obj)
 		{
 			return obj is PathNode node &&
 				   EqualityComparer<GridNode>.Default.Equals(GridNode, node.GridNode) &&
-				   EqualityComparer<GridNode>.Default.Equals(Destination, node.Destination);
+				   _destination.Equals(node._destination);
 		}
 		public override int GetHashCode()
 		{
-			int hashCode = -1102133632;
+			int hashCode = 49017651;
 			hashCode = hashCode * -1521134295 + GridNode.GetHashCode();
-			hashCode = hashCode * -1521134295 + Destination.GetHashCode();
+			hashCode = hashCode * -1521134295 + _destination.GetHashCode();
 			return hashCode;
+		}
+
+		public static bool operator ==(PathNode left, PathNode right)
+		{
+			return EqualityComparer<PathNode>.Default.Equals(left, right);
+		}
+		public static bool operator !=(PathNode left, PathNode right)
+		{
+			return !(left == right);
 		}
 	}
 }

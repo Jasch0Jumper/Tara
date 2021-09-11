@@ -1372,9 +1372,10 @@ MonoBehaviour:
   height: 43
   origin: {x: -190, y: -105}
   defaultCost: 10
-  showOutline: 0
+  diagonalCost: 14
+  showOutline: 1
   showGrid: 0
-  showUnwalkable: 0
+  showUnwalkable: 1
 --- !u!4 &1960734407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7535300224175190996, guid: 78b6fe9c657a2ff46b286e679debc3a8,

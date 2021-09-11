@@ -5,27 +5,26 @@ using UnityEngine;
 namespace Tara.Pathfinding
 {
 	[Serializable]
-	public class BlockPointChain
+	public class BlockedPoints
 	{
-		[SerializeField] private List<Vector3> points = new List<Vector3>();
-		private Vector3 center = default;
+		[SerializeField] private Vector3[] points;
+		
+		private Vector3 offset;
 
-		public void MovePoints(Vector3 position)
+		public void Move(Vector3 position)
 		{
-			if (points.Count < 1) { return; }
+			if (points.Length < 1) return;
 
-			center = position;
+			offset = position;
 		}
 
 		public List<Vector3> GetPointsInArea(float spaceBetweenPoints)
 		{
-			var allPoints = GetPoints();
+			var allPoints = GetPointsWithOffset();
 			
-			if (points.Count < 1) { return allPoints; }
+			if (points.Length < 1) return allPoints;
 
-			allPoints.Add(GetPointAt(0));
-
-			if (spaceBetweenPoints < 1f) { return allPoints; }
+			allPoints.Add(GetPointWithOffset(0));
 
 			for (int i = 0; i < allPoints.Count - 1; i++)
 			{
@@ -38,18 +37,19 @@ namespace Tara.Pathfinding
 			return allPoints;
 		}
 
-		public Vector3 GetPointAt(int index) => points[index] + center;
-		public List<Vector3> GetPoints()
+		public List<Vector3> GetPointsWithOffset()
 		{
-			List<Vector3> allPoints = new List<Vector3>();
+			var pointsWithOffset = new List<Vector3>();
 
-			for (int i = 0; i < points.Count; i++)
+			foreach (var point in points)
 			{
-				allPoints.Add(GetPointAt(i));
+				pointsWithOffset.Add(point + offset);
 			}
 
-			return allPoints;
+			return pointsWithOffset;
 		}
+
+		private Vector3 GetPointWithOffset(int index) => points[index] + offset;
 
 		private void InsertPoint(List<Vector3> list, int index, float spacing)
 		{

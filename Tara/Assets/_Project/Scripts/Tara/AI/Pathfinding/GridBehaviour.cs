@@ -72,7 +72,7 @@ namespace Tara.Pathfinding
 			return GetNodesAround(node);
 		}
 
-		public void BlockCells(BlockPointChain cells)
+		public void BlockCells(BlockedPoints cells)
 		{
 			foreach(var point in cells.GetPointsInArea(cellSize))
 			{
@@ -83,7 +83,7 @@ namespace Tara.Pathfinding
 				Grid.Cells[gridPos.x, gridPos.y].Walkable = false;
 			}
 		}
-		public void UnBlockCells(BlockPointChain cells)
+		public void UnBlockCells(BlockedPoints cells)
 		{
 			foreach (var point in cells.GetPointsInArea(cellSize))
 			{
@@ -137,9 +137,9 @@ namespace Tara.Pathfinding
 
 		private void OnDrawGizmos()
 		{
-			if (showOutline) { DrawOutline(); }
-			if (showGrid) { DrawGrid(); }
-			if (showUnwalkable) { DrawUnwalkable(); }
+			if (showOutline) DrawOutline();
+			if (showGrid) DrawGrid();
+			if (showUnwalkable) DrawUnwalkable();
 		}
 		private void OnDrawGizmosSelected()
 		{
@@ -181,7 +181,7 @@ namespace Tara.Pathfinding
 
 			foreach (var cell in Grid.Cells)
 			{
-				Gizmos.DrawWireCube(cell.Position, Vector3.one * cellSize);
+				Gizmos.DrawWireCube(cell.WorldPosition, Vector3.one * cellSize);
 			}
 		}
 		private void DrawUnwalkable()
@@ -194,7 +194,7 @@ namespace Tara.Pathfinding
 			{
 				if (cell.Walkable) continue;
 
-				Gizmos.DrawWireCube(cell.Position, Vector3.one * cellSize);
+				Gizmos.DrawWireCube(cell.WorldPosition, Vector3.one * cellSize);
 			}
 		}
 #endif

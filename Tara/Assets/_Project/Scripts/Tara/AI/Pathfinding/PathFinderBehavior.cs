@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using CITools;
 
 namespace Tara.Pathfinding
 {
@@ -40,7 +38,7 @@ namespace Tara.Pathfinding
 
 			foreach (var node in nodeList)
 			{
-				path.Push(node.Position);
+				path.Push(node.WorldPosition);
 			}
 
 			return path;

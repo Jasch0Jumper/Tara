@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 namespace Tara.Pathfinding
 {
 	public class Obstacle : MonoBehaviour
 	{
-		[SerializeField] private BlockPointChain blockedArea;
+		[SerializeField] private BlockedPoints blockedArea;
 
 		private GridBehaviour _grid;
 
@@ -13,12 +12,9 @@ namespace Tara.Pathfinding
 		{
 			_grid = FindObjectOfType<GridBehaviour>();
 		}
-		private void Start()
-		{
-			MovePoints();
-		}
 		private void OnEnable()
 		{
+			Move();
 			_grid.BlockCells(blockedArea);
 		}
 		private void OnDisable()
@@ -27,10 +23,10 @@ namespace Tara.Pathfinding
 		}
 		private void Update()
 		{
-			MovePoints();
+			Move();
 		}
 
-		private void MovePoints() => blockedArea.MovePoints(transform.position);
+		private void Move() => blockedArea.Move(transform.position);
 
 		#region Gizmos
 #if UNITY_EDITOR
@@ -55,7 +51,7 @@ namespace Tara.Pathfinding
 		{
 			Gizmos.color = Color.cyan;
 
-			foreach (var point in blockedArea.GetPoints())
+			foreach (var point in blockedArea.GetPointsWithOffset())
 			{
 				Gizmos.DrawWireSphere(point, 1f);
 			}

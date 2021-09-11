@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
-using CITools;
 
 namespace Tara.Pathfinding
 {
 	public class PathFinder
 	{
+		private int LIMIT = 1000;
+
 		private GridBehaviour _grid;
 
 		public PathFinder(GridBehaviour grid)
@@ -16,50 +16,52 @@ namespace Tara.Pathfinding
 		public Stack<GridNode> GetPath(GridNode start, GridNode destination)
 		{
 			List<PathNode> openList = new List<PathNode>();
-			List<GridNode> closedList = new List<GridNode>();
+			List<PathNode> closedList = new List<PathNode>();
 
 			var startNode = new PathNode(start, destination);
-			
+			var destinationNode = new PathNode(destination, destination);
+
 			openList.Add(startNode);
 
 			do
 			{
 				var currentNode = GetNodeWithLowestFScore(openList);
 
-				closedList.Add(currentNode.GridNode);
+				closedList.Add(currentNode);
 				openList.Remove(currentNode);
 
-				if (closedList.Contains(destination)) break; 
+				if (closedList.Contains(destinationNode)) break; 
 
 				var adjacentNodes = GetWalkableAdjacentNodes(currentNode);
 
 				foreach (var node in adjacentNodes)
 				{
-					if (closedList.Contains(node.GridNode)) continue;
+					if (closedList.Contains(node)) continue;
 
-					if (openList.Contains(node) == false)
+					UpdateParentIfFCostWillBeCheaper(currentNode, node);
+
+					if (!openList.Contains(node))
 					{
-						node.SetParent(currentNode);
-
 						openList.Add(node);
-					}
-					else
-					{
-						var oldFScore = node.FScore;
-						var oldParent = node.ParentNode;
-						
-						node.SetParent(currentNode);
-
-						if (node.FScore >= oldFScore)
-						{
-							node.SetParent(oldParent);
-						}
 					}
 				}
 			}
-			while (openList.Count > 0);
+			while (openList.Count > 0 && openList.Count < LIMIT);
 
-			return ConvertToFinishedPathStack(closedList);
+			return CalculateFinalPathStack(closedList[closedList.IndexOf(destinationNode)]);
+		}
+
+		private static void UpdateParentIfFCostWillBeCheaper(PathNode currentNode, PathNode node)
+		{
+			var oldFScore = node.FScore;
+			var oldParent = node.Parent;
+
+			node.SetParent(currentNode);
+
+			if (node.FScore > oldFScore)
+			{
+				node.SetParent(oldParent);
+			}
 		}
 
 		private PathNode GetNodeWithLowestFScore(List<PathNode> nodes)
@@ -94,16 +96,18 @@ namespace Tara.Pathfinding
 			return pathNodes;
 		}
 
-		private Stack<GridNode> ConvertToFinishedPathStack(List<GridNode> pathNodes)
+		private Stack<GridNode> CalculateFinalPathStack(PathNode endNode)
 		{
 			var finishedPath = new Stack<GridNode>();
-			
-			pathNodes.Reverse();
-			
-			for (int i = 0; i < pathNodes.Count; i++)
+
+			var currentNode = endNode;
+
+			do
 			{
-				finishedPath.Push(pathNodes[i]);
+				finishedPath.Push(currentNode.GridNode);
+				currentNode = currentNode.Parent;
 			}
+			while (currentNode != null);
 
 			return finishedPath;
 		}
