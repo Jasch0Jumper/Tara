@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using CITools;
 
 namespace Tara.Pathfinding
@@ -38,61 +37,45 @@ namespace Tara.Pathfinding
 		{
 			var gridPos = GlobalToGrid(position);
 
-			if (IsOutsideGrid(gridPos.x, gridPos.y)) return default;
+			if (!Grid.IsInsideGrid(gridPos.x, gridPos.y)) return default;
 
 			return GetNodeAt(gridPos.x, gridPos.y);
 		}
 
-		public List<GridNode> GetNodesAround(int x, int y)
-		{
-			var nodes = new List<GridNode>();
-			for (int xOffset = -1; xOffset <= 1; xOffset++)
-			{
-				for (int yOffset = -1; yOffset <= 1; yOffset++)
-				{
-					var currentX = x + xOffset;
-					var currentY = y + yOffset;
-
-					if (IsOutsideGrid(currentX, currentY)) continue;
-					
-					nodes.Add(Grid[currentX, currentY]);
-				
-				}
-			}
-			nodes.Remove(GetNodeAt(x, y));
-			return nodes;
-		}
-		public List<GridNode> GetNodesAround(GridNode node)
-		{
-			return GetNodesAround(node.GridPosition.x, node.GridPosition.y);
-		}
-		public List<GridNode> GetNodesAround(Vector3 position)
-		{
-			var node = GetNodeAt(position);
-			return GetNodesAround(node);
-		}
-
-		public void BlockCells(BlockedPoints cells)
+		public void Block(BlockedPoints cells)
 		{
 			foreach(var point in cells.GetPointsInArea(cellSize))
 			{
 				var gridPos = GlobalToGrid(point);
 
-				if (IsOutsideGrid(gridPos.x, gridPos.y)) continue;
+				if (!Grid.IsInsideGrid(gridPos.x, gridPos.y)) continue;
 				
 				Grid.Cells[gridPos.x, gridPos.y].Walkable = false;
 			}
 		}
-		public void UnBlockCells(BlockedPoints cells)
+		public void UnBlock(BlockedPoints cells)
 		{
 			foreach (var point in cells.GetPointsInArea(cellSize))
 			{
 				var gridPos = GlobalToGrid(point);
 
-				if (IsOutsideGrid(gridPos.x, gridPos.y)) continue;
+				if (!Grid.IsInsideGrid(gridPos.x, gridPos.y)) continue;
 
 				Grid.Cells[gridPos.x, gridPos.y].Walkable = true;
 			}
+		}
+
+		public GridPosition GlobalToGrid(Vector3 position)
+		{
+			var x = Mathf.RoundToInt((position.x / cellSize) - (origin.x / cellSize));
+			var y = Mathf.RoundToInt((position.y / cellSize) - (origin.y / cellSize));
+			return new GridPosition(x, y);
+		}
+		public Vector3 GridToGlobal(GridPosition position)
+		{
+			var x = (position.x * cellSize) + origin.x;
+			var y = (position.y * cellSize) + origin.y;
+			return new Vector3(x, y);
 		}
 
 		[ContextMenu("Generate Grid")]
@@ -104,29 +87,14 @@ namespace Tara.Pathfinding
 			{
 				for (int y = 0; y < height; y++)
 				{
-					var position = new Vector3(origin.x + cellSize * x, origin.y + cellSize * y);
-					var gridPosition = new Vector2Int(x, y);
-					Grid[x, y] = new GridNode(position, gridPosition, defaultCost);
+					var gridPosition = new GridPosition(x, y);
+					Grid[x, y] = new GridNode(gridPosition, defaultCost);
 				}
 			}
 		}
 
 		[ContextMenu("Remove Grid")]
 		private void RemoveGrid() => _grid = null;
-
-		private Vector2Int GlobalToGrid(Vector3 position)
-		{
-			var x = Mathf.RoundToInt((position.x / cellSize) - (origin.x / cellSize));
-			var y = Mathf.RoundToInt((position.y / cellSize) - (origin.y / cellSize));
-			return new Vector2Int(x, y);
-		}
-
-		private bool IsOutsideGrid(int x, int y)
-		{
-			if (x < 0 || x >= width) return true;
-			if (y < 0 || y >= height) return true;
-			return false;
-		}
 
 		#region Gizmos
 #if UNITY_EDITOR
@@ -181,7 +149,7 @@ namespace Tara.Pathfinding
 
 			foreach (var cell in Grid.Cells)
 			{
-				Gizmos.DrawWireCube(cell.WorldPosition, Vector3.one * cellSize);
+				Gizmos.DrawWireCube(GridToGlobal(cell.Position), Vector3.one * cellSize);
 			}
 		}
 		private void DrawUnwalkable()
@@ -194,7 +162,7 @@ namespace Tara.Pathfinding
 			{
 				if (cell.Walkable) continue;
 
-				Gizmos.DrawWireCube(cell.WorldPosition, Vector3.one * cellSize);
+				Gizmos.DrawWireCube(GridToGlobal(cell.Position), Vector3.one * cellSize);
 			}
 		}
 #endif

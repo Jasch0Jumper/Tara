@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CITools;
+using System.Collections.Generic;
 
 namespace Tara.Pathfinding
 {
@@ -6,15 +7,17 @@ namespace Tara.Pathfinding
 	{
 		private int LIMIT = 1000;
 
-		private GridBehaviour _grid;
+		private Grid<GridNode> _grid;
 
-		public PathFinder(GridBehaviour grid)
+		public PathFinder(Grid<GridNode> grid)
 		{
 			_grid = grid;
 		}
 
 		public Stack<GridNode> GetPath(GridNode start, GridNode destination)
 		{
+			if (destination.Walkable == false) return null;
+
 			List<PathNode> openList = new List<PathNode>();
 			List<PathNode> closedList = new List<PathNode>();
 
@@ -30,7 +33,11 @@ namespace Tara.Pathfinding
 				closedList.Add(currentNode);
 				openList.Remove(currentNode);
 
-				if (closedList.Contains(destinationNode)) break; 
+				if (closedList.Contains(destinationNode))
+				{
+					var endNode = closedList[closedList.IndexOf(destinationNode)];
+					return CalculateFinalPathStack(endNode);
+				}
 
 				var adjacentNodes = GetWalkableAdjacentNodes(currentNode);
 
@@ -48,7 +55,7 @@ namespace Tara.Pathfinding
 			}
 			while (openList.Count > 0 && openList.Count < LIMIT);
 
-			return CalculateFinalPathStack(closedList[closedList.IndexOf(destinationNode)]);
+			return null;
 		}
 
 		private static void UpdateParentIfFCostWillBeCheaper(PathNode currentNode, PathNode node)
@@ -81,7 +88,7 @@ namespace Tara.Pathfinding
 
 		private List<PathNode> GetWalkableAdjacentNodes(PathNode parent)
 		{
-			var adjacentNodes = _grid.GetNodesAround(parent.GridNode);
+			var adjacentNodes = _grid.GetAround(parent.GridNode.Position);
 			var pathNodes = new List<PathNode>();
 
 			foreach (var node in adjacentNodes)

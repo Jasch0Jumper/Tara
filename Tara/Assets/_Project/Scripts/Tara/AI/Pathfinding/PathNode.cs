@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using System;
+using CITools;
 
 namespace Tara.Pathfinding
 {
@@ -13,12 +14,12 @@ namespace Tara.Pathfinding
 		public int GScore { get => CalculateGScore(); }
 		public int HScore { get => CalculateHScore(); }
 		
-		private Vector2Int _destination;
+		private GridPosition _destination;
 
 		public PathNode(GridNode gridNode, GridNode destination)
 		{
 			GridNode = gridNode;
-			_destination = destination.GridPosition;
+			_destination = destination.Position;
 		}
 
 		public PathNode(GridNode gridNode, PathNode parent)
@@ -40,16 +41,16 @@ namespace Tara.Pathfinding
 
 			if (IsDiagonal(Parent.GridNode))
 			{
-				return Mathf.RoundToInt(GridNode.Cost * 1.4f) + Parent.GScore;
+				return (int)Math.Round(GridNode.Cost * 1.4f) + Parent.GScore;
 			}
 			return GridNode.Cost + Parent.GScore;
 		}
 		private int CalculateHScore()
 		{
-			var deltaX = Mathf.Abs(GridNode.GridPosition.x - _destination.x);
-			var deltaY = Mathf.Abs(GridNode.GridPosition.y - _destination.y);
+			var deltaX = Math.Abs(GridNode.Position.x - _destination.x);
+			var deltaY = Math.Abs(GridNode.Position.y - _destination.y);
 
-			var notDiagonal = Mathf.Abs(deltaX - deltaY);
+			var notDiagonal = Math.Abs(deltaX - deltaY);
 
 			int cost;
 
@@ -63,8 +64,8 @@ namespace Tara.Pathfinding
 		
 		private bool IsDiagonal(GridNode node)
 		{
-			var deltaX = Mathf.Abs(GridNode.GridPosition.x - node.GridPosition.x);
-			var deltaY = Mathf.Abs(GridNode.GridPosition.y - node.GridPosition.y);
+			var deltaX = Math.Abs(GridNode.Position.x - node.Position.x);
+			var deltaY = Math.Abs(GridNode.Position.y - node.Position.y);
 			
 			return deltaX > 0 && deltaY > 0;
 		}

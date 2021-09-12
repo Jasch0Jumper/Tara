@@ -6,6 +6,8 @@ namespace Tara.Pathfinding
 	{
 		[SerializeField] private BlockedPoints blockedArea;
 
+		private Vector3 _previousPosition;
+
 		private GridBehaviour _grid;
 
 		private void Awake()
@@ -15,15 +17,23 @@ namespace Tara.Pathfinding
 		private void OnEnable()
 		{
 			Move();
-			_grid.BlockCells(blockedArea);
+			_grid.Block(blockedArea);
 		}
 		private void OnDisable()
 		{
-			_grid.UnBlockCells(blockedArea);
+			_grid.UnBlock(blockedArea);
 		}
 		private void Update()
 		{
+			if (_previousPosition == transform.position) return;
+
+			_grid.UnBlock(blockedArea);
+
 			Move();
+
+			_previousPosition = transform.position;
+
+			_grid.Block(blockedArea);
 		}
 
 		private void Move() => blockedArea.Move(transform.position);

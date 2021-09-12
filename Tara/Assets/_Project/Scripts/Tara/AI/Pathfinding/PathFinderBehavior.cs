@@ -5,7 +5,7 @@ namespace Tara.Pathfinding
 {
 	public class PathFinderBehavior : MonoBehaviour
 	{
-		private GridBehaviour _grid;
+		private GridBehaviour _gridBehaviour;
 		private PathFinder _pathFinder;
 
 		private List<Vector3> _path = new List<Vector3>();
@@ -14,8 +14,16 @@ namespace Tara.Pathfinding
 		{
 			GetReferences();
 
-			var nodes = _pathFinder.GetPath(_grid.GetNodeAt(transform.position), _grid.GetNodeAt(position));
-			
+			var startNode = _gridBehaviour.GetNodeAt(transform.position);
+			var destinationNode = _gridBehaviour.GetNodeAt(position);
+
+			var nodes = _pathFinder.GetPath(startNode, destinationNode);
+
+			if (nodes is null)
+			{
+				nodes = new Stack<GridNode>(new GridNode[] { startNode });
+			}
+
 			var path = NodesToVectors(nodes);
 
 			//_path = path;
@@ -25,11 +33,11 @@ namespace Tara.Pathfinding
 
 		private void GetReferences()
 		{
-			_grid = FindObjectOfType<GridBehaviour>();
-			_pathFinder = new PathFinder(_grid);
+			_gridBehaviour = FindObjectOfType<GridBehaviour>();
+			_pathFinder = new PathFinder(_gridBehaviour.Grid);
 		}
 
-		private static Stack<Vector3> NodesToVectors(Stack<GridNode> nodes)
+		private Stack<Vector3> NodesToVectors(Stack<GridNode> nodes)
 		{
 			var nodeList = new List<GridNode>(nodes);
 			nodeList.Reverse();
@@ -38,44 +46,33 @@ namespace Tara.Pathfinding
 
 			foreach (var node in nodeList)
 			{
-				path.Push(node.WorldPosition);
+				path.Push(_gridBehaviour.GridToGlobal(node.Position));
 			}
 
 			return path;
 		}
 
-		[Header("Gizmos")]
-		[SerializeField] private Vector3 pos1;
-		[SerializeField] private Vector3 pos2;
+		[Header("Debug")]
+		[SerializeField] private Vector3 destination;
 
 		[ContextMenu("GetPath")]
 		private void GeneratePath()
 		{
 			GetReferences();
 
-			GridNode startNode = _grid.GetNodeAt(pos1);
+			GridNode startNode = _gridBehaviour.GetNodeAt(transform.position);
 
-			GridNode destinationNode = _grid.GetNodeAt(pos2);
+			GridNode destinationNode = _gridBehaviour.GetNodeAt(destination);
 
 			var path = _pathFinder.GetPath(startNode, destinationNode);
 
 			_path = new List<Vector3>(NodesToVectors(path));
 		}
-		[ContextMenu("Pop")]
-		private void PopPath()
-		{
-			if (_path.Count == 0) return;
-			_path.RemoveAt(0);
-		}
-
 
 		#region Gizmos
 #if UNITY_EDITOR
 		private void OnDrawGizmosSelected()
 		{
-			Gizmos.DrawWireSphere(pos1, 2.5f);
-			Gizmos.DrawWireSphere(pos2, 2.5f);
-
 			if (_path.Count <= 1) return;
 
 			DrawLines();
