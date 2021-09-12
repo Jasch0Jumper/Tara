@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.crazyintelligence.pathfinding": {
-      "version": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/Pathfinding",
+      "version": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/CrazyIntelligence/UnityTools/Pathfinding",
       "depth": 0,
       "source": "local",
       "dependencies": {}
     },
     "com.crazyintelligence.tools": {
-      "version": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/Tools",
+      "version": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/CrazyIntelligence/UnityTools/General",
       "depth": 0,
       "source": "local",
       "dependencies": {}

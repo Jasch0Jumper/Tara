@@ -3,7 +3,7 @@
     "rootNamespace": "",
     "references": [
         "Unity.InputSystem",
-        "CI.Tools"
+        "CI.General"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "com.crazyintelligence.pathfinding": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/Pathfinding",
-    "com.crazyintelligence.tools": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/Tools",
+    "com.crazyintelligence.pathfinding": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/CrazyIntelligence/UnityTools/Pathfinding",
+    "com.crazyintelligence.tools": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/CrazyIntelligence/UnityTools/General",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.analytics": "3.5.3",
     "com.unity.ide.visualstudio": "2.0.11",
