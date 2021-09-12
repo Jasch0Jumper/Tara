@@ -1,8 +1,9 @@
 {
     "name": "Tara",
+    "rootNamespace": "",
     "references": [
-        "CITools",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "CI.Tools"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

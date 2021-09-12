@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CI.Pathfinding;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tara.Pathfinding

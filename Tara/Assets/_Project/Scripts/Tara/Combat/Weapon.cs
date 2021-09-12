@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using CITools;
+using CI.Tools;
 
 namespace Tara.Combat
 {

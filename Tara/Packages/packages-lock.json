@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "com.crazyintelligence.pathfinding": {
+      "version": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/Pathfinding",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.crazyintelligence.tools": {
+      "version": "file:C:/Users/Jasch/Projects/Unity/_Mero Packages/Tools",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -23,7 +35,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.7",
+      "version": "2.0.11",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -50,7 +62,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.4",
+      "version": "3.0.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {

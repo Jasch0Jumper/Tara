@@ -1,9 +1,10 @@
 {
     "name": "Combat",
+    "rootNamespace": "",
     "references": [
         "Tara",
-        "CITools",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "CI.Tools"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
