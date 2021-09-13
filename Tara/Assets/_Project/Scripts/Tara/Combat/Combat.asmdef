@@ -1,6 +1,6 @@
 {
     "name": "Combat",
-    "rootNamespace": "",
+    "rootNamespace": "Tara.Combat",
     "references": [
         "Tara",
         "Unity.InputSystem",
