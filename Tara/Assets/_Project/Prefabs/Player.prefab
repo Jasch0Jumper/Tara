@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 7250639565239425909}
   - component: {fileID: 114589031340673620}
   - component: {fileID: 114472390543961714}
+  - component: {fileID: 7581607471085816688}
   - component: {fileID: 8475471705314354867}
   - component: {fileID: 5545192743401157275}
   - component: {fileID: 5519740859448957528}
@@ -161,6 +162,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -286,6 +288,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
         m_MethodName: 
         m_Mode: 0
         m_Arguments:
@@ -308,6 +311,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5545192743401157275}
+        m_TargetAssemblyTypeName: 
         m_MethodName: Shoot
         m_Mode: 0
         m_Arguments:
@@ -391,10 +395,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  Invulnerable: 0
   onNoHealthLeft:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114472390543961714}
+        m_TargetAssemblyTypeName: 
         m_MethodName: DefaultDeath
         m_Mode: 1
         m_Arguments:
@@ -405,6 +411,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7581607471085816688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939375426947843449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 008ec788c1ec53c4d8f7e429c6829d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 10
+  RotationSpeed: 5
+  RotationOffset: -90
 --- !u!114 &8475471705314354867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,10 +438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08aee0f41e6e18a4fb9b64f2f943c2a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultMoveSpeed: 30
-  DefaultRotationSpeed: 10
-  RotationOffset: -90
-  defaultControlScheme: Keyboard&Mouse
 --- !u!114 &5545192743401157275
 MonoBehaviour:
   m_ObjectHideFlags: 0

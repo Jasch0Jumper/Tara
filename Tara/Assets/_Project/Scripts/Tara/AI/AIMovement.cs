@@ -1,18 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Tara.AI.MovementStates;
 
-public class AIMovement : MonoBehaviour
+namespace Tara.AI
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[RequireComponent(typeof(Movement))]
+	public class AIMovement : StateMachine<Movement>
+	{
+		private Movement _movement;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		private void Awake()
+		{
+			_movement = GetComponent<Movement>();
+		}
+
+		private void Start()
+		{
+			SetState(new Roaming(this, _movement));
+		}
+
+		private void Update()
+		{
+			State.Update();
+		}
+	}
 }

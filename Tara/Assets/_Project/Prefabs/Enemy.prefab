@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 1176466202649979793}
   - component: {fileID: 114635873076415296}
   - component: {fileID: 114523130946912644}
-  - component: {fileID: 2774041682870777229}
   - component: {fileID: 7144127705711226529}
+  - component: {fileID: 5501487618339042790}
   - component: {fileID: 7629511740153474001}
   - component: {fileID: 3678436036636231904}
   - component: {fileID: 9003279102301512250}
@@ -56,6 +56,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -167,10 +168,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  Invulnerable: 0
   onNoHealthLeft:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114523130946912644}
+        m_TargetAssemblyTypeName: 
         m_MethodName: DefaultDeath
         m_Mode: 1
         m_Arguments:
@@ -181,21 +184,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2774041682870777229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176466202649979805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b182ffdd91da36942830729fbfd6901b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fastSpeedMultiplier: 2
-  slowSpeedMultiplier: 0.5
-  showTargetPoints: 0
 --- !u!114 &7144127705711226529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,9 +196,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008ec788c1ec53c4d8f7e429c6829d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultMoveSpeed: 1
-  DefaultRotationSpeed: 5
-  RotationOffset: 0
+  MoveSpeed: 10
+  RotationSpeed: 5
+  RotationOffset: 90
+--- !u!114 &5501487618339042790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176466202649979805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a8ff1d5692e424c8704f6e17f40bf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7629511740153474001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583d24116a1771747a3d03b255f1a1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons: []
+  weapons:
+  - {fileID: 4740236064767218281}
 --- !u!114 &3678436036636231904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,8 +307,8 @@ MonoBehaviour:
   projectileSpeed: 50
   projectileLifeTime: 10
   projectileDamage: 10
-  useSpriteColor: 0
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
   ReloadCooldown: 0
   Projectile: {fileID: 218189836524668891, guid: 68c63d855c0f3774591e686c2bc89bc6,
     type: 3}
+  Shooting: 0

@@ -3,15 +3,15 @@ using UnityEngine.InputSystem;
 
 namespace Tara
 {
-	public class PlayerMovement : Movement
+	[RequireComponent(typeof(Movement))]
+	public class PlayerMovement : MonoBehaviour
 	{
+		private Movement _movement;
 		private Controls _controls;
 
-		[SerializeField] private string defaultControlScheme = "Keyboard&Mouse";
-
-		private new void Awake()
+		private void Awake()
 		{
-			base.Awake();
+			_movement = GetComponent<Movement>();
 			_controls = new Controls();
 		}
 
@@ -20,8 +20,8 @@ namespace Tara
 
 		private void Update()
 		{
-			MovementInput = _controls.Player.Move.ReadValue<Vector2>();
-			RotationTargetPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+			_movement.MoveInput = _controls.Player.Move.ReadValue<Vector2>();
+			_movement.RotationTargetPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 		}
 	}
 }

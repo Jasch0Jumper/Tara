@@ -5,15 +5,15 @@ namespace Tara
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class Movement : MonoBehaviour
 	{
-		public float DefaultMoveSpeed = 1f;
+		public float MoveSpeed = 10f;
 		[Space]
-		public float DefaultRotationSpeed = 5f;
+		public float RotationSpeed = 5f;
 		[Range(-179f, 179f)] public float RotationOffset = -90f;
 
-		private Rigidbody2D _rigidbody;
+		public Vector2 MoveInput { get; set; }
+		public Vector2 RotationTargetPosition { get; set; }
 
-		protected Vector2 MovementInput;
-		protected Vector2 RotationTargetPosition;
+		private Rigidbody2D _rigidbody;
 
 		protected void Awake()
 		{
@@ -21,25 +21,23 @@ namespace Tara
 		}
 		private void FixedUpdate()
 		{
-			Move(MovementInput);
-			RotateTowards(RotationTargetPosition);
+			Move(MoveInput, MoveSpeed);
+			RotateTowards(RotationTargetPosition, RotationSpeed);
 		}
 
-		public void Move(Vector2 input, float speedMultiplier)
+		private void Move(Vector2 input, float moveSpeed)
 		{
-			Vector2 targetPosition = transform.position + input.AsVector3() * (DefaultMoveSpeed * speedMultiplier * Time.fixedDeltaTime);
+			Vector2 targetPosition = transform.position + input.AsVector3().normalized * (moveSpeed * Time.fixedDeltaTime);
 
 			_rigidbody.MovePosition(targetPosition);
 		}
-		public void Move(Vector2 input) => Move(input, 1);
 
-		public void RotateTowards(Vector2 targetPosition, float rotationSpeedMultiplier)
+		private void RotateTowards(Vector2 targetPosition, float rotationSpeed)
 		{
 			var targetRotation = GetTargetRotation(targetPosition);
 			
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, DefaultRotationSpeed * rotationSpeedMultiplier);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 		}
-		public void RotateTowards(Vector2 targetPosition) => RotateTowards(targetPosition, 1f);
 
 		private Quaternion GetTargetRotation(Vector2 targetPosition)
 		{
