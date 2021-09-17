@@ -15,13 +15,19 @@ namespace Tara
 			_controls = new Controls();
 		}
 
+		private void Start()
+		{
+			_movement.EnableMovement = true;
+			_movement.EnableRotation = true;
+		}
+
 		private void OnEnable() => _controls.Player.Enable();
 		private void OnDisable() => _controls.Player.Disable();
 
 		private void Update()
 		{
 			_movement.MoveInput = _controls.Player.Move.ReadValue<Vector2>();
-			_movement.RotationTargetPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+			_movement.LookAtPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()).AsVector2();
 		}
 	}
 }

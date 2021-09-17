@@ -9,15 +9,8 @@ namespace Tara.AI.MovementStates
 
 		private Vector2 _direction;
 
-		public Roaming(StateMachine<Movement> stateMachine, Movement reference) : base(stateMachine, reference)
+		public Roaming(StateMachine<Movement> stateMachine) : base(stateMachine)
 		{
-		}
-
-		public override void Update()
-		{
-			Reference.MoveInput = _direction;
-
-			_timer.Tick(Time.deltaTime);
 		}
 
 		public override void Start()
@@ -26,12 +19,22 @@ namespace Tara.AI.MovementStates
 			_timer.OnTimerEnd += SetStateToIdle;
 
 			_direction = GenerateRandomDirection();
-			Reference.RotationTargetPosition = Reference.transform.position + _direction.AsVector3();
+			Reference.LookAtPosition = Reference.transform.position + _direction.AsVector3();
+
+			Reference.EnableMovement = true;
+			Reference.EnableRotation = true;
 		}
-		
+
+		public override void Update()
+		{
+			Reference.MoveInput = _direction.AsVector3();
+
+			_timer.Tick(Time.deltaTime);
+		}
+
 		private void SetStateToIdle()
 		{
-			StateMachine.SetState(new Idle(StateMachine, Reference));
+			StateMachine.SetState(new Idle(StateMachine));
 		}
 
 		private Vector2 GenerateRandomDirection()
