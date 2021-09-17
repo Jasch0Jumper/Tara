@@ -2,8 +2,13 @@
 {
 	public class FollowPath : State<Movement>
 	{
-		public FollowPath(StateMachine<Movement> stateMachine, Movement reference) : base(stateMachine, reference)
+		public FollowPath(StateMachine<Movement> stateMachine) : base(stateMachine)
 		{
+		}
+
+		public override void Start()
+		{
+			
 		}
 	}
 }

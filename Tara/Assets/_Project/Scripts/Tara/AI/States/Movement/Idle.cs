@@ -7,7 +7,7 @@ namespace Tara.AI.MovementStates
 	{
 		private Timer _timer;
 
-		public Idle(StateMachine<Movement> stateMachine, Movement reference) : base(stateMachine, reference)
+		public Idle(StateMachine<Movement> stateMachine) : base(stateMachine)
 		{
 		}
 
@@ -15,8 +15,6 @@ namespace Tara.AI.MovementStates
 		{
 			_timer = new Timer(Random.Range(2f, 10f));
 			_timer.OnTimerEnd += SetStateToRoaming;
-
-			Reference.MoveInput = Vector2.zero;
 		}
 		public override void Update()
 		{
@@ -25,7 +23,7 @@ namespace Tara.AI.MovementStates
 
 		private void SetStateToRoaming()
 		{
-			StateMachine.SetState(new Roaming(StateMachine, Reference));
+			StateMachine.SetState(new Roaming(StateMachine));
 		}
 	}
 }

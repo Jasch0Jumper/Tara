@@ -27,8 +27,6 @@ namespace Tara.Pathfinding
 
 			var path = NodesToVectors(nodes);
 
-			//_path = path;
-
 			return path;
 		}
 

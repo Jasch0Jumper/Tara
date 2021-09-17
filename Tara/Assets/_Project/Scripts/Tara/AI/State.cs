@@ -3,12 +3,11 @@ namespace Tara.AI
 	public abstract class State<T>
 	{
 		protected StateMachine<T> StateMachine { get; private set; }
-		protected T Reference { get; private set; }
+		protected T Reference { get => StateMachine.Reference; }
 
-		protected State(StateMachine<T> stateMachine, T reference)
+		public State(StateMachine<T> stateMachine)
 		{
 			StateMachine = stateMachine;
-			Reference = reference;
 		}
 
 		public virtual void Start()

@@ -2,7 +2,7 @@
 {
 	public class Chase : State<Movement>
 	{
-		public Chase(StateMachine<Movement> stateMachine, Movement reference) : base(stateMachine, reference)
+		public Chase(StateMachine<Movement> stateMachine) : base(stateMachine)
 		{
 		}
 	}

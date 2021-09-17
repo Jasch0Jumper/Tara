@@ -6,16 +6,14 @@ namespace Tara.AI
 	[RequireComponent(typeof(Movement))]
 	public class AIMovement : StateMachine<Movement>
 	{
-		private Movement _movement;
-
 		private void Awake()
 		{
-			_movement = GetComponent<Movement>();
+			Reference = GetComponent<Movement>();
 		}
 
 		private void Start()
 		{
-			SetState(new Roaming(this, _movement));
+			SetState(new Roaming(this));
 		}
 
 		private void Update()
