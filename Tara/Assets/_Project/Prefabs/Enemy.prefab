@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114635873076415296}
   - component: {fileID: 114523130946912644}
   - component: {fileID: 7144127705711226529}
+  - component: {fileID: 7771186097803830481}
   - component: {fileID: 5501487618339042790}
   - component: {fileID: 7629511740153474001}
   - component: {fileID: 3678436036636231904}
@@ -198,7 +199,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 15
   RotationSpeed: 5
-  RotationOffset: 90
+  RotationOffset: -90
+--- !u!114 &7771186097803830481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176466202649979805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72925da82d76684fb7b79a4a66118be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0, z: 0}
 --- !u!114 &5501487618339042790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a8ff1d5692e424c8704f6e17f40bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showTargetPosition: 0
 --- !u!114 &7629511740153474001
 MonoBehaviour:
   m_ObjectHideFlags: 0

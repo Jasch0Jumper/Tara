@@ -9,7 +9,7 @@ namespace Tara.Pathfinding
 		private GridBehaviour _gridBehaviour;
 		private PathFinder _pathFinder;
 
-		private List<Vector3> _path = new List<Vector3>();
+		public Stack<Vector3> Path = new Stack<Vector3>();
 
 		public Stack<Vector3> FindPathTo(Vector3 position)
 		{
@@ -26,6 +26,8 @@ namespace Tara.Pathfinding
 			}
 
 			var path = NodesToVectors(nodes);
+
+			Path = path;
 
 			return path;
 		}
@@ -59,27 +61,21 @@ namespace Tara.Pathfinding
 		{
 			GetReferences();
 
-			GridNode startNode = _gridBehaviour.GetNodeAt(transform.position);
-
-			GridNode destinationNode = _gridBehaviour.GetNodeAt(destination);
-
-			var path = _pathFinder.GetPath(startNode, destinationNode);
-
-			_path = new List<Vector3>(NodesToVectors(path));
+			FindPathTo(destination);
 		}
 
 		#region Gizmos
 #if UNITY_EDITOR
 		private void OnDrawGizmosSelected()
 		{
-			if (_path.Count <= 1) return;
+			if (Path.Count <= 1) return;
 
 			DrawLines();
 		}
 
 		private void DrawLines()
 		{
-			var nodes = _path.ToArray();
+			var nodes = Path.ToArray();
 			for (int i = 0; i < nodes.Length - 1; i++)
 			{
 				int next = i + 1;

@@ -1,11 +1,10 @@
 namespace Tara.AI
 {
-	public abstract class State<T>
+	public abstract class State<T> where T: StateMachine<T>
 	{
-		protected StateMachine<T> StateMachine { get; private set; }
-		protected T Reference { get => StateMachine.Reference; }
+		protected T StateMachine { get; private set; }
 
-		public State(StateMachine<T> stateMachine)
+		public State(T stateMachine)
 		{
 			StateMachine = stateMachine;
 		}
@@ -18,5 +17,7 @@ namespace Tara.AI
 		{
 
 		}
+
+		protected void RevertToPreviousState() => StateMachine.SetState(StateMachine.PreviousState);
 	}
 }

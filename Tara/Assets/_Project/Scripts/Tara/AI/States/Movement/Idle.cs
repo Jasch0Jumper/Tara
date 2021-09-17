@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Tara.AI.MovementStates
 {
-	public class Idle : State<Movement>
+	public class Idle : State<AIMovement>
 	{
 		private Timer _timer;
 
-		public Idle(StateMachine<Movement> stateMachine) : base(stateMachine)
+		public Idle(AIMovement stateMachine) : base(stateMachine)
 		{
 		}
 

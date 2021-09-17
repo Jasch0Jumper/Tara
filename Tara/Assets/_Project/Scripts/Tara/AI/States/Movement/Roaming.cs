@@ -3,33 +3,30 @@ using UnityEngine;
 
 namespace Tara.AI.MovementStates
 {
-	public class Roaming : State<Movement>
+	public class Roaming : State<AIMovement>
 	{
-		private Timer _timer;
+		private Movement _movement;
+		
+		private Vector2 _destination;
 
-		private Vector2 _direction;
-
-		public Roaming(StateMachine<Movement> stateMachine) : base(stateMachine)
+		public Roaming(AIMovement stateMachine) : base(stateMachine)
 		{
+			_movement = StateMachine.Movement;
 		}
 
 		public override void Start()
 		{
-			_timer = new Timer(Random.Range(1f, 10f));
-			_timer.OnTimerEnd += SetStateToIdle;
+			StateMachine.TargetPosition = GenerateRandomLocation();
+			
+			_movement.EnableMovement = true;
+			_movement.EnableRotation = true;
 
-			_direction = GenerateRandomDirection();
-			Reference.LookAtPosition = Reference.transform.position + _direction.AsVector3();
-
-			Reference.EnableMovement = true;
-			Reference.EnableRotation = true;
+			StateMachine.SetState(new FollowPath(StateMachine));
 		}
 
 		public override void Update()
 		{
-			Reference.MoveInput = _direction.AsVector3();
-
-			_timer.Tick(Time.deltaTime);
+			_movement.MoveInput = _destination.AsVector3();
 		}
 
 		private void SetStateToIdle()
@@ -37,10 +34,10 @@ namespace Tara.AI.MovementStates
 			StateMachine.SetState(new Idle(StateMachine));
 		}
 
-		private Vector2 GenerateRandomDirection()
+		private Vector2 GenerateRandomLocation()
 		{
-			var x = Random.Range(-1f, 1f);
-			var y = Random.Range(-1f, 1f);
+			var x = Random.Range(-100f, 100f);
+			var y = Random.Range(-100f, 100f);
 			return new Vector2(x, y);
 		}
 	}

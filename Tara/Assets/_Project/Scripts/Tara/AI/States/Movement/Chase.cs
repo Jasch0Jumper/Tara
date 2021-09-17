@@ -1,8 +1,8 @@
 ﻿namespace Tara.AI.MovementStates
 {
-	public class Chase : State<Movement>
+	public class Chase : State<AIMovement>
 	{
-		public Chase(StateMachine<Movement> stateMachine) : base(stateMachine)
+		public Chase(AIMovement stateMachine) : base(stateMachine)
 		{
 		}
 	}
