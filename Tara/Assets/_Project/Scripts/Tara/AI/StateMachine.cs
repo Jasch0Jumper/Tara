@@ -6,13 +6,17 @@ namespace Tara.AI
 	{
 		protected State<T> State { get; private set; }
 		
-		public State<T> PreviousState { get; private set; }
+		protected abstract State<T> DefaultState { get; }
 
 		public void SetState(State<T> state)
 		{
-			PreviousState = State;
 			State = state;
 			state.Start();
+		}
+
+		public void ReturnToDefaultState()
+		{
+			SetState(DefaultState);
 		}
 	}
 }

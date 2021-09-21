@@ -8,6 +8,7 @@ namespace Tara.AI
 		{
 			StateMachine = stateMachine;
 		}
+		public State() { }
 
 		public virtual void Start()
 		{
@@ -18,6 +19,11 @@ namespace Tara.AI
 
 		}
 
-		protected void RevertToPreviousState() => StateMachine.SetState(StateMachine.PreviousState);
+		protected void SetStateTo<TState>() where TState : State<T>, new()
+		{
+			var newState = new TState();
+			newState.StateMachine = StateMachine;
+			StateMachine.SetState(newState);
+		}
 	}
 }

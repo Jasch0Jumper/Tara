@@ -33,7 +33,7 @@ namespace Tara.AI.MovementStates
 				_path.Pop();
 
 			if (_path.Count < 1)
-				RevertToPreviousState();
+				StateMachine.ReturnToDefaultState();
 		}
 
 		private void MoveTo(Vector3 position)

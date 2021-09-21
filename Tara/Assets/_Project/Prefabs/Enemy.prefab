@@ -225,7 +225,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a8ff1d5692e424c8704f6e17f40bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewDistance: 50
+  fieldOfView: 130
+  spacing: 23
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   showTargetPosition: 0
+  showFOV: 0
 --- !u!114 &7629511740153474001
 MonoBehaviour:
   m_ObjectHideFlags: 0
