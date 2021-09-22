@@ -31,9 +31,16 @@ namespace Tara
 				LookAt(LookAtPosition);
 		}
 
+		public void MoveTo(Vector3 position)
+		{
+			var delta = position - transform.position;
+			MoveInput = delta;
+			LookAtPosition = position;
+		}
+
 		private void Move(Vector2 input)
 		{
-			Vector2 newPosition = transform.position + input.AsVector3().normalized * (MoveSpeed * Time.fixedDeltaTime);
+			Vector2 newPosition = transform.position + input.ToVector3().normalized * (MoveSpeed * Time.fixedDeltaTime);
 			_rigidbody.MovePosition(newPosition);
 		}
 
@@ -46,7 +53,7 @@ namespace Tara
 
 		private Quaternion GetTargetRotation(Vector2 targetPosition)
 		{
-			Vector2 difference = targetPosition.AsVector3() - transform.position;
+			Vector2 difference = targetPosition.ToVector3() - transform.position;
 			float rotationAngel = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
 
 			Quaternion targetRotation = Quaternion.Euler(0f, 0f, rotationAngel + RotationOffset);

@@ -27,7 +27,7 @@ namespace Tara
 		private void Update()
 		{
 			_movement.MoveInput = _controls.Player.Move.ReadValue<Vector2>();
-			_movement.LookAtPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()).AsVector2();
+			_movement.LookAtPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()).ToVector2();
 		}
 	}
 }

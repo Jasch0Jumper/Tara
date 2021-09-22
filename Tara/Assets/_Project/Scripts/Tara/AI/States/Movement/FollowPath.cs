@@ -27,20 +27,13 @@ namespace Tara.AI.MovementStates
 		{
 			var currentTargetPos = _path.Peek();
 
-			MoveTo(currentTargetPos);
+			_movement.MoveTo(currentTargetPos);
 
 			if (Vector3.Distance(_movement.transform.position, currentTargetPos) < 5f)
 				_path.Pop();
 
 			if (_path.Count < 1)
-				StateMachine.ReturnToDefaultState();
-		}
-
-		private void MoveTo(Vector3 position)
-		{
-			var delta = position - _movement.transform.position;
-			_movement.MoveInput = delta;
-			_movement.LookAtPosition = position;
+				StateMachine.SwitchToDefaultState();
 		}
 	}
 }

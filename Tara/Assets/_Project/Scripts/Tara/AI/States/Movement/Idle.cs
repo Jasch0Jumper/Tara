@@ -10,10 +10,11 @@ namespace Tara.AI.MovementStates
 		public Idle(AIMovement stateMachine) : base(stateMachine)
 		{
 		}
-		public Idle() { }
 
 		public override void Start()
 		{
+			StateMachine.Movement.EnableMovement = false;
+
 			_timer = new Timer(Random.Range(2f, 10f));
 			_timer.OnTimerEnd += SetStateToRoaming;
 
@@ -25,7 +26,7 @@ namespace Tara.AI.MovementStates
 
 		private void SetStateToRoaming()
 		{
-			StateMachine.SetState(new Roaming(StateMachine));
+			StateMachine.SwitchTo<Roaming>();
 		}
 	}
 }

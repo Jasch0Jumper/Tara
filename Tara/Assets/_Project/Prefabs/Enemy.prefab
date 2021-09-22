@@ -17,9 +17,6 @@ GameObject:
   - component: {fileID: 7144127705711226529}
   - component: {fileID: 7771186097803830481}
   - component: {fileID: 5501487618339042790}
-  - component: {fileID: 7629511740153474001}
-  - component: {fileID: 3678436036636231904}
-  - component: {fileID: 9003279102301512250}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
@@ -226,62 +223,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewDistance: 50
-  fieldOfView: 130
+  fieldOfView: 270
   spacing: 23
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
   showTargetPosition: 0
-  showFOV: 0
---- !u!114 &7629511740153474001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176466202649979805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583d24116a1771747a3d03b255f1a1bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapons:
-  - {fileID: 4740236064767218281}
---- !u!114 &3678436036636231904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176466202649979805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9263fce1963dd64491546b648b40f63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTypes: 0000000003000000
-  Targets: []
-  priorityThreshold: 1
-  minPriorityLevel: 0
-  showAllTargets: 0
---- !u!114 &9003279102301512250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176466202649979805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bff09fc44fc0f844b8913b03033ade7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rangeRadius:
-  - 10
-  - 30
-  - 50
-  showCurrentTargetOnDeselect: 0
-  drawRanges: 0
+  showFOVRays: 0
+  showHitMarkers: 0
 --- !u!1 &1176466202669828385
 GameObject:
   m_ObjectHideFlags: 0

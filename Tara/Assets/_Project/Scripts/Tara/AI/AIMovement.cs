@@ -18,7 +18,7 @@ namespace Tara.AI
 
 		public Vector3 TargetPosition { get; set; }
 
-		protected override State<AIMovement> DefaultState { get => new Roaming(this); }
+		protected override State<AIMovement> DefaultState { get => new Idle(this); }
 
 		private void Awake()
 		{
@@ -28,7 +28,7 @@ namespace Tara.AI
 
 		private void Start()
 		{
-			SetState(DefaultState);
+			SwitchToDefaultState();
 		}
 
 		private void Update()
@@ -47,6 +47,9 @@ namespace Tara.AI
 			foreach (var vector in vectors)
 			{
 				var	hitInfo = Physics2D.Raycast(transform.position, vector, viewDistance, layerMask);
+				
+				if (hitInfo.collider == null) continue;
+				
 				hitInfos.Add(hitInfo);
 			}
 
@@ -85,17 +88,21 @@ namespace Tara.AI
 
 		[Header("Gizmos")]
 		[SerializeField] private bool showTargetPosition;
-		[SerializeField] private bool showFOV;
+		[SerializeField] private bool showFOVRays;
+		[SerializeField] private bool showHitMarkers;
 
 		private void OnDrawGizmos()
 		{
 			if (showTargetPosition) DrawTargetPosition();
-			if (showFOV) DrawFieldOfView();
+			if (showFOVRays) DrawFieldOfViewRays();
+			if (showHitMarkers) DrawHitMarkers();
 		}
+
 		private void OnDrawGizmosSelected()
 		{
 			DrawTargetPosition();
-			DrawFieldOfView();
+			DrawFieldOfViewRays();
+			DrawHitMarkers();
 		}
 
 		private void DrawTargetPosition()
@@ -104,11 +111,12 @@ namespace Tara.AI
 			Gizmos.DrawWireSphere(TargetPosition, 2f);
 		}
 
-		private void DrawFieldOfView()
+		private void DrawFieldOfViewRays()
 		{
 			var vectors = GetFieldOfViewVectors();
 
 			if (vectors.Count < 1) return;
+
 
 			foreach (var vector in vectors)
 			{
@@ -116,17 +124,22 @@ namespace Tara.AI
 
 				Gizmos.color = Color.white;
 				Gizmos.DrawLine(transform.position, pos);
-
-				Gizmos.color = Color.magenta;
-				Gizmos.DrawSphere(pos, 1f);
 			}
+		}
 
-			if (vectors.Count < 3) return;
-
-			for (int i = 0; i < 3; i++)
+		private void DrawHitMarkers()
+		{
+			var hits = CheckSoroundings();
+			
+			foreach (var hit in hits)
 			{
-				var pos = (vectors[i] * viewDistance).RelativeTo(this);
-				Gizmos.DrawLine(transform.position, pos);
+				Gizmos.color = Color.magenta;
+				Gizmos.DrawLine(transform.position, hit.point.ToVector3(-0.1f));
+				Gizmos.DrawSphere(hit.point, 0.75f);
+
+				Gizmos.color = Color.green;
+				Gizmos.DrawLine(transform.position, hit.transform.position);
+				Gizmos.DrawSphere(hit.transform.position, 0.75f);
 			}
 		}
 #endif

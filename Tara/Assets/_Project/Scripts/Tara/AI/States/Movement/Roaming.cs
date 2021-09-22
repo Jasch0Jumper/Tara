@@ -1,5 +1,4 @@
-﻿using CI.General;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tara.AI.MovementStates
 {
@@ -14,22 +13,21 @@ namespace Tara.AI.MovementStates
 
 		public override void Start()
 		{
-			var target = FindClosestEntity();
+			var target = FindClosestTarget();
 
-			SetStateTo<Idle>();
-
-			if (target is null) StateMachine.SetState(new Idle(StateMachine));
-
-			StateMachine.TargetPosition = target.transform.position;
-
+			if (target is null)
+			{
+				StateMachine.SwitchTo<Idle>();
+				return;
+			}
 
 			_movement.EnableMovement = true;
 			_movement.EnableRotation = true;
 
-			StateMachine.SetState(new FollowPath(StateMachine));
+			StateMachine.SwitchTo<FollowPath>();
 		}
 
-		private Entity FindClosestEntity()
+		private Entity FindClosestTarget()
 		{
 			var hits = StateMachine.CheckSoroundings();
 
@@ -45,6 +43,7 @@ namespace Tara.AI.MovementStates
 				if (hit.distance < shortestDistance)
 				{
 					target = entity;
+					StateMachine.TargetPosition = hit.point;
 				}
 			}
 
@@ -53,7 +52,13 @@ namespace Tara.AI.MovementStates
 
 		public override void Update()
 		{
-			_movement.MoveInput = StateMachine.TargetPosition;
+			if (Vector3.Distance(_movement.transform.position, StateMachine.TargetPosition) < 5f)
+			{
+				StateMachine.SwitchTo<Idle>();
+				return;
+			}
+
+			_movement.MoveTo(StateMachine.TargetPosition);
 		}
 	}
 }
