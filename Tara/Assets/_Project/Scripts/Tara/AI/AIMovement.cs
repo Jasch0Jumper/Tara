@@ -2,6 +2,7 @@ using UnityEngine;
 using Tara.AI.MovementStates;
 using Tara.Pathfinding;
 using System.Collections.Generic;
+using CI.Utilities;
 
 namespace Tara.AI
 {

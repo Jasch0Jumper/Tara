@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using CI.General;
+using CI.Utilities;
 using CI.Pathfinding;
 
 namespace Tara.Pathfinding

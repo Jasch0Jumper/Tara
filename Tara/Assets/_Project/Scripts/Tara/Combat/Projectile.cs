@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using CI.General;
+using CI.Utilities;
 
 namespace Tara.Combat
 {

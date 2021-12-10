@@ -4,7 +4,7 @@
     "references": [
         "Tara",
         "Unity.InputSystem",
-        "CI.General"
+        "CI.Utilities"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -3,7 +3,7 @@
     "rootNamespace": "Tara",
     "references": [
         "Unity.InputSystem",
-        "CI.General"
+        "CI.Utilities"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

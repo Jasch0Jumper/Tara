@@ -1,4 +1,4 @@
-using CI.General;
+using CI.Utilities;
 using UnityEngine;
 
 namespace Tara.AI.MovementStates
